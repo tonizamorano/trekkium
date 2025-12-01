@@ -1,0 +1,224 @@
+
+/* Contenedor del contenido */
+
+.ps-contenedor-precioreserva {
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+}
+
+.ps-contenido-precioreserva {
+    padding: 10px 15px;
+    display: block; 
+    background-color: white;   
+}
+
+/* Tabla de precios */
+
+.ps-tabla-precio {
+    width: 100%;
+}
+
+.ps-tabla-precio table {
+    width: 100%;
+    border-collapse: collapse;
+    background: none !important;
+    margin: 0 0 10px 0;
+}
+
+.ps-tabla-precio th,
+.ps-tabla-precio td {
+    padding: 1px 0;
+    font-size: 18px;
+    color: var(--azul1-100);
+    background: none !important;
+    width: auto;
+    font-weight: 600;
+}
+
+.ps-tabla-precio th {
+    font-weight: 500;
+    text-align: left;
+}
+
+.ps-tabla-precio td {
+    font-weight: 600;
+    text-align: right;
+}
+
+/* Plazas y contador */
+
+.ps-contador-boton {
+    display: grid;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.ps-fila-plazas {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between; /* distribuye a izquierda y derecha */
+    width: 100%;
+}
+
+.ps-texto-plazas {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--azul1-100);
+    white-space: nowrap;
+}
+
+.ps-contador-plazas {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+}
+
+.ps-btn-contador-izq,
+.ps-btn-contador-der {
+    width: 20px;
+    height: 30px;    
+    background-color: var(--azul1-100);
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin: 0;
+    padding: auto;
+}
+
+.ps-btn-contador-izq {
+    border-radius: 5px 0px 0px 5px;
+}
+
+.ps-btn-contador-der {
+    border-radius: 0px 5px 5px 0px;
+}
+
+.ps-btn-contador-izq:hover:not(:disabled),
+.ps-btn-contador-der:hover:not(:disabled) {
+    background-color: var(--azul1-100);
+    color: #fff;
+}
+
+.ps-btn-contador-izq:disabled,
+.ps-btn-contador-der:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #ccc;
+    color: #ccc;
+}
+
+.ps-input-cantidad {
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    border: 3px solid var(--azul1-100);
+    border-radius: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--azul1-100);
+    background-color: #fff;
+}
+
+.ps-input-cantidad:disabled {
+    opacity: 0.5;
+    border-color: #ccc;
+    color: #ccc;
+}
+
+.ps-input-cantidad::-webkit-outer-spin-button,
+.ps-input-cantidad::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.ps-input-cantidad[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Botón reserva */
+
+.ps-boton-cancelado {
+    background-color: #ccc !important;
+    color: #fff !important;
+    cursor: not-allowed;
+    opacity: 0.8;
+}   
+
+.ps-boton-reserva-contenedor {
+    width: 100%;
+    text-align: center;
+}
+
+.ps-boton-reserva {
+    width: 100%;
+    padding: 5px 10px;
+    background-color: var(--naranja1-100);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.ps-boton-reserva:hover:not(:disabled) {
+    background-color: #F5CBA7;
+    color: #fff;
+}
+.ps-boton-reserva:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.ps-lista-espera {
+    font-size: 16px;
+    color: var(--azul1-100);
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.ps-mensaje-lista-espera {
+    font-size: 16px;
+    line-height: 1.2;
+    color: var(--azul1-100);
+    background-color: #fff;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+@media (max-width: 768px) {
+    
+    .ps-tabla-precio th,
+    .ps-tabla-precio td {
+        font-size: 20px;
+    }
+    
+    
+
+    .ps-boton-reserva {
+        font-size: 22px;
+    }
+
+    .ps-mensaje-lista-espera {
+        font-size: 18px;
+    }
+
+    .ps-texto-plazas {
+        font-size: 20px;
+    }
+    
+}

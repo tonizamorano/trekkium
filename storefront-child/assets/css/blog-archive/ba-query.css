@@ -1,0 +1,192 @@
+.ba-query-wrapper {
+    margin-top: 0px;
+}
+
+/* === FILTROS ACTIVOS (pestañas con X) === */
+.filtros-activos {
+    margin-bottom: 10px;
+}
+
+.filtros-lista {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.filtros-activos-item {
+    display: inline-block;
+    background-color: var(--naranja1-80);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.filtros-activos-item a.quitar-filtro {
+    color: white;
+    text-decoration: none;
+    margin-left: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ba-query-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    align-items: start;
+}
+
+
+.ba-query-item {
+    background: #fff;    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: start;
+    height: auto; 
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.25);
+}
+
+.ba-contenedor-imagen {
+    position: relative;
+}
+
+.ba-avatar-contenedor {
+    position: absolute;
+    right: 10px;       /* alineado a la derecha */
+    bottom: -10px;     /* sobresale 20px por debajo del borde inferior */
+    z-index: 2;        /* asegura que quede por encima de la imagen */
+}
+
+.ba-imagen {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* opcional: da un poco de relieve */
+}
+
+.ba-avatar-autor {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    border: 3px solid #fff; 
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* opcional: da un poco de relieve */
+}
+
+.ba-query-contenido {
+    padding: 10px;
+    margin-top: -25px;
+}
+
+.ba-query-contenido-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.ba-query-contenido-link:hover {
+    text-decoration: none;
+}
+
+.ba-titulo {    
+    font-size: 22px;
+    color: var(--azul2-100);
+    font-weight: 600;
+    margin-top: 5px;
+    line-height: 1;
+    word-wrap: break-word;
+}
+
+
+.ba-query-categorias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px; /* separación entre etiquetas */
+    margin-top: 8px;
+}
+
+.ba-query-categorias span {
+    background: var(--naranja1-100);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+    padding: 5px 10px;
+    border-radius: 50px;
+}
+
+/* Si usas enlaces en lugar de spans (recomendado para categorías clicables): */
+.ba-query-categorias a {
+    display: inline-block;
+    background: var(--naranja1-100);
+    color: #fff !important;
+    font-size: 14px;
+    line-height: 1;
+    padding: 5px 10px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.ba-query-categorias a:hover {
+    background: #cf6f1e; /* tono más oscuro al pasar el ratón */
+}
+
+.ba-info-extra {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: var(--azul1-100) !important;
+    align-items: center;
+}
+
+.ba-info-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    opacity: 1;
+}
+
+.ba-meta-item svg {
+    width: 16px !important;
+    height: 16px !important;
+    fill: var(--azul1-100);
+    transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.ba-info-item span {
+    
+    font-weight: 500;
+    line-height: 1;
+}
+
+
+
+
+
+@media (max-width: 768px) {
+    
+    .ba-query-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 15px;
+    }
+
+    .ba-avatar-autor {
+        width: 120px;
+        height: 120px;
+    }
+
+
+    .ba-titulo {
+        font-size: 26px;
+    }
+
+}

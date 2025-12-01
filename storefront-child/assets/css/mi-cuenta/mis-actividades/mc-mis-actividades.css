@@ -1,0 +1,219 @@
+/* Estilos para los estados de actividad */
+.mis-actividades-estado-item.estado-borrador-pendiente-privado {
+    background-color: var(--rojo-100); /* Rojo */
+    color: #fff;
+}
+
+.mis-actividades-estado-item.estado-publicado {
+    background-color: var(--azul2-100);
+    color: #fff;
+}
+
+.mis-actividades-estado-item.estado-finalizado {
+    background-color: var(--amarillo-100);
+    color: var(--marron-100);
+}
+
+/* Estilo base para el item de estado (mantener los existentes) */
+.mis-actividades-estado-item {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 10px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* El resto de tu CSS se mantiene igual */
+.mis-actividades-seccion-titular {
+    background: var(--azul1-100);
+    padding: 5px 10px;
+    margin-bottom: 15px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.mis-actividades-titular {
+    color: #fff;
+    font-size: 18px;
+    margin: 0;			
+}
+
+
+.mis-actividades-container {    
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    align-items: start;
+}
+
+.mis-actividades-contenedor-item {
+    background: #fff;
+    padding: 10px 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: auto; 
+    border-radius: 10px;
+}
+
+.mis-actividades-seccion-item {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+ 
+}
+
+.mis-actividades-modalidad-item {
+    padding: 3px 10px;
+    background-color: var(--naranja1-100);
+    border-radius: 50px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0 auto;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.mis-actividades-titulo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #0b568b;
+    margin-top: 5px;
+    line-height: 1;
+    text-align: center;
+}
+
+
+/* Nueva sección de ubicación */
+.mis-actividades-ubicacion {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--naranja1-100);
+    text-align: center;
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+
+.mis-actividades-imagen {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.mis-actividades-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin: 5px auto 0 auto;
+    flex-wrap: wrap;
+}
+
+.mis-actividades-fecha-item,
+.mis-actividades-plazas-item {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 10px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.mis-actividades-fecha-item {
+    background-color: var(--azul1-100);
+    color: #fff;
+}
+
+.mis-actividades-plazas-item {
+    background-color: var(--amarillo-100);
+    color: #fff;
+}
+
+.mis-actividades-fecha-icon,
+.mis-actividades-plazas-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}   
+
+.mis-actividades-fecha-icon, 
+.mis-actividades-plazas-icon {
+    fill: #fff;
+}
+
+.mis-actividades-seccion-botones {
+    display: flex;
+    gap: 5px;
+    margin: 0 auto;
+}
+
+.mis-actividades-boton-detalles {
+    margin-top: 10px;
+    padding: 3px 15px;
+    align-self: center;
+    background-color: var(--naranja1-100);
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.mis-actividades-boton-detalles:hover {
+    background-color: var(--naranja1-60);
+}
+
+.mis-actividades-boton-detalles a {    
+    color: #fff;       
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.contenedor-no-actividades {
+    padding: 15px;
+    background-color: #fff;
+    grid-column: 1 / -1; /* <-- ocupa todas las columnas disponibles */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.contenedor-no-actividades p {
+    text-align: center;
+    font-size: 18px;
+    color: var(--azul1-100);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+
+    .mis-actividades-container {
+        grid-template-columns: 1fr;
+        margin: 0px 10px;
+    }
+
+    .mis-actividades-titular {
+        font-size: 20px;			
+    }
+
+    .mis-actividades-titulo {
+        font-size: 26px;
+    }
+    
+    .mis-actividades-info-item {
+        flex: none;
+        justify-content: center;
+    }
+
+}

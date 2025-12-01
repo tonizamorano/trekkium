@@ -1,0 +1,229 @@
+
+
+.detalles-reservas-container {
+    width: 100%;
+    padding-bottom: 15px;
+   
+}
+
+.cabecera-reservas {
+    background-color: #0b568b;
+    padding: 5px 15px;
+    margin-bottom: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cabecera-reservas .fila {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px;
+}
+
+.cabecera-reservas .titulo {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0;
+}
+
+.detalles-reservas-container h1 {
+    color: #fff;
+    background-color: #0B568B;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 5px 15px;
+    margin: 0px 0px 10px 0px;
+    text-align: center;
+    
+}
+
+
+.titulo-reserva {
+    color: #0b568b;
+    background-color: #fff;
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.contenedor-dos-columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 0;
+    
+}
+
+.columna-derecha {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.columna-izquierda {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contenedor-detalles {
+    background: #fff;
+}
+
+.contenedor-detalles h1 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.contenedor-detalles-facturacion {
+    background: #fff;
+    padding: 10px;
+}
+
+.contenido-detalles {
+    background: #fff;
+    padding: 10px;
+
+}
+
+.contenedor-reservas .contenedor-detalles-facturacion h1 {
+    color: #0B568B;
+    background-color: #fff;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 3px 5px;
+    margin: 0px 0px 10px 0px;
+    text-align: left;
+    text-transform: none;
+    border-bottom: 2px solid #0B568B;
+}
+
+.campo-detalle {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.campo-detalle-texto {    
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    font-style: italic;			
+    padding: 7px;
+    background-color: #E7EEF4;
+    color:#09496F;
+}
+
+.campo-detalle .etiqueta,
+.campo-detalle-end .etiqueta {
+    font-weight: bold;
+}
+
+
+
+.linea-divisoria {
+    height: 2px;
+    background-color: #0b568b;
+    margin: 5px 0px;
+    border-radius: 2px;
+}
+
+
+.boton-cancelar-wrapper {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.texto-cancelacion {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    color: #0B568B;
+    padding: 0px 15px;
+    line-height: 1.1;
+}
+
+.boton-cancelar-reserva {
+    background-color: var(--color-orange-100);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    align-self: center;
+    display: flex;
+}
+
+.boton-cancelar-reserva:hover {
+    background-color: var(--color-orange-40);
+}
+
+@media screen and (max-width: 768px) {
+
+    .contenedor-dos-columnas {
+        grid-template-columns: 1fr;
+        gap: 0px;
+    }
+
+    
+    .contenedor-reservas h1 {
+        font-size: 18px;
+        margin: 0px 0px 15px 0px;
+    }
+
+    .contenedor-reservas .contenedor-detalles-facturacion h1 {
+        font-size: 22px;
+    }
+
+    .contenedor-detalles {
+        margin: 0;
+    }
+
+    .contenedor-detalles h1{
+        font-size: 20px;
+    }
+
+    .contenedor-detalles-facturacion {
+        padding: 15px;
+    }
+
+    .cabecera-reservas .titulo {
+        font-size: 20px;
+    }
+
+    .campo-detalle {
+        font-size: 20px;				.
+        padding: 0px 5px;
+        text-decoration: none;
+    }
+    
+    .campo-detalle-texto {
+        font-size: 18px;
+    }
+
+    .titulo-reserva {
+        font-size: 26px;
+    }
+
+    .texto-cancelacion {
+        font-size: 20px;
+    }
+
+    .boton-cancelar-reserva {
+        font-size: 18px;
+    }
+
+}

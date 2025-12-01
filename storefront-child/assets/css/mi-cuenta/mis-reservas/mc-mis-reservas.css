@@ -1,0 +1,280 @@
+/* --- Contenedor principal --- */
+.woocommerce-account .woocommerce-MyAccount-content {
+    width: 100%;
+}
+
+.reservas-container {
+    padding: 0;
+    background-color: transparent !important;
+}
+
+.reservas-container-titulo {
+    background-color: var(--azul1-100);    
+    margin: 0 !important;    
+    padding: 5px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.reservas-container-titulo h2 {    
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* --- Grid de reservas --- */
+.grid-reservas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 15px;
+    justify-items: center; /* centra las tarjetas en cada columna */
+    
+    align-items: start;
+    background-color: #fff;
+}
+
+/* --- Tarjeta individual --- */
+.card-reserva {
+    width: 100%; /* ocupa toda la columna del grid */   
+    cursor: pointer;
+    position: relative;
+    border: 0;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: var(--azul2-20); 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centra todos los elementos dentro */
+    box-sizing: border-box;
+}
+
+.card-reserva:hover {
+    background-color: var(--azul2-60); 
+}
+
+.card-reserva-info-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+}
+
+.card-reserva-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+/* --- Número de reserva --- */
+
+.numero-reserva {
+    display: inline-block;
+    margin: 0 0 5px 0;
+    padding: 2px 10px;
+    background-color: var(--azul1-20);
+    border-radius: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.numero-reserva h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--azul1-100);
+    margin: 0;
+}
+
+/* --- Título de la actividad --- */
+
+.reserva-info-titulo {
+    margin-bottom: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+.reserva-info-titulo h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--azul1-100);
+    line-height: 1;
+    margin: 0;
+}
+
+/* --- Imagen --- */
+.imagen-actividad {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    margin-bottom: 0;
+    border-radius: 5px;
+}
+
+/* --- Información extra (fecha, estado, cantidad) --- */
+.reserva-info-extra {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.reserva-info-item-fecha,
+.reserva-info-item-plazas {
+    padding: 3px 10px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 14px;
+}
+
+.reserva-info-item-fecha {
+    background: var(--rojo-100);  
+    color: #fff;
+    font-weight: bold;
+}
+
+.reserva-info-item-fecha .icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    fill: #fff;
+}
+
+.reserva-info-item-plazas {
+    background: var(--naranja2-100);
+    color: #fff;
+    font-weight: bold !important;
+}
+
+.reserva-info-item-plazas .icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    fill: #fff;
+}
+
+/* --- Estado de la reserva --- */
+.reserva-info-item-estado {
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 14px;
+    text-transform: capitalize;
+}
+
+/* Cancelado o Fallido → fondo negro */
+.reserva-info-item-estado.estado-cancelled,
+.reserva-info-item-estado.estado-failed {
+    background-color: #000;
+    color: #fff;
+}
+
+/* Pendiente, Procesando o En espera → fondo azul */
+.reserva-info-item-estado.estado-pending,
+.reserva-info-item-estado.estado-processing,
+.reserva-info-item-estado.estado-on-hold {
+    background-color: var(--azul1-100);
+    color: #fff;
+}
+
+/* Completado → fondo naranja fuerte */
+.reserva-info-item-estado.estado-completed {
+    background-color: var(--amarillo-100);
+    color: var(--rojo-100);
+}
+
+/* Reembolsado → fondo gris */
+.reserva-info-item-estado.estado-refunded {
+    background-color: #777;
+    color: #fff;
+}
+
+
+
+
+/* --- Botón de ver detalles --- */
+.boton-reserva-section {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.btn-reserva {
+    background-color: var(--naranja1-100);
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-reserva:hover {
+    background-color: var(--naranja1-40);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+
+    .grid-reservas {
+        grid-template-columns: 1fr;
+        margin: 15px 0;
+        padding: 0 15px;
+    }
+
+    .titulo-reservas {
+        font-size: 20px;
+        margin-top: 0 !important;
+    }
+
+    .reservas-container-titulo h2 {    
+        font-size: 20px;
+    }
+
+    .card-reserva h3 {
+        font-size: 24px;
+    }
+
+    .numero-reserva h4 {
+        font-size: 18px;
+    }
+
+    .reserva-info-titulo h3 {
+        font-size: 26px;
+    }
+
+    .reserva-info-item-fecha,
+    .reserva-info-item-plazas,
+    .reserva-info-item-estado {
+        font-size: 18px;
+        padding: 3px 15px;
+    }
+
+    .reserva-info-item-fecha .icon,
+    .reserva-info-item-plazas .icon {
+        width: 16px;
+        height: 16px;
+    }
+
+
+
+    .btn-reserva {
+        font-size: 18px;
+    }
+
+
+}

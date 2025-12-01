@@ -1,0 +1,86 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+// ----------------------------
+// LIMPIEZA DE MENSAJES Y NOTICES
+// ----------------------------
+add_filter( 'woocommerce_add_to_cart_message_html', '__return_empty_string' );
+add_filter( 'woocommerce_cart_item_removed_notice', '__return_empty_string' );
+add_filter( 'woocommerce_cart_item_added_to_cart', '__return_empty_string' );
+
+add_action( 'wp', function() {
+    if ( is_checkout() ) wc_clear_notices();
+} );
+
+remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10 );
+
+// Hooks nativos
+do_action( 'woocommerce_before_checkout_form', $checkout );
+
+// Comprobación de registro obligatorio
+if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_required() && ! is_user_logged_in() ) {
+    echo esc_html( apply_filters( 'woocommerce_checkout_must_be_logged_in_message', __( 'You must be logged in to checkout.', 'woocommerce' ) ) );
+    return;
+}
+?>
+
+<!-- FORMULARIO NATIVE DE WOOCOMMERCE -->
+<form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data" aria-label="<?php echo esc_attr__( 'Checkout', 'woocommerce' ); ?>">
+
+    
+
+
+    <div class="pagina-grid-6633">
+
+        <!-- COLUMNA IZQUIERDA 66% -->
+        <div class="pagina-columna66">
+
+            <!-- HOOK ANTES CAMPOS NATIVE -->
+            <?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
+
+
+            <div class="seccion_oculta">
+                <?php do_action( 'woocommerce_checkout_billing' ); ?>
+                <?php do_action( 'woocommerce_checkout_shipping' ); ?>
+             </div>
+
+
+
+
+            <!-- DETALLES DE FACTURACIÓN -->
+            <?php echo do_shortcode('[checkout_detalles_facturacion]'); ?>
+
+            <?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
+
+            <!-- DATOS DE ACOMPAÑANTES -->
+            <?php echo do_shortcode('[checkout_datos_acompanantes]'); ?>
+
+            <!-- MÉTODOS DE PAGO -->
+            <?php echo do_shortcode('[checkout_metodos_pago]'); ?>
+
+        </div>
+
+        <!-- COLUMNA DERECHA 33% -->
+        <div class="pagina-columna33-sticky">
+            <?php echo do_shortcode('[checkout_resumen_pedido]'); ?>
+        </div>
+
+    </div>
+
+    <!-- ===========================
+         RESUMEN DE PEDIDO NATIVE (comentado)
+         Puedes activarlo si necesitas usarlo temporalmente
+         =========================== -->
+    <?php /*
+    <?php do_action( 'woocommerce_checkout_before_order_review_heading' ); ?>
+    <h3 id="order_review_heading"><?php esc_html_e( 'Your order', 'woocommerce' ); ?></h3>
+    <?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
+    <div id="order_review" class="woocommerce-checkout-review-order">
+        <?php do_action( 'woocommerce_checkout_order_review' ); ?>
+    </div>
+    <?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
+    */ ?>
+
+</form>
+
+<?php do_action( 'woocommerce_after_checkout_form', $checkout ); ?>

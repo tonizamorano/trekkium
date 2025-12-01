@@ -1,0 +1,122 @@
+.editar-actividad-seccion-titular {
+    background: var(--azul1-100);
+    padding: 5px 10px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.editar-actividad-titular {
+    color: #fff;
+    font-size: 18px;
+    margin: 0;			
+}
+
+
+.producto-edit-form-contenedor-ppal {
+    padding: 15px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #fff;
+}
+
+.contenedor-1col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contenedor-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+@media(max-width:768px){
+    .contenedor-2col {
+        grid-template-columns: 1fr;
+    }
+}
+
+.edit-form-titular {
+    font-size: 18px;
+    color: var(--azul1-100);
+    font-weight: 600;
+    margin: 0;
+}
+
+.edit-form-text {
+    font-size: 16px;           
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-weight: inherit;
+}
+
+.edit-form-image-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background: #f9f9f9;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-form-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.edit-form-image-box span {
+    color: #666;
+    font-size: 14px;
+}
+
+.mis-actividades-boton-guardar-cambios {
+    margin-top: 15px;
+    background: var(--azul1-100);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Estilos para campos con sufijos dentro */
+.input-with-suffix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-suffix input {
+    padding-right: 50px !important;
+    width: 100%;
+}
+
+.input-suffix {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+
+    .editar-actividad-titular {
+        font-size: 20px;			
+    }
+
+}

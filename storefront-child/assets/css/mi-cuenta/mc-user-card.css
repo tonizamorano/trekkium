@@ -1,0 +1,79 @@
+.card-micuenta-contenedor-principal {
+    background-color: #fff;
+    border-radius: 0px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.card-micuenta-imagen-fondo {
+    width: 100%;
+    aspect-ratio: 16/8;
+    overflow: hidden;   
+    margin-bottom: 20px;
+}
+
+.card-micuenta-imagen-fondo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.card-micuenta-editar-avatar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    left: 0;
+    z-index: 2;
+}
+
+.card-micuenta-nombre-usuario {
+    text-align: center;
+    font-weight: bold;
+    color: var(--azul1-100);
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.card-micuenta-tipo-cuenta {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.tipo_cuenta {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    padding: 5px 15px;
+    background-color: var(--naranja2-100);
+    border-radius: 50px;
+    text-align: center;
+}
+
+.card-micuenta-menu-micuenta {
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    
+    .card-micuenta-imagen-fondo {
+        margin-bottom: 40px;
+    }
+    
+    .card-micuenta-editar-avatar {
+        top: 30px;
+    }
+
+    .card-micuenta-nombre-usuario {
+        font-size: 30px;
+    }
+
+    .tipo_cuenta {
+        font-size: 16px;
+    }
+}

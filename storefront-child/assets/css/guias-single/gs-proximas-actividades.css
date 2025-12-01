@@ -1,0 +1,13 @@
+.gs-entradas-rel-contenedor {
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    
+
+.gs-entradas-rel-contenedor {
+    padding: 15px;
+	background-color: white;
+}
+
+}

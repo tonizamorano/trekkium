@@ -1,0 +1,123 @@
+/* ======== Estilos generales ======== */
+
+.crear-cuenta-contenedor {
+   
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0;
+    
+}
+
+.crear-cuenta-titulo-seccion {
+    background-color: var(--azul1-100, #0b568b);
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.crear-cuenta-titulo {
+    font-size: 18px;
+    color: #fff;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .crear-cuenta-titulo {
+        font-size: 20px;
+    }
+}
+
+.crear-cuenta-contenido {
+    padding: 10px 20px;
+     background: #fff;
+}
+
+.crear-cuenta-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+    .crear-cuenta-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.crear-cuenta-form-grid-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.crear-cuenta-form-grid-col label {
+    font-weight: 500;
+    color: #333;
+}
+
+.crear-cuenta-form-grid-col input,
+.crear-cuenta-form-grid-col select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    width: 100%;
+}
+
+.crear-cuenta-form-grid-col input:focus,
+.crear-cuenta-form-grid-col select:focus {
+    border-color: var(--azul1-100, #0b568b);
+    outline: none;
+}
+
+.crear-cuenta-seccion-requisitos {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.crear-cuenta-seccion-requisitos label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.crear-cuenta-boton-seccion {
+    display: flex;
+    justify-content: center;
+    margin: 25px 0;
+}
+
+.crear-cuenta-boton {
+    background-color: var(--naranja100, #E67E22);
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.crear-cuenta-boton:hover {
+    background-color: var(--naranja60, #F39C12);
+}
+
+@media (max-width: 768px) {
+
+
+    .crear-cuenta-contenedor {
+        padding: 15px;
+        
+    }
+
+    .crear-cuenta-boton {
+        font-size: 18px;
+    }
+}

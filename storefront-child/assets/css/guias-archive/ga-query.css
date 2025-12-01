@@ -1,0 +1,179 @@
+/* === GRID PRINCIPAL === */
+.ga-query-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    align-items: start;
+}
+
+/* === FILTROS ACTIVOS (pestañas con X) === */
+.filtros-activos {
+    margin-bottom: 10px;
+}
+
+.filtros-lista {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.filtros-activos-item {
+    display: inline-block;
+    background-color: var(--naranja1-80);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.filtros-activos-item a.quitar-filtro {
+    color: white;
+    text-decoration: none;
+    margin-left: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ga-query-item {
+    background: #fff;
+    padding: 0 0 10px 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    overflow: hidden;
+    
+}
+
+/* === IMÁGENES === */
+.ga-imagen-contenedor {
+    position: relative;
+    overflow: visible; /* ⬅️ permite que el avatar sobresalga fuera del banner */
+    z-index: 1;
+}
+.ga-banner-ratio {
+    position: relative;
+    width: 100%;
+    padding-top: calc(100% * 7 / 16); /* ratio 16:6 */
+}
+
+.ga-banner-ratio img.ga-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 4px 6px -3px rgba(0, 0, 0, 0.3);
+}
+
+/* === AVATAR === */
+.guia-avatar {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+/* === AVATAR SUPERPUESTO CENTRADO Y SOBRE TODO === */
+.ga-avatar-overlay {
+    position: absolute;
+    left: 50%;
+    bottom: -25px; /* sobresale 25px por debajo del banner */
+    transform: translateX(-50%);
+    z-index: 10; /* ⬅️ asegura que está encima de todos los demás elementos */
+}
+
+.ga-avatar-overlay .guia-avatar {
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    background-color: #fff; /* opcional, mejora contraste si el borde toca fondo oscuro */
+}
+
+
+/* === NOMBRE Y UBICACIÓN === */
+.ga-nombre-ubicacion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.ga-nombre {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--azul1-100);
+    margin-top: 10px;
+    line-height: 1.2;
+}
+
+.ga-ubicacion {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--naranja1-100);
+    margin-top: 0;
+}
+
+/* === MODALIDADES === */
+.guia-modalidades {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 5px;
+    padding: 0 10px;
+}
+
+.guia-modalidad-item {
+    padding: 3px 10px;
+    border-radius: 50px;
+    background-color: var(--naranja1-100);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* === VALORACIÓN === */
+.guia-rating {
+    margin-top: 0px;
+    display: flex;
+    justify-content: center;
+}
+
+/* === ENLACES === */
+.ga-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .ga-query-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 15px;
+    }
+
+    .guia-avatar {
+        width: 150px;
+        height: 150px;
+    }
+
+    .ga-nombre {
+        font-size: 24px;
+    }
+
+    .ga-ubicacion {
+        font-size: 20px;
+    }
+
+    .guia-modalidad-item {
+        font-size: 17px;
+    }
+}

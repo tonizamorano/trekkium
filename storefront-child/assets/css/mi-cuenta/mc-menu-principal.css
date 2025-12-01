@@ -1,0 +1,67 @@
+.menu-circular {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+	margin: 5px 0;
+}
+
+.menu-circular a {
+	width: 45px;
+	height: 45px;
+	background-color: var(--azul1-40);
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	text-decoration: none;
+	cursor: pointer;
+	position: relative;
+}
+
+.menu-circular a:hover {
+	background-color: var(--naranja1-100) !important;
+}
+
+.menu-circular a.active {
+	background-color: var(--naranja1-100); !important;
+	width: 58px;
+	height: 58px;
+}
+
+.menu-circular a svg {
+	width: 25px;
+	height: 25px;
+	fill: white;
+}
+
+.menu-circular a.active svg {
+	width: 35px;
+	height: 35px;
+	fill: white;
+}
+
+@media screen and (max-width: 768px) {
+
+	.menu-circular a {
+		width: 50px;
+		height: 50px;
+		background-color: var(--azul1-100);
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: white;
+		text-decoration: none;
+		cursor: pointer;
+		position: relative;
+	}
+	
+	.menu-circular a.active {
+		background-color: var(--naranja1-100); !important;
+		width: 60px;
+		height: 60px;
+	}
+}
+

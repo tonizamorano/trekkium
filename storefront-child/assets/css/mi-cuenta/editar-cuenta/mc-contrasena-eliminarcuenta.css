@@ -1,0 +1,123 @@
+.trekkium-cambiar-contrasena-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    background-color: #fff;
+}
+
+.micuenta-contrasena-eliminar-columna {
+    display: flex;
+    flex-direction: column;
+}
+
+.titular-contrasena-section {
+    background: var(--azul1-100);
+    padding: 5px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.cambiar-contrasena-titulo {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.texto-eliminar-cuenta {
+    text-align: center;
+    font-size: 18px;
+    margin: 10px 0 0 0;
+}
+
+.accordion-header:after {
+    content: '+';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.accordion-header.active:after {
+    content: '-';
+}
+
+.accordion-content {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 10px 0;
+    background-color: #fff;
+}
+
+#ajax-change-password-form input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+}
+
+#password-change-message,
+#delete-account-message {
+    margin-top: 10px;
+}
+
+.password-field-wrapper {
+    position: relative;
+}
+
+.password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-container input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.micuenta-contrasena-eliminar-buton-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.micuenta-contrasena-eliminar-buton {
+    background-color: var(--color-orange-100) !important;
+    color: #fff !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    padding: 8px 15px !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+}
+
+@media screen and (max-width: 768px) {
+    .cambiar-contrasena-titulo {
+        font-size: 20px;
+    }
+    
+    .texto-eliminar-cuenta {
+        font-size: 16px;
+    }
+}

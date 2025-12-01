@@ -1,0 +1,147 @@
+.pagina-grid-3366 {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    column-gap: 15px;
+    row-gap: 0;
+    max-width: 870px;
+    width: 100%;
+    margin: 0 auto; /* centra en la página */
+    
+}
+
+.pagina-grid-6633 {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 15px;
+    row-gap: 0;
+    max-width: 870px;
+    width: 100%;
+    margin: 0 auto; /* centra en la página */
+   
+}
+
+.pagina-grid-333333 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+    column-gap: 15px;
+    row-gap: 0;
+    max-width: 870px;
+    width: 100%;
+    margin: 0 auto; /* centra en la página */
+    
+    margin-top: 15px;
+}
+
+.pagina-grid-3333 {
+    display: grid;    
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales */
+    column-gap: 15px;
+    max-width: 870px;
+    width: 100%;
+    margin: 0 auto; /* centra en la página */
+    box-sizing: border-box;
+    margin-top: 15px;
+    padding: 0px;
+}
+
+.pagina-columna33 {
+    padding: 0;
+    margin: 0;
+    gap: 0;
+}
+
+.ps-pagina-columna33 {
+    display:flex; 
+    flex-direction: column;
+    gap:10px;
+    padding: 0;
+    margin: 0;    
+}
+
+
+
+
+
+
+@media (min-width: 768px) {
+
+    .pagina-columna33-sticky {
+        position: sticky;
+        top: 140px; /* margen superior al hacer scroll */
+        align-self: flex-start;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .pagina-columna66-sticky {
+        position: sticky;
+        top: 140px; /* margen superior al hacer scroll */
+        align-self: flex-start;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+}
+
+.pagina-columna33gap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.pagina-columna66 {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    gap: 0 !important;
+}
+
+@media (max-width: 768px) {
+
+    .pagina-seccion-titular {
+        margin-bottom: 0;
+    }
+
+    .pagina-grid-6633 {
+        background-color: #fff;
+        
+    }
+
+    .pagina-grid-3366,
+    .pagina-grid-6633,
+    .pagina-grid-3333,
+    .pagina-grid-333333 {
+        grid-template-columns: 1fr;
+        row-gap: 0;
+        column-gap: 0;
+        margin-top: 0;
+        
+    }
+
+    .pagina-columna66 {
+       gap: 0;
+        
+    }
+
+    .pagina-columna33gap {
+        background-color: #fff;
+        padding: 10px;        
+    }
+
+    .ps-pagina-columna33 {
+    
+        padding: 10px;
+        margin: 0;    
+    }
+
+}
+      

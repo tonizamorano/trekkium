@@ -1,0 +1,82 @@
+#avatar-editor {
+    position: relative;
+    margin: 0 auto;
+    
+}
+
+#user-avatar-preview {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    aspect-ratio: 1/1;
+}
+
+.avatar-buttons {
+    position: absolute;
+    top: -10px;
+    justify-content: right;
+    justify-self: right;
+    display: flex;
+    gap: 3px;
+    z-index: 10;
+}
+
+.avatar-buttons button {
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    padding: 0px;
+}
+
+.avatar-buttons-svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Asegurar que los SVG dentro de los botones de avatar se muestren en blanco */
+.avatar-buttons button svg {
+    fill: white;
+}
+
+#avatar-change-btn {
+    background: var(--azul2-100);
+}
+
+#avatar-delete-btn {
+    background: var(--rojo-100);
+}
+
+@media screen and (max-width: 768px) {
+
+    #user-avatar-preview {
+        width: 200px;
+        height: 200px;
+    }
+
+    .avatar-buttons {
+        top: -15px;
+    }
+
+   
+
+    .avatar-buttons button {
+        width: 50px;
+        height: 50px;
+    }
+
+    .avatar-buttons-svg {
+        width: 18px;
+        height: 18px;
+    }
+}

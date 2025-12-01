@@ -1,0 +1,187 @@
+<?php
+// Shortcode [in_ultimas_entradas] para mostrar últimas entradas del blog
+add_shortcode('in_ultimas_entradas', 'trekkium_in_ultimas_entradas');
+function trekkium_in_ultimas_entradas() {
+
+    ob_start();
+
+    $args = array(
+        'post_type'      => 'post',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+    );
+
+    $query = new WP_Query($args);
+    ?>
+
+    <div class="in-blog-wrapper">
+
+        <div class="in-blog-header">
+            <button class="in-blog-arrow in-blog-arrow-left">
+                <svg viewBox="0 0 24 24">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+                </svg>
+            </button>
+
+            <h2 class="in-blog-sectiontitle">Últimas entradas del Blog</h2>
+
+            <button class="in-blog-arrow in-blog-arrow-right">
+                <svg viewBox="0 0 24 24">
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <?php if ($query->have_posts()) : ?>
+            <div class="in-blog-carousel">
+
+                <?php while ($query->have_posts()) : $query->the_post(); ?>
+                    <?php
+                    $autor_id  = get_the_author_meta('ID');
+                    $avatar    = get_avatar_url($autor_id, ['size' => 80]);
+                    $permalink = get_permalink();
+                    $categorias = get_the_category();
+                    $fecha = get_the_date('d/m/Y');
+                    $views = (int) get_post_meta(get_the_ID(), 'post_views_count', true);
+                    ?>
+
+                    <div class="in-blog-item">
+                        <a href="<?php echo esc_url($permalink); ?>" class="in-blog-image-link">
+                            <div class="in-blog-imgcontenedor">
+                                <?php if (has_post_thumbnail()) : ?>
+                                    <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'in-blog-img']); ?>
+                                <?php else: ?>
+                                    <div class="in-blog-img-placeholder"></div>
+                                <?php endif; ?>
+
+                                <?php if ($avatar) : ?>
+                                    <div class="in-blog-avatarcontenedor">
+                                        <img src="<?php echo esc_url($avatar); ?>" class="in-blog-avatar" alt="<?php echo esc_attr(get_the_author()); ?>" />
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </a>
+
+                        <div class="in-blog-contenido">
+                            <a href="<?php echo esc_url($permalink); ?>" class="in-blog-contenido-link">
+                                <h3 class="in-blog-titulo"><?php the_title(); ?></h3>
+                            </a>
+
+                            <?php if (!empty($categorias)) : ?>
+                                <div class="in-blog-categorias">
+                                    <?php foreach ($categorias as $categoria) : ?>
+                                        <a href="<?php echo esc_url(get_category_link($categoria->term_id)); ?>" class="in-blog-categoria-link">
+                                            <?php echo esc_html($categoria->name); ?>
+                                        </a>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="in-blog-infoextra">
+                                <div class="in-blog-info-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                                        <path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20
+                                        c0 1.1.9 2 2 2h14c1.1 0 2-.9
+                                        2-2V6c0-1.1-.9-2-2-2zm0
+                                        16H5V9h14v11zM7 11h5v5H7z"/>
+                                    </svg>
+                                    <span><?php echo esc_html($fecha); ?></span>
+                                </div>
+
+                                <div class="in-blog-info-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                                        <path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11
+                                        7.5s9.27-3.11 11-7.5C21.27
+                                        7.61 17 4.5 12 4.5zm0
+                                        12c-2.48 0-4.5-2.02-4.5-4.5S9.52
+                                        7.5 12 7.5s4.5 2.02 4.5
+                                        4.5-2.02 4.5-4.5
+                                        4.5zm0-7c-1.38 0-2.5
+                                        1.12-2.5 2.5s1.12 2.5
+                                        2.5 2.5 2.5-1.12
+                                        2.5-2.5S13.38 9.5 12 9.5z"/>
+                                    </svg>
+                                    <span><?php echo esc_html($views); ?></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                <?php endwhile; ?>
+
+            </div>
+            <div class="in-dots">
+                <?php for ($i = 0; $i < $query->post_count; $i++) : ?>
+                    <span class="in-dot <?php echo $i === 0 ? 'active' : ''; ?>"></span>
+                <?php endfor; ?>
+            </div>
+
+        <?php endif; ?>
+
+        <?php wp_reset_postdata(); ?>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const wrapper = document.querySelector('.in-blog-wrapper');
+        if (!wrapper) return;
+        const carousel = wrapper.querySelector(".in-blog-carousel");
+        const left = wrapper.querySelector(".in-blog-arrow-left");
+        const right = wrapper.querySelector(".in-blog-arrow-right");
+        const dots = Array.from(wrapper.querySelectorAll('.in-dot'));
+        const items = Array.from(wrapper.querySelectorAll('.in-blog-item'));
+
+        if (!carousel || !items.length) return;
+
+        let index = 0;
+
+        function getStep() {
+            if (items.length > 1) {
+                const step = items[1].offsetLeft - items[0].offsetLeft;
+                if (step && !isNaN(step)) return step;
+            }
+            return items[0].offsetWidth;
+        }
+
+        let step = getStep();
+        window.addEventListener('resize', () => { step = getStep(); });
+
+        function updateDots() {
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+        }
+
+        function scrollToIndex(i) {
+            i = Math.max(0, Math.min(i, items.length - 1));
+            const leftPos = items[0].offsetLeft + step * i;
+            carousel.scrollTo({ left: leftPos, behavior: 'smooth' });
+            index = i;
+            updateDots();
+        }
+
+        right && right.addEventListener("click", () => { if (index < items.length - 1) scrollToIndex(index + 1); });
+        left && left.addEventListener("click", () => { if (index > 0) scrollToIndex(index - 1); });
+
+        dots.forEach((dot, i) => dot.addEventListener('click', () => scrollToIndex(i)));
+
+        // inicializar estado según posición actual
+        index = Math.max(0, Math.min(Math.round((carousel.scrollLeft - items[0].offsetLeft) / step), items.length - 1));
+        updateDots();
+
+        let scrollTimeout;
+        carousel.addEventListener('scroll', () => {
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const newIndex = Math.round((carousel.scrollLeft - items[0].offsetLeft) / step);
+                index = Math.max(0, Math.min(newIndex, items.length - 1));
+                updateDots();
+            }, 80);
+        });
+    });
+    </script>
+
+    <?php
+    return ob_get_clean();
+}

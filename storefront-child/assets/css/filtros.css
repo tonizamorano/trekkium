@@ -1,0 +1,176 @@
+
+/* SECCIONES */
+
+.contenedor-filtros {
+    padding: 0;
+    margin: 0;
+    gap: 0;
+}
+
+.contenedor-filtros-titular {
+    display: flex;
+    padding: 5px 10px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    background-color: var(--azul1-100);
+    gap: 5px;
+}
+
+.contenedor-filtros-titular h4  {
+    color: #fff !important;
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* Indicador de desplegable para móvil */
+.contenedor-filtros-titular .desplegable-indicador {
+    display: none;
+    margin-left: auto;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.filtros-titular-icono {
+    width: 16px;
+    height: 16px;
+    fill: #fff;
+}
+
+.titular-icono {
+    width: 16px;
+    height: 16px;
+    fill: #fff;
+}
+
+.contenedor-filtros-contenido {
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filtros-seccion {
+    background-color: #fff;
+    padding: 0px;
+}
+
+.filtros-seccion-titular {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 !important;
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+      font-size: 28px;
+      background-color: var(--naranja1-100);
+      gap: 5px;
+      padding: 3px 10px;
+    }
+
+.filtros-seccion-titular h5 {
+      color: #fff !important;
+    }
+
+
+.filtros-seccion-contenido {
+      padding: 10px;
+      background-color: var(--naranja1-20);
+}
+
+/* BOTONES */
+
+/* Estilos generales para contenedores de filtros */
+
+.filtro-contenedor { 
+    display:flex; 
+    flex-wrap:wrap; 
+    gap:5px; 
+    justify-content:center; 
+    margin-bottom: 0px;
+}
+
+/* Estilos para items de filtro */
+.filtro-item { 
+    padding: 5px 10px; 
+    border-radius:50px; 
+    background:var(--azul1-60); 
+    color:#fff; 
+    cursor:pointer; 
+    font-weight:500; 
+    font-size:14px; 
+    transition:background-color .3s; 
+}
+
+/* Estado activo de los filtros */
+.filtro-item:hover { 
+    background: var(--azul1-100);
+}
+
+/* Estado activo de los filtros */
+.filtro-item.active { 
+    background:var(--azul1-100);
+}
+
+/* Estado oculto de los filtros */
+.filtro-item.hidden { 
+    display: none; 
+}
+
+
+/* Responsive móvil */
+@media (max-width: 768px) {
+
+    .contenedor-filtros {
+        padding: 10px 15px;
+       
+    }
+
+    .contenedor-filtros-titular {
+        margin-bottom: 10px;
+        padding: 10px 15px;
+    }
+
+    
+    /* Estilos para el desplegable en móvil */
+
+    .contenedor-filtros-titular {
+        cursor: pointer;
+        position: relative;
+        padding-right: 40px;
+    }
+
+    .contenedor-filtros-titular .desplegable-indicador {
+        display: block;
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+    }
+
+    .contenedor-filtros-contenido {
+        display: none; /* oculto por defecto */
+    }
+      
+    .contenedor-filtros-contenido.desplegado {
+        display: block; /* se muestra al abrir */
+    }
+
+     .filtro-item { 
+        font-size:18px; 
+    }
+
+}
+
+
+    

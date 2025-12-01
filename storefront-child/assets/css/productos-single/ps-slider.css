@@ -1,0 +1,107 @@
+/* Estilos para el slider */
+
+.ps-slider-container {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -3px rgba(0, 0, 0, 0.3);
+}
+
+.ps-slider-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ps-slider {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+/* Cada slide mantiene el aspect ratio */
+.ps-slide {
+    display: none;
+    position: relative;
+    width: 100%;
+    height: auto;
+    transition: opacity 0.3s ease;
+    aspect-ratio: 16 / 10;
+}
+
+.ps-slide.active {
+    display: block;
+}
+
+.ps-slide img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+}
+
+/* Botones */
+.ps-slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+.ps-slider-btn:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.ps-slider-btn.prev {
+    left: 15px;
+}
+
+.ps-slider-btn.next {
+    right: 15px;
+}
+
+.ps-slider-btn svg {
+    width: 40px;
+    height: 40px;
+    fill: white;
+}
+
+/* Ajustes para móvil */
+@media (max-width: 768px) {
+
+    .ps-slider-btn {
+        width: 40px;
+        height: 40px;
+        padding: 4px;
+    }
+    
+    .ps-slider-btn svg {
+        width: 32px;
+        height: 32px;
+    }
+}

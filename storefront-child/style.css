@@ -1,0 +1,246 @@
+/*
+Theme Name: Storefront Child
+Theme URI: http://tusitio.com/
+Description: Tema hijo de Storefront
+Author: Toni
+Author URI: http://tusitio.com/
+Template: storefront
+Version: 1.0.0
+Text Domain: storefront-child
+*/
+
+/* Paleta de colores */
+
+:root {  
+
+
+    /* Azul tema */
+    --azul1-100: #0b568b;
+    --azul1-80: #3c78a2;
+    --azul1-60: #6d9ab9;
+    --azul1-40: #9dbbd1;
+    --azul1-20: #cedde8;
+
+    /* Azul Alpine */
+    --azul2-100: #2271b1;
+    --azul2-80: #4e8dc1;
+    --azul2-60: #7aaad0;
+    --azul2-40: #a7c6e0;
+    --azul2-20: #d3e3ef;
+
+  
+    /* Naranja tema */
+    --naranja1-100: #e2a725;
+    --naranja1-80: #e8b951;
+    --naranja1-60: #eeca7c;
+    --naranja1-40: #f3dca8;
+    --naranja1-20: #f9edd3;  
+
+    /* Naranja tema old*/
+    --naranja1-100-old: #E67E22;
+    --naranja1-80-old: #eb984e;
+    --naranja1-60-old: #f0b27a;
+    --naranja1-40-old: #f5cba7;
+    --naranja1-20-old: #fae5d3;  
+
+
+
+
+
+    /* Naranja Alpine */
+    --naranja2-100: #FF6600;
+    --naranja2-80: #ff8533;
+    --naranja2-60: #ffa366;
+    --naranja2-40: #ffc299;
+    --naranja2-20: #ffe0cc;
+
+    /* Rojo Coral */
+    --rojo-100: #ff4040;
+    --rojo-80: #ff6666;
+    --rojo-60: #ff8c8c;
+    --rojo-40: #ffb3b3;
+    --rojo-20: #ffd9d9;
+    
+
+
+    /* Amarillo Alpine */
+    --amarillo-100: #ffd300;
+    --amarillo-80: #ffdc33;
+    --amarillo-60: #ffe566;
+    --amarillo-40: #ffed99;
+    --amarillo-20: #fff6cc;
+
+    
+    /* Verde lima */
+    --verde-100: #7ed321;
+    --verde-80: #98dc4d;
+    --verde-60: #b2e57a;
+    --verde-40: #cbeda6;
+    --verde-20: #e5f6d3;
+
+    /* Marrón Earth */
+    --marron-100: #8b5a2b;
+    --marron-80: #a27b55;
+    --marron-60: #b99c80;
+    --marron-40: #d1bdaa;
+    --marron-20: #e8ded5;
+
+    /* Rosa / Magenta Outdoor */
+    --rosa-100: #D81B60;
+    --rosa-80: #E14C85;
+    --rosa-60: #EA7DA9;
+    --rosa-40: #F3ADCE;
+    --rosa-20: #FBD6E7;
+
+}
+
+html {
+  background-color: var(--azul-1-80);
+}
+
+/*
+html body .site-main {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+*/
+
+
+body {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Oxygen, Ubuntu, Cantarell, "Noto Sans",
+        "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+    color: var(--azul1-100);
+    background-color: var(--azul1-80);
+}
+
+
+body {
+    padding-top: 140px;
+}
+
+body.home {
+    padding-top: 90px;
+}
+
+@media (max-width: 768px) {
+
+    body {
+      font-size: 18px;
+    }
+    
+    body {
+      padding-top: 185px; /* Ajusta según la altura real de tu header */
+    }
+
+    body.home {
+      padding-top: 150px; /* o el valor que quieras solo en la home */
+    }
+
+}
+
+/* Eliminar márgenes de párrafos y titulares */
+
+p {
+    margin: 0 0 10px 0 !important; /* elimina margen inferior de los párrafos */
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 0 0 !important; /* elimina margen inferior de los párrafos */
+}
+
+/* Titulares */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: var(--azul1-100);
+    letter-spacing: -0.3px;
+    line-height: 1;
+}
+
+
+
+/* Tamaños en desktop */
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 18px; }
+h6 { font-size: 16px; }
+
+/* Tamaños en móvil */
+@media (max-width: 768px) {
+  h1 { font-size: 28px; }
+  h2 { font-size: 26px; }
+  h3 { font-size: 24px; }
+  h4 { font-size: 22px; }
+  h5 { font-size: 20px; }
+  h6 { font-size: 18px; }
+}
+
+/* Eliminar subrayados, marcos y bordes de todos los enlaces */
+a,
+a:link,
+a:visited,
+a:hover,
+a:focus,
+a:active {
+    text-decoration: none !important;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Enlaces sin estilo */
+a {
+  all: unset; /* elimina color, subrayado, fuente, peso, etc. */
+  cursor: pointer; /* opcional: mantiene el cursor de enlace */
+}
+
+
+/* Ocultar títulos de todas las páginas */
+.page .entry-title {
+    display: none;
+}
+
+/* Ocultar botón Editar en el frontend */
+.admin-bar .edit-link {
+    display: none !important;
+}
+
+/* Eliminar visualmente la sidebar, la pone el tema Storefront de serie*/
+#secondary {
+    display: none !important;
+}
+
+/* Hacer que el contenido principal ocupe todo el ancho */
+#primary {
+    width: 100% !important;
+    max-width: 100% !important;
+    float: none !important; /* elimina flotados si los hay */
+}
+
+
+
+/* Eliminar margenes molesto y botón Editar para admins */
+
+.edit-link, .post-edit-link {
+    display: none !important;
+}
+
+.site-main {
+    margin-bottom: 0 !important; /* o el valor que quieras */
+}
+
+.hentry {
+    margin-bottom: 0 !important; /* o el valor que quieras */
+}
+
+.content-area, .widget-area {
+    margin-bottom: 0 !important;
+}
+
+

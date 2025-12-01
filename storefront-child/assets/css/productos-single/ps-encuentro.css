@@ -1,0 +1,94 @@
+
+.ps-contenido-momento {
+    background-color: #fff;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.ps-contenido-fila {
+    display: flex;
+    justify-content: space-between; /* col1 izq, col2 der */
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.ps-contenido-fila-direccion {
+    display: flex;
+    justify-content: space-between; /* col1 izq, col2 der */
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
+    font-size: 16px;
+    padding: 0 15px 0 21px;
+}
+
+.ps-fila-col1,
+.ps-fila-col2 {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* columna izquierda */
+.ps-fila-col1 {
+    justify-content: flex-start;
+    font-weight: 600;
+    flex: 0 1 auto; /* se ajusta a su contenido */
+}
+
+/* icono dentro de col1 */
+.ps-fila-col1 svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--azul1-100);
+}
+
+/* columna derecha */
+.ps-fila-col2 {
+    justify-content: flex-end;
+    text-align: right;
+    font-weight: 500;
+    flex: 0 1 auto; /* se adapta también al contenido */
+    margin-left: auto; /* empuja esta columna hacia el extremo derecho */
+}
+
+
+.encuentro-boton {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: var(--naranja1-100);
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 0px;
+    margin-left: 21px;
+}
+
+.encuentro-boton:hover {
+    opacity: 0.7;
+}
+
+/* Ajustes para móvil */
+@media (max-width: 768px) {
+    
+    .ps-contenido-fila {
+        font-size: 20px;
+    }
+
+    .ps-fila-col1 svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .encuentro-boton,
+    .ps-contenido-fila-direccion {
+        font-size: 18px;
+    }
+
+}

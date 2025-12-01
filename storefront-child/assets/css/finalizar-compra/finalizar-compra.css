@@ -1,0 +1,210 @@
+/*Estilos generales para todas las secciones*/
+
+.seccion_oculta {
+    display: none;
+}
+
+.checkout-contenedor-seccion {
+    background: #fff;
+    padding: 0px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.checkout-seccion-titulo {
+    background: var(--azul1-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    gap: 5px;
+}
+
+.checkout-seccion-titulo svg {
+    flex-shrink: 0;
+}
+
+.checkout-seccion-titulo-texto {
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+
+.checkout-seccion-contenido {
+    background: #fff; 
+    padding: 20px;
+    text-align: center;
+}
+
+/* Estilos de la Sección Detalles de Facturación*/
+
+.facturacion-form {
+    max-width: 100%;
+}
+
+.facturacion-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.facturacion-columna {
+    display: flex;
+    flex-direction: column;
+}
+
+.facturacion-titular {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
+    color: #333;
+}
+
+.facturacion-input,
+.facturacion-select {
+    padding: 10px 12px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.facturacion-input:focus,
+.facturacion-select:focus {
+    outline: none;
+    border-color: var(--azul1-100);
+}
+
+.facturacion-input:required:invalid,
+.facturacion-select:required:invalid {
+    border-color: var(--naranja1-100);
+}
+
+/* Asterisco rojo automático en campos obligatorios */
+.facturacion-titular::after {
+    content: " *";
+    color: var(--naranja1-100);
+}
+
+@media (max-width: 768px) {
+
+    .checkout-seccion-titulo-texto {
+        font-size: 18px;
+    }
+
+    .facturacion-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+}
+
+/* Oculta los mensajes de WooCommerce en la página de checkout */
+.woocommerce-checkout .woocommerce-message {
+	display: none !important;
+}
+
+/* ==========================
+   Estilos para Acompañantes en el form checkout
+   ========================== */
+.acompanante-item {
+    background: #fff;
+    margin-bottom: 14px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.acompanante-header {
+    background: var(--azul1-100);
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+}
+
+.acompanante-title {
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.acompanante-body {
+    padding: 10px;
+}
+
+/* Alinear el contenido a la izquierda dentro de la sección de acompañantes */
+.trekkium-acompanantes-checkout .checkout-seccion-contenido,
+.trekkium-acompanantes-checkout .acompanante-grid-2,
+.trekkium-acompanantes-checkout .acompanante-group {
+    text-align: left;
+}
+
+.trekkium-acompanantes-checkout .acompanante-group-title {
+    text-align: left;
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.acompanante-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+.acompanante-columna {
+    display: flex;
+    flex-direction: column;
+}
+
+.acompanante-titular {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--azul1-100);
+    margin-bottom: 6px;
+}
+
+/* Asterisco rojo automático en campos obligatorios de acompañantes */
+.acompanante-titular::after {
+    content: " *";
+    color: var(--naranja1-100);
+}
+
+/* Separator between companions */
+
+.trekkium-acompanantes-checkout .acompanante-group {
+    /* Espacio vertical entre cada acompañante (sin línea separadora) */
+    margin-bottom: 24px;
+}
+
+.acompanante-input {
+    padding: 10px 12px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.acompanante-input:focus {
+    outline: none;
+    border-color: var(--azul1-100);
+}
+
+.acompanante-input:required:invalid {
+    border-color: var(--naranja1-100);
+}
+
+@media (max-width: 768px) {
+    .acompanante-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+

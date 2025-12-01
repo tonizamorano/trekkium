@@ -1,0 +1,163 @@
+.mc-contenido-contenedor {
+    padding: 0px;
+}
+
+.mc-contenido-titular {
+    background-color: var(--azul1-100);
+    padding: 7px 15px;
+    display: flex;
+    justify-content: left;
+}
+
+.mc-contenido-titular h2 {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    color: #ffffff;
+}
+
+.mc-contenido-contenido {
+    background: #ffffff;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mc-contenido-nombre {
+    font-weight: 600;
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+}
+
+.mc-contenido-ubicacion {
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--naranja1-100);
+    margin: 0;
+    padding: 0;
+}
+
+.mc-grid-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.mc-grid-label svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--azul1-100);
+}
+
+.mc-modalidades,
+.mc-titulaciones,
+.mc-idiomas,
+.mc-etiquetas {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+    justify-content: start;
+}
+
+.mc-modalidades-lista,
+.mc-titulaciones-lista,
+.mc-idiomas-lista,
+.mc-etiquetas-lista {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 5px;
+    margin-top: 10px;
+}
+
+.mc-modalidad-item,
+.mc-titulacion-item,
+.mc-idioma-item {
+    padding: 3px 10px;
+    background-color: var(--naranja1-100);
+    border-radius: 50px;
+    color: white;
+    font-size: 16px;
+}
+
+.mc-etiqueta-item {
+    color: var(--azul1-100);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+
+@media(max-width: 768px) {
+
+    .mc-contenido-contenedor {
+        background-color: #ffffff;
+        padding: 0px 15px;
+    }
+
+    .mc-contenido-titular {
+        justify-content: center;
+    }
+
+    .mc-contenido-titular h2 {
+        font-size: 20px;
+    }
+
+    .mc-contenido-contenido {
+        justify-content: center;
+    }
+
+    .mc-contenido-nombre {
+        text-align: center;
+        font-size: 28px;
+    }
+
+    .mc-contenido-ubicacion {
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .mc-contenido-grid h4 {
+        font-size: 16px;
+    }
+
+    .mc-grid-label {
+        font-size: 22px;
+        justify-content: center;
+    }
+
+    .mc-modalidades,
+    .mc-titulaciones,
+    .mc-idiomas {
+        justify-content: center;
+        justify-items: center;
+        justify-self: center;
+    }
+
+    .mc-modalidades h4,
+    .mc-titulaciones h4,
+    .mc-idiomas h4 {
+        justify-content: center;
+        justify-items: center;
+        justify-self: center;
+        text-align: center;
+    }
+
+    .mc-modalidades-lista,
+    .mc-titulaciones-lista,
+    .mc-idiomas-lista {
+        justify-content: center;
+        justify-items: center;
+        justify-self: center;
+    }
+
+    .mc-modalidad-item,
+    .mc-titulacion-item,
+    .mc-idioma-item {
+        font-size: 18px;
+    }
+
+}

@@ -1,0 +1,129 @@
+/* TABLA HORIZONTAL (PRODUCTOS, GUIAS...) */
+
+
+.tabla-horizontal {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tabla-horizontal thead tr {
+    background-color: var(--azul1-100);
+    color: #fff;
+}
+
+.tabla-horizontal th {
+    padding: 8px 10px;
+    text-align: left;
+    background-color: var(--azul1-100) !important;
+    color: #fff;
+    font-size: 16px;
+    user-select: none;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.tabla-horizontal th:hover {
+    background-color: var(--azul1-100);
+}
+
+.tabla-horizontal th span.flechas {
+    margin-left: 5px;
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+.tabla-horizontal td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--azul1-100);
+    text-align: left;
+    background-color: #fff !important;
+    color: var(--azul1-100);
+    user-select: none;
+    font-size: 16px;
+}
+
+/* Celda acciones */
+.tabla-horizontal td:last-child {
+    white-space: nowrap;
+    width: 1%;
+    min-width: 220px;
+}
+
+/* Flechas de orden */
+.tabla-horizontal .sorted-asc .flechas::after { content: "▲"; color: #fff; }
+.tabla-horizontal .sorted-desc .flechas::after { content: "▼"; color: #fff; }
+
+/* Botones comunes en tablas */
+.btn-editar,
+.btn-ver,
+.btn-detalles {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 12px;
+    color: #fff;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+    margin-right: 6px;
+}
+
+.btn-editar { background-color: var(--naranja1-100); }
+.btn-editar:hover { background-color: var(--naranja1-60); }
+
+.btn-ver,
+.btn-detalles { background-color: var(--azul1-100); }
+.btn-ver:hover,
+.btn-detalles:hover { background-color: var(--azul1-60); }
+
+
+
+/* TABLA VERTICAL (DETALLES DE PRODUCTOS, DETALLES DE GUIAS...) */
+
+
+
+/* Tablas internas de detalles */
+.tabla-vertical {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.tabla-vertical th {
+    text-align: left;
+    width: 40%;
+    padding: 4px 6px;
+    font-weight: 600;
+    color: var(--azul1-100);
+    background-color: #fff;
+}
+
+.tabla-vertical td {
+    padding: 4px 6px;
+    color: var(--azul1-100);
+    font-weight: 500;
+    background-color: #fff;
+}
+
+
+/* Botón volver */
+.boton-volver {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-volver {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--marron-100);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.btn-volver:hover {
+    background: var(--marron-60);
+}

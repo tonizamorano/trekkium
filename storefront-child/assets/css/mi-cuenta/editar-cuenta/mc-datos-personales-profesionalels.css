@@ -1,0 +1,297 @@
+/* DATOS PERSONALES */
+
+.mc-edit-account-form {
+    margin-bottom: 0 !important;
+}
+
+.mc-datos-personales-contenedor {
+    background: #fff;
+    padding-bottom: 15px;
+}
+
+.mc-datos-personales-seccion-titulo {
+    background: var(--azul1-100);
+    justify-content: center;
+    padding: 5px 15px;   
+}
+
+.mc-datos-personales-titulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: #fff;
+    font-size: 18px; 
+    font-weight: 500;   
+}
+
+.mc-form-fields-wrapper {
+    padding: 15px;
+}
+
+.mc-datos-personales-form-grid {
+    column-gap: 20px;
+    row-gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.mc-form-row {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.mc-form-row-first,
+.mc-form-row-last {
+    width: 100%;
+}
+
+.mc-form-row-wide {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+.mc-form-row .mc-form-row-wide {
+    padding: 15px;
+} 
+
+.mc-form-row label {
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.mc-required {
+    color: #ff0000;
+}
+
+.mc-input-text,
+.mc-input-select {
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    font-weight: 500 !important;
+    color: var(--azul1-100) !important;
+    background-color: #f2f2f2 !important;
+    border-style: none !important;
+    border-radius: 5px;
+    padding: 5px 10px !important;
+    font-family: inherit !important;
+    line-height: 1 !important; 
+    text-rendering: optimizeLegibility; 
+}
+
+/* Select2 personalizado para mantener compatibilidad */
+.select2-container .select2-selection--single {
+    padding-left: 10px !important;
+    font-size: 16px !important;
+    color: var(--azul1-100) !important;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    margin: 0 !important;
+    user-select: none;
+    -webkit-user-select: none;
+    font-family: inherit !important;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    padding: 0;
+    line-height: 1;
+    box-sizing: border-box;
+    font-size: 16px !important;
+    color: var(--azul1-100) !important;
+    font-weight: 500;
+    display: block;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: inherit !important;
+}
+
+.select2-results__option {
+    padding: 30px;
+    user-select: none;
+    font-size: 16px;
+    -webkit-user-select: none;
+}
+
+.mc-phone-input-group {
+    display: flex; /* Para poner el prefijo y el número en línea */
+    gap: 2%; /* Opcional: un pequeño espacio entre los campos */
+    align-items: center; 
+}
+
+.mc-phone-input-group .mc-phone-prefix {
+    width: 18% !important; 
+    flex-shrink: 0;
+}
+
+.mc-phone-input-group .mc-phone-number {
+    width: 80% !important;
+}
+
+
+
+
+.mc-wp-editor {
+    width: 100%;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.mc-sobremi-container {
+    margin-top: 20px;
+    padding: 0;
+}
+
+.mc-idiomas-container {
+    margin: 20px 0 20px 0;
+    padding: 0;
+}
+
+.mc-idiomas-container input[type="checkbox"] {
+    -moz-appearance: checkbox;
+    -webkit-appearance: checkbox;
+    appearance: checkbox;
+    height: auto;
+    width: auto;
+}
+
+.mc-idiomas-checkbox-list {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 15px;
+    row-gap: 10px;
+    margin-top: 10px;
+}
+
+.mc-idioma-checkbox-item {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    gap: 0px;
+    margin-bottom: 0px;
+}
+
+.mc-idioma-checkbox-item input[type="checkbox"] {
+    margin: 0;
+    width: auto;
+}
+
+.mc-idioma-checkbox-item label {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* BOTÓN GUARDAR CAMBIOS */
+
+.mc-editar-cuenta-boton-section {
+   display: flex;
+   justify-content: center;
+   padding: 15px 0;
+   background-color: #fff;
+}
+
+.mc-editar-cuenta-boton {
+    background-color: var(--naranja1-100) !important;
+    display: flex;
+    justify-content: center;
+    padding: 5px 15px !important;
+    color: #fff !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    border-radius: 50px !important;
+    cursor: pointer !important;
+    border: none;
+    min-width: 200px;
+    font-family: inherit !important;
+}
+
+.mc-editar-cuenta-boton:hover {
+    background-color: var(--naranja1-80) !important;
+}
+
+
+.mc-input-text[type="date"] {
+    max-width: 100%;
+    box-sizing: border-box; /* importante para que padding no agregue ancho extra */
+    -webkit-appearance: none; /* evita estilos nativos que pueden romper layout */
+}
+
+
+
+/* MENSAJES */
+
+.mc-message, 
+.mc-info, 
+.mc-error, 
+.mc-noreviews {
+    margin-bottom: 15px !important;
+    background-color: var(--azul1-100) !important;
+    margin-left: 0;
+    border-radius: 2px;
+    color: #fff;
+    clear: both;
+    border-left: .6180469716em solid rgba(0, 0, 0, .15);
+    padding: 1em 2em 1em 3.5em;
+    position: relative;
+    list-style: none outside;
+}
+
+@media screen and (max-width: 768px) {
+
+   .mc-datos-personales-contenedor {
+        background: #fff;
+        padding: 0 15px 15px 15px;
+    }
+
+    .mc-datos-personales-titulo,
+    .mc-datos-profesionales-titulo {
+        font-size: 20px;
+    }
+
+ 
+    .mc-form-fields-wrapper {
+        padding: 15px 0;
+    }
+
+   
+
+    .mc-datos-personales-form-grid {
+        grid-template-columns: 1fr;
+        padding: 0 10px;
+    }
+
+    .mc-form-row label {
+        font-size: 20px;
+    }
+
+    .select2-container .select2-results__option {
+        font-size: 18px;
+    }
+
+    .mc-input-text,
+    .mc-input-select {
+        font-size: 20px;
+        padding: 5px 10px;
+    }
+
+    .mc-input-text[type="date"] {
+        font-size: 20px;
+    }
+
+    .mc-idioma-checkbox-item label {
+        font-size: 18px;
+    }
+}

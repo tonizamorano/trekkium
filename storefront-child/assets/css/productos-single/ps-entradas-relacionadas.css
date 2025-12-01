@@ -1,0 +1,249 @@
+.ps-entradas-rel-contenedor {
+    padding: 0;
+}
+
+.ps-entradas-rel-titulo {
+    padding: 5px 15px;
+    gap: 5px;
+    background: var(--azul1-100);
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.ps-entradas-rel-titulo h6 {
+    color: #fff;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.ps-entradas-rel-contenido {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 15px 15px 15px;
+    overflow: hidden;
+    background-color: white;
+}
+
+/* CONTENEDOR SLIDER */
+.ps-rel-slider-container {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.ps-rel-slider-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ps-rel-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.ps-rel-slide {
+    display: none;
+    width: 100%;
+    transition: opacity 0.3s ease;
+}
+
+.ps-rel-slide.active {
+    display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ps-entradas-rel-item {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+
+.ps-entradas-rel-imagen img {
+    
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    box-shadow: 0 4px 6px -3px rgba(0, 0, 0, 0.3);
+    border-radius: 10px 10px 0 0;
+}
+
+.ps-entradas-rel-item-contenido {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+
+.ps-entradas-rel-modalidad {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 50px;
+    background-color: var(--naranja1-80);
+    color: #fff;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+.ps-entradas-rel-item-titulo {
+    color: var(--azul1-100);
+    margin: 0;
+    text-align: left;
+    line-height: 1;
+}
+
+.ps-entradas-rel-item-titulo a {
+    font-size: 22px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.ps-entradas-rel-item-titulo a:hover {
+    text-decoration: underline;
+}
+
+.ps-ubicacion {
+    font-size: 18px;
+    color: var(--naranja1-80);
+    font-weight: bold;
+}
+
+.ps-info-extra {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 5px;
+    align-items: center;
+}
+
+.ps-info-item-fecha,
+.ps-info-item-dificultad {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--azul1-100);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ps-info-item-fecha .icon,
+.ps-info-item-dificultad .icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* BOTONES estilo ps-slider */
+.ps-entradas-rel-slider-btn {
+    position: absolute;
+    top: 120px;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+.ps-entradas-rel-slider-btn:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.ps-entradas-rel-slider-btn.prev {
+    left: 10px;
+}
+
+.ps-entradas-rel-slider-btn.next {
+    right: 10px;
+}
+
+.ps-entradas-rel-slider-btn svg {
+    width: 40px;
+    height: 40px;
+    fill: white;
+}
+
+/* Ajustes móviles */
+@media (max-width: 768px) {
+    .ps-entradas-rel-slider-btn {
+        width: 50px;
+        height: 50px;
+        padding: 4px;
+    }
+
+    .ps-entradas-rel-slider-btn svg {
+        width: 35px;
+        height: 35px;
+    }
+
+    .ps-entradas-rel-titulo h6 {
+        font-size: 20px;
+    }
+
+    .ps-entradas-rel-item-titulo a {
+        font-size: 24px;
+    }
+
+    .ps-entradas-rel-modalidad {
+        font-size: 14px;
+    }
+
+    .ps-info-item-fecha,
+    .ps-info-item-dificultad {
+        font-size: 18px;
+    }
+
+    .ps-info-item-fecha .icon,
+    .ps-info-item-dificultad .icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .ps-ubicacion {
+        font-size: 20px;
+    }
+
+}
+
+/* Bloqueo de selección y arrastre */
+.ps-rel-slider, .ps-rel-slider * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+.ps-rel-slider img {
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
