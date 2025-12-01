@@ -2,21 +2,19 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     column-gap: 15px;
-    row-gap: 0;
     max-width: 870px;
     width: 100%;
-    margin: 0 auto; /* centra en la página */
-    
+    margin: 140px auto 0 auto; /* centra en la página */
+
 }
 
 .pagina-grid-6633 {
     display: grid;
     grid-template-columns: 2fr 1fr;
     column-gap: 15px;
-    row-gap: 0;
     max-width: 870px;
     width: 100%;
-    margin: 0 auto; /* centra en la página */
+    margin: 140px auto 0 auto;/* centra en la página */
    
 }
 
@@ -24,7 +22,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
     column-gap: 15px;
-    row-gap: 0;
     max-width: 870px;
     width: 100%;
     margin: 0 auto; /* centra en la página */
@@ -123,7 +120,7 @@
         grid-template-columns: 1fr;
         row-gap: 0;
         column-gap: 0;
-        margin-top: 0;
+        margin-top: 190px;
         
     }
 

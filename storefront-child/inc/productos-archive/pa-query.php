@@ -61,38 +61,38 @@ function trekkium_query_productos() {
          data-modalidad-filtro="<?php echo esc_attr($modalidad_filtro); ?>"
          data-dificultad-filtro="<?php echo esc_attr($dificultad_filtro); ?>">
 
-        <!-- Mostrar filtros activos -->
+        <!-- Mostrar filtros activos SOLO si hay filtros -->
+        <?php if ($filtros_activos): ?>
         <div class="filtros-activos">
-            <?php if ($filtros_activos): ?>
-                <div class="filtros-lista">
-                    
-                    <?php if (!empty($region_filtro)): ?>
-                        <?php $region_term = get_term_by('slug', $region_filtro, 'region'); ?>
-                        <span class="filtros-activos-item">
-                            <?php echo esc_html($region_term->name); ?> 
-                            <a href="<?php echo esc_url(remover_parametro_url('region')); ?>" class="quitar-filtro">×</a>
-                        </span>
-                    <?php endif; ?>
-                    
-                    <?php if (!empty($modalidad_filtro)): ?>
-                        <?php $modalidad_term = get_term_by('slug', $modalidad_filtro, 'modalidad'); ?>
-                        <span class="filtros-activos-item">
-                            <?php echo esc_html($modalidad_term->name); ?> 
-                            <a href="<?php echo esc_url(remover_parametro_url('modalidad')); ?>" class="quitar-filtro">×</a>
-                        </span>
-                    <?php endif; ?>
-                    
-                    <?php if (!empty($dificultad_filtro)): ?>
-                        <?php $dificultad_term = get_term_by('slug', $dificultad_filtro, 'dificultad'); ?>
-                        <span class="filtros-activos-item">
-                            <?php echo esc_html($dificultad_term->name); ?> 
-                            <a href="<?php echo esc_url(remover_parametro_url('dificultad')); ?>" class="quitar-filtro">×</a>
-                        </span>
-                    <?php endif; ?>
-                    
-                </div>
-            <?php endif; ?>
+            <div class="filtros-lista">
+                
+                <?php if (!empty($region_filtro)): ?>
+                    <?php $region_term = get_term_by('slug', $region_filtro, 'region'); ?>
+                    <span class="filtros-activos-item">
+                        <?php echo esc_html($region_term->name); ?> 
+                        <a href="<?php echo esc_url(remover_parametro_url('region')); ?>" class="quitar-filtro">×</a>
+                    </span>
+                <?php endif; ?>
+                
+                <?php if (!empty($modalidad_filtro)): ?>
+                    <?php $modalidad_term = get_term_by('slug', $modalidad_filtro, 'modalidad'); ?>
+                    <span class="filtros-activos-item">
+                        <?php echo esc_html($modalidad_term->name); ?> 
+                        <a href="<?php echo esc_url(remover_parametro_url('modalidad')); ?>" class="quitar-filtro">×</a>
+                    </span>
+                <?php endif; ?>
+                
+                <?php if (!empty($dificultad_filtro)): ?>
+                    <?php $dificultad_term = get_term_by('slug', $dificultad_filtro, 'dificultad'); ?>
+                    <span class="filtros-activos-item">
+                        <?php echo esc_html($dificultad_term->name); ?> 
+                        <a href="<?php echo esc_url(remover_parametro_url('dificultad')); ?>" class="quitar-filtro">×</a>
+                    </span>
+                <?php endif; ?>
+                
+            </div>
         </div>
+        <?php endif; ?>
 
         <?php if ($query->have_posts()) : ?>
             <div class="pa-query-grid">

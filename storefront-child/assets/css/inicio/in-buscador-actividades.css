@@ -68,7 +68,7 @@
 .buscador-formulario-icono svg {
     width: 20px;
     height: 20px;
-    fill: var(--azul1-100);
+    fill: var(--azul1-100) !important;
 }
 
 .buscador-formulario button {

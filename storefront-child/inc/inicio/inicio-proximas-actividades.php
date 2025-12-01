@@ -23,17 +23,13 @@ function trekkium_in_proximas_actividades() {
         <div class="in-header">
 
             <button class="in-arrow in-arrow-left">
-                <svg viewBox="0 0 24 24">
-                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
-                </svg>
+                <?php echo do_shortcode('[icon_flecha_izq]'); ?>
             </button>
 
             <h2 class="in-sectiontitle">Próximas Actividades</h2>
 
             <button class="in-arrow in-arrow-right">
-                <svg viewBox="0 0 24 24">
-                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-                </svg>
+                <?php echo do_shortcode('[icon_flecha_der]'); ?>
             </button>
 
         </div>
@@ -137,24 +133,18 @@ function trekkium_in_proximas_actividades() {
                                 <div class="in-infoextra">
                                     <?php if ($fecha) : ?>
                                         <div class="in-fecha">
-                                            <?php 
-                                            $svg_path = get_stylesheet_directory() . '/svg/fecha1.svg'; 
-                                            if (file_exists($svg_path)) {
-                                                include $svg_path;
-                                            }            
-                                            ?>
+
+                                            <?php echo do_shortcode('[icon_fecha1]'); ?>
+
                                             <span><?php echo esc_html($fecha); ?></span>
                                         </div>
                                     <?php endif; ?>
 
                                     <?php if ($dificultad_name) : ?>
                                         <div class="in-dificultad">
-                                            <?php 
-                                            $svg_path = get_stylesheet_directory() . '/svg/dificultad1.svg'; 
-                                            if (file_exists($svg_path)) {
-                                                include $svg_path;
-                                            }            
-                                            ?>
+
+                                            <?php echo do_shortcode('[icon_dificultad1]'); ?>
+
                                             <span><?php echo esc_html($dificultad_name); ?></span>
                                         </div>
                                     <?php endif; ?>

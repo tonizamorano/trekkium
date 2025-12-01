@@ -38,7 +38,7 @@ function trekkium_in_buscador_actividades() {
                 <div class="buscador-formulario-item">
 
                     <div class="buscador-formulario-icono">
-                        <?php echo trekkium_icon_region('', 'Región'); ?>
+                        <?php echo do_shortcode('[icon_region1]'); ?> 
                     </div>
                 
                     <select id="region-select">
@@ -54,7 +54,7 @@ function trekkium_in_buscador_actividades() {
                 <div class="buscador-formulario-item">
 
                     <div class="buscador-formulario-icono">
-                        <?php echo trekkium_icon_modalidad('', 'Modalidad'); ?>
+                        <?php echo do_shortcode('[icon_modalidad1]'); ?> 
                     </div>
 
                     <select id="modalidad-select">
@@ -72,7 +72,7 @@ function trekkium_in_buscador_actividades() {
                 <div class="buscador-formulario-item">
 
                     <div class="buscador-formulario-icono">
-                        <?php echo trekkium_icon_dificultad('', 'Dificultad'); ?>
+                        <?php echo do_shortcode('[icon_dificultad1]'); ?>
                     </div>
 
                     <select id="dificultad-select">

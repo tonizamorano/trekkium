@@ -9,7 +9,7 @@ add_shortcode('menu_principal', function () {
            class="<?php echo (is_shop() || is_product() || is_page('actividades') || is_singular('actividad')) ? 'active' : ''; ?>"
            title="Actividades">
         
-           <?php echo trekkium_icon_actividades2('', 'Actividades'); ?>            
+           <?php echo do_shortcode('[icon_actividades1]'); ?>             
 
         </a>
 
@@ -17,14 +17,16 @@ add_shortcode('menu_principal', function () {
         <a href="<?php echo esc_url(home_url('/guias/')); ?>" 
            class="<?php echo (is_page('guias') || is_singular('guia') || is_author()) ? 'active' : ''; ?>" 
            title="Guías">
-            <?php echo trekkium_icon_guias('', 'Guías'); ?> 
+
+            <?php echo do_shortcode('[icon_guias1]'); ?> 
+
         </a>
 
         <!-- Botón Blog -->
         <a href="<?php echo esc_url(home_url('/blog/')); ?>" 
            class="<?php echo ((is_home() || is_page('blog') || is_singular('post')) ? 'active' : ''); ?>"
            title="Blog">
-            <?php echo trekkium_icon_blog('', 'Blog'); ?>
+            <?php echo do_shortcode('[icon_blog1]'); ?> 
         </a>
 
         <!-- Botón Mi cuenta / Acceso -->
@@ -37,7 +39,7 @@ add_shortcode('menu_principal', function () {
                class="icono-avatar logged-in <?php echo $is_active ? 'active' : ''; ?>" 
                title="Mi cuenta">
 
-                <?php echo trekkium_icon_user_avatar('', 'Mi Cuenta'); ?>
+                <?php echo do_shortcode('[icon_user_avatar]'); ?> 
 
             </a>
 
@@ -49,7 +51,7 @@ add_shortcode('menu_principal', function () {
                class="icono-avatar no-user <?php echo $is_active ? 'active' : ''; ?>" 
                title="Acceso">
 
-                <?php echo trekkium_icon_acceso('', 'Acceso'); ?>
+                <?php echo do_shortcode('[icon_acceso]'); ?> 
 
             </a>
         <?php } ?>
@@ -60,7 +62,7 @@ add_shortcode('menu_principal', function () {
            class="admin-dashboard-button <?php echo (is_page('admin-dashboard') || strpos($_SERVER['REQUEST_URI'], '/admin-dashboard/') !== false) ? 'active' : ''; ?>"
            title="Admin Dashboard">
 
-            <?php echo trekkium_icon_estrella('', 'Admin'); ?>
+           <?php echo do_shortcode('[icon_estrella1]'); ?> 
 
         </a>
         <?php endif; ?>

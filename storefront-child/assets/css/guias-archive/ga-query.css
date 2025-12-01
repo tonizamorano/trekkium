@@ -6,37 +6,6 @@
     align-items: start;
 }
 
-/* === FILTROS ACTIVOS (pestañas con X) === */
-.filtros-activos {
-    margin-bottom: 10px;
-}
-
-.filtros-lista {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-}
-
-.filtros-activos-item {
-    display: inline-block;
-    background-color: var(--naranja1-80);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 50px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.filtros-activos-item a.quitar-filtro {
-    color: white;
-    text-decoration: none;
-    margin-left: 5px;
-    font-weight: bold;
-    font-size: 14px;
-    font-weight: 500;
-}
-
 .ga-query-item {
     background: #fff;
     padding: 0 0 10px 0;

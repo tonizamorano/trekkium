@@ -20,17 +20,13 @@ function trekkium_in_ultimas_entradas() {
 
         <div class="in-blog-header">
             <button class="in-blog-arrow in-blog-arrow-left">
-                <svg viewBox="0 0 24 24">
-                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
-                </svg>
+                <?php echo do_shortcode('[icon_flecha_izq]'); ?>
             </button>
 
             <h2 class="in-blog-sectiontitle">Últimas entradas del Blog</h2>
 
             <button class="in-blog-arrow in-blog-arrow-right">
-                <svg viewBox="0 0 24 24">
-                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-                </svg>
+                <?php echo do_shortcode('[icon_flecha_der]'); ?>
             </button>
         </div>
 
@@ -81,28 +77,12 @@ function trekkium_in_ultimas_entradas() {
 
                             <div class="in-blog-infoextra">
                                 <div class="in-blog-info-item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                                        <path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20
-                                        c0 1.1.9 2 2 2h14c1.1 0 2-.9
-                                        2-2V6c0-1.1-.9-2-2-2zm0
-                                        16H5V9h14v11zM7 11h5v5H7z"/>
-                                    </svg>
+                                    <?php echo do_shortcode('[icon_fecha1]'); ?>
                                     <span><?php echo esc_html($fecha); ?></span>
                                 </div>
 
                                 <div class="in-blog-info-item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                                        <path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11
-                                        7.5s9.27-3.11 11-7.5C21.27
-                                        7.61 17 4.5 12 4.5zm0
-                                        12c-2.48 0-4.5-2.02-4.5-4.5S9.52
-                                        7.5 12 7.5s4.5 2.02 4.5
-                                        4.5-2.02 4.5-4.5
-                                        4.5zm0-7c-1.38 0-2.5
-                                        1.12-2.5 2.5s1.12 2.5
-                                        2.5 2.5 2.5-1.12
-                                        2.5-2.5S13.38 9.5 12 9.5z"/>
-                                    </svg>
+                                    <?php echo do_shortcode('[icon_ojo2]'); ?>
                                     <span><?php echo esc_html($views); ?></span>
                                 </div>
                             </div>
