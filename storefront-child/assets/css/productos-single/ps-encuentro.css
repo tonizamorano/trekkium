@@ -1,10 +1,12 @@
 
+
+
 .ps-contenido-momento {
     background-color: #fff;
     padding: 15px;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: center;
 }
 
 .ps-contenido-fila {
@@ -22,14 +24,13 @@
     align-items: center;
     width: 100%;
     margin-bottom: 5px;
-    font-size: 16px;
+    font-size: 18px;
     padding: 0 15px 0 21px;
 }
 
 .ps-fila-col1,
 .ps-fila-col2 {
     display: flex;
-    align-items: center;
     gap: 5px;
 }
 
@@ -38,13 +39,6 @@
     justify-content: flex-start;
     font-weight: 600;
     flex: 0 1 auto; /* se ajusta a su contenido */
-}
-
-/* icono dentro de col1 */
-.ps-fila-col1 svg {
-    width: 20px;
-    height: 20px;
-    fill: var(--azul1-100);
 }
 
 /* columna derecha */
@@ -66,7 +60,7 @@
     color: #fff;
     text-decoration: none;
     display: inline-block;
-    margin-top: 0px;
+    margin-top: 10px;
     margin-left: 21px;
 }
 
@@ -78,16 +72,14 @@
 @media (max-width: 768px) {
     
     .ps-contenido-fila {
-        font-size: 20px;
+        font-size: 22px;
     }
 
-    .ps-fila-col1 svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    .encuentro-boton,
     .ps-contenido-fila-direccion {
+        font-size: 22px;
+    }
+
+    .encuentro-boton {
         font-size: 18px;
     }
 

@@ -58,11 +58,11 @@ function trekkium_seccion_contenido_shortcode() {
         <?php echo do_shortcode('[productos_single_slider]'); ?> 
 
         <!-- Información principal -->
-        <div class="ps-info">
+        <div class="ps-contenido-info">
 
             <!-- Modalidad -->
-            <div class="ps-modalidad">
-                <div class="ps-modalidad-item">
+            <div class="ps-contenido-modalidad">
+                <div class="ps-contenido-modalidad-item">
                     <?php
                     $modalidad_terms = wp_get_post_terms( get_the_ID(), 'modalidad' );
                     if ( ! empty( $modalidad_terms ) && ! is_wp_error( $modalidad_terms ) ) {
@@ -73,7 +73,7 @@ function trekkium_seccion_contenido_shortcode() {
             </div>
 
             <!-- Título de la actividad -->
-            <div class="ps-titulo">
+            <div class="ps-contenido-titulo">
                 <h2><?php the_title(); ?></h2>
             </div>
 
@@ -87,7 +87,7 @@ function trekkium_seccion_contenido_shortcode() {
             $region_name     = (!empty($regiones) && !is_wp_error($regiones)) ? esc_html($regiones[0]->name) : '';
 
             if ($espacio_natural || $provincia_name || $region_name) : ?>
-                <div class="ps-ubicacion">
+                <div class="ps-contenido-ubicacion">
                     <?php if ($espacio_natural) : ?>
                         <?php echo esc_html($espacio_natural); ?>
                     <?php endif; ?>
@@ -111,7 +111,7 @@ function trekkium_seccion_contenido_shortcode() {
 
 
              <!-- Descripción del producto -->
-            <div class="ps-descripcion">
+            <div class="ps-contenido-descripcion">
                 <?php
                 $descripcion = $product->get_description();
                 echo apply_filters( 'the_content', $descripcion );

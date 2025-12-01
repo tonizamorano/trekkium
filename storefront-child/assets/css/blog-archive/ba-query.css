@@ -123,15 +123,13 @@
     opacity: 1;
 }
 
-.ba-meta-item svg {
+.ba-info-extra svg {
     width: 16px !important;
     height: 16px !important;
     fill: var(--azul1-100);
-    transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-.ba-info-item span {
-    
+.ba-info-item span {    
     font-weight: 500;
     line-height: 1;
 }

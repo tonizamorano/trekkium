@@ -77,38 +77,26 @@ function trekkium_query_blog() {
                                 </div>
                             <?php endif; ?>
 
-                            <!-- 📅 Fecha y 👁️ Vistas -->
+                            <!-- Fecha y Vistas -->
+
                             <div class="ba-info-extra">
+
                                 <div class="ba-info-item">
                                     <!-- Calendario SVG -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                                        <path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20
-                                        c0 1.1.9 2 2 2h14c1.1 0 2-.9
-                                        2-2V6c0-1.1-.9-2-2-2zm0
-                                        16H5V9h14v11zM7 11h5v5H7z"/>
-                                    </svg>
+                                    <?php echo do_shortcode('[icon_fecha1]'); ?>
                                     <span><?php echo esc_html($fecha); ?></span>
                                 </div>
 
                                 <div class="ba-info-item">
                                     <!-- Ojo SVG -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                                        <path fill="currentColor" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11
-                                        7.5s9.27-3.11 11-7.5C21.27
-                                        7.61 17 4.5 12 4.5zm0
-                                        12c-2.48 0-4.5-2.02-4.5-4.5S9.52
-                                        7.5 12 7.5s4.5 2.02 4.5
-                                        4.5-2.02 4.5-4.5
-                                        4.5zm0-7c-1.38 0-2.5
-                                        1.12-2.5 2.5s1.12 2.5
-                                        2.5 2.5 2.5-1.12
-                                        2.5-2.5S13.38 9.5 12 9.5z"/>
-                                    </svg>
+                                    <?php echo do_shortcode('[icon_ojo1]'); ?>
                                     <span><?php echo esc_html($views); ?></span>
                                 </div>
+
                             </div>
 
                         </div>
+                        
                     </div>
 
                 <?php endwhile; ?>

@@ -208,8 +208,14 @@
 
 @media (max-width: 768px) {
 
-    .filtros-activos-item {
-        font-size: 16px;
+    .filtros-lista {
+        padding: 0 15px;
+        margin-top: 5px;
+    }
+
+    .filtros-activos-item,
+    .filtros-activos-item a.quitar-filtro {
+        font-size: 18px;
     }
 
 }

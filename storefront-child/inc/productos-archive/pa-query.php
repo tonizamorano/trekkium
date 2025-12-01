@@ -222,12 +222,7 @@ function trekkium_query_productos() {
                                     <!-- Fecha -->
                                     <?php if ($fecha) : ?>
                                         <div class="info-item-fecha">
-                                            <?php 
-                                            $svg_path = get_stylesheet_directory() . '/svg/fecha1.svg'; 
-                                            if (file_exists($svg_path)) {
-                                                include $svg_path;
-                                            }            
-                                            ?>
+                                            <?php echo do_shortcode('[icon_fecha1]'); ?>
                                             <span><?php echo esc_html($fecha); ?></span>
                                         </div>
                                     <?php endif; ?>
@@ -235,12 +230,7 @@ function trekkium_query_productos() {
                                     <!-- Dificultad -->
                                     <?php if ($dificultad_name) : ?>
                                         <div class="info-item-dificultad">
-                                            <?php 
-                                            $svg_path = get_stylesheet_directory() . '/svg/dificultad1.svg'; 
-                                            if (file_exists($svg_path)) {
-                                                include $svg_path;
-                                            }            
-                                            ?>
+                                            <?php echo do_shortcode('[icon_dificultad1]'); ?>
                                             <span><?php echo esc_html($dificultad_name); ?></span>
                                         </div>
                                     <?php endif; ?>
