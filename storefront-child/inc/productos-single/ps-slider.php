@@ -52,6 +52,18 @@ function productos_single_slider_shortcode() {
                     </svg>
                 </button>
             <?php endif; ?>
+            
+            <!-- Paginador de puntitos -->
+            <?php if (count($all_image_ids) > 1): ?>
+                <div class="ps-slider-pagination">
+                    <?php foreach ($all_image_ids as $index => $image_id): ?>
+                        <button class="ps-dot <?php echo $index === 0 ? 'active' : ''; ?>" 
+                                data-index="<?php echo esc_attr($index); ?>"
+                                aria-label="<?php printf(esc_attr__('Ver imagen %d', 'textdomain'), $index + 1); ?>">
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 

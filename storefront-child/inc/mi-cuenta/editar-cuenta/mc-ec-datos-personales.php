@@ -358,108 +358,16 @@ function trekkium_custom_edit_account_fields() {
                 <input type="hidden" name="sobre_mi_required" value="1" /> 
             </div>
 
-            <div class="mc-form-row mc-form-row-wide mc-idiomas-container">
-                <label for="user_idiomas">Idiomas <span class="mc-required">*</span></label>
-                <?php
-                $selected_idiomas = wp_get_object_terms($current_user->ID, 'idiomas', ['fields' => 'ids']);
-                if (is_wp_error($selected_idiomas)) $selected_idiomas = [];
+            <!-- SECCIÓN: Idiomas -->
 
-                $idiomas_terms = get_terms([
-                    'taxonomy' => 'idiomas',
-                    'hide_empty' => false,
-                ]);
+            <?php
+            // Agregar sección de idiomas usando shortcode
+            echo do_shortcode('[mc_ec_datos_personales_idiomas]');
+            ?>
 
-                // Preparar IDs seleccionados para el hidden field
-                $selected_idiomas_ids = !empty($selected_idiomas) ? $selected_idiomas : [];
-                
-                if (!empty($idiomas_terms) && !is_wp_error($idiomas_terms)):
-                ?>
-                    <div class="mc-idiomas-toggle-list" style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
-                        <?php foreach ($idiomas_terms as $term): 
-                            $is_active = in_array($term->term_id, $selected_idiomas_ids) ? 'active' : '';
-                            $active_style = $is_active ? 'background-color: #0b568b; color: #ffffff;' : 'background-color: #ffffff; color: #0b568b; border: 2px solid #0b568b;';
-                        ?>
-                            <button type="button" 
-                                class="mc-idioma-toggle <?php echo $is_active; ?>" 
-                                data-term-id="<?php echo esc_attr($term->term_id); ?>"
-                                style="
-                                    border: none;
-                                    border-radius: 50px;
-                                    <?php echo $active_style; ?>
-                                    cursor: pointer;
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:center;
-                                    font-size:16px;
-                                    transition: all 0.2s;
-                                    padding: 5px 10px;
-                                    line-height:1;
-                                    font-family: inherit;
-                                ">
-                                <?php echo esc_html($term->name); ?>
-                            </button>
-                        <?php endforeach; ?>
-                        <input type="hidden" name="user_idiomas" id="user_idiomas" value="<?php echo esc_attr(implode(',', $selected_idiomas_ids)); ?>" />
-                    </div>
-
-                    <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const toggleButtons = document.querySelectorAll('.mc-idioma-toggle');
-                        const hiddenField = document.getElementById('user_idiomas');
-
-                        // Función para actualizar el campo hidden
-                        function updateHiddenField() {
-                            const selectedButtons = document.querySelectorAll('.mc-idioma-toggle.active');
-                            const selectedIds = Array.from(selectedButtons).map(button => button.dataset.termId);
-                            hiddenField.value = selectedIds.join(',');
-                            
-                            // Validación visual - marcar como error si no hay selección
-                            if (selectedIds.length === 0) {
-                                hiddenField.style.borderColor = 'red';
-                            } else {
-                                hiddenField.style.borderColor = '';
-                            }
-                        }
-
-                        // Inicializar botones con estado actual
-                        toggleButtons.forEach(button => {
-                            const termId = button.dataset.termId;
-                            const currentValues = hiddenField.value ? hiddenField.value.split(',') : [];
-                            
-                            if (currentValues.includes(termId)) {
-                                button.classList.add('active');
-                                button.style.backgroundColor = '#0b568b';
-                                button.style.color = '#ffffff';
-                            }
-
-                            // Agregar event listener
-                            button.addEventListener('click', function() {
-                                this.classList.toggle('active');
-
-                                // Cambiar colores según estado
-                                if (this.classList.contains('active')) {
-                                    this.style.backgroundColor = '#0b568b';
-                                    this.style.color = '#ffffff';
-                                } else {
-                                    this.style.backgroundColor = '#ffffff';
-                                    this.style.color = '#0b568b';
-                                    this.style.border = '2px solid #0b568b';
-                                }
-
-                                updateHiddenField();
-                            });
-                        });
-
-                        // Validación inicial
-                        updateHiddenField();
-                    });
-                    </script>
-                <?php else: ?>
-                    <p>No hay idiomas disponibles.</p>
-                <?php endif; ?>
-            </div>
             
             <!-- SECCIÓN: Imagen del banner para guías -->
+
             <?php if (in_array('guia', $current_user->roles)): ?>
                 <?php
                     // Compatibilidad: algunos usuarios tienen 'imagen_banner_guia' (URL), otros el nuevo 'imagen_banner' (attach ID)
@@ -601,6 +509,18 @@ function trekkium_save_custom_account_fields($user_id) {
         update_user_meta($user_id, 'sobre_mi', wp_kses_post($_POST['sobre_mi']));
     }
 
+    // Guardado de idiomas (ACTUALIZADO para el nuevo formato)
+    if (isset($_POST['user_idiomas'])) {
+        $idiomas_string = sanitize_text_field($_POST['user_idiomas']);
+        $idiomas_array = !empty($idiomas_string) ? 
+            array_map('intval', explode(',', $idiomas_string)) : 
+            [];
+        
+        wp_set_object_terms($user_id, $idiomas_array, 'idiomas', false);
+    } else {
+        wp_set_object_terms($user_id, [], 'idiomas', false);
+    }
+
     // GUARDADO PARA MODALIDADES
     if (isset($_POST['user_modalidades'])) {
         $modalidades_string = sanitize_text_field($_POST['user_modalidades']);
@@ -623,18 +543,6 @@ function trekkium_save_custom_account_fields($user_id) {
         wp_set_object_terms($user_id, $etiquetas_array, 'etiquetas_actividad', false);
     } else {
         wp_set_object_terms($user_id, [], 'etiquetas_actividad', false);
-    }
-
-    // Guardado de idiomas (ACTUALIZADO para el nuevo formato)
-    if (isset($_POST['user_idiomas'])) {
-        $idiomas_string = sanitize_text_field($_POST['user_idiomas']);
-        $idiomas_array = !empty($idiomas_string) ? 
-            array_map('intval', explode(',', $idiomas_string)) : 
-            [];
-        
-        wp_set_object_terms($user_id, $idiomas_array, 'idiomas', false);
-    } else {
-        wp_set_object_terms($user_id, [], 'idiomas', false);
     }
 
     if (isset($_POST['account_email'])) {
@@ -755,22 +663,6 @@ function trekkium_validate_billing_state($errors, $user) {
     if (empty($_POST['billing_state'])) $errors->add('billing_state_error', __('Por favor, selecciona o introduce una provincia.', 'woocommerce'));
 }
 
-// Validación idiomas para guías (ACTUALIZADA para el nuevo formato)
-add_action('woocommerce_save_account_details_errors', 'trekkium_validate_idiomas', 20, 2);
-function trekkium_validate_idiomas($errors, $user) {
-    $current_user = wp_get_current_user();
-    if (array_intersect(['guia', 'administrator'], $current_user->roles)) {
-        if (!isset($_POST['user_idiomas']) || empty($_POST['user_idiomas'])) {
-            $errors->add('user_idiomas_error', __('Por favor, selecciona al menos un idioma.', 'woocommerce'));
-        } else {
-            $idiomas_string = sanitize_text_field($_POST['user_idiomas']);
-            if (empty(trim($idiomas_string, ','))) {
-                $errors->add('user_idiomas_error', __('Por favor, selecciona al menos un idioma.', 'woocommerce'));
-            }
-        }
-    }
-}
-
 // Validación modalidades para clientes
 add_action('woocommerce_save_account_details_errors', function($errors, $user) {
     $current_user = wp_get_current_user();
@@ -832,6 +724,22 @@ function trekkium_validate_duplicate_email($errors, $user) {
 
     if ($new_email !== $current_user->user_email && email_exists($new_email)) {
         $errors->add('account_email_duplicate_error', __('El correo electrónico ya está registrado por otra cuenta.', 'woocommerce'));
+    }
+}
+
+// Validación idiomas para guías
+add_action('woocommerce_save_account_details_errors', 'trekkium_validate_idiomas', 20, 2);
+function trekkium_validate_idiomas($errors, $user) {
+    $current_user = wp_get_current_user();
+    if (array_intersect(['guia', 'administrator'], $current_user->roles)) {
+        if (!isset($_POST['user_idiomas']) || empty($_POST['user_idiomas'])) {
+            $errors->add('user_idiomas_error', __('Por favor, selecciona al menos un idioma.', 'woocommerce'));
+        } else {
+            $idiomas_string = sanitize_text_field($_POST['user_idiomas']);
+            if (empty(trim($idiomas_string, ','))) {
+                $errors->add('user_idiomas_error', __('Por favor, selecciona al menos un idioma.', 'woocommerce'));
+            }
+        }
     }
 }
 ?>

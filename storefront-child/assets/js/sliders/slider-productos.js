@@ -12,6 +12,10 @@
             this.slides = Array.from(this.slider.querySelectorAll('.ps-slide'));
             if (this.slides.length === 0) return;
 
+            // BUSCAR LOS PUNTOS CORRECTAMENTE - solo dentro del contenedor de paginación
+            const paginationContainer = this.container.querySelector('.ps-slider-pagination');
+            this.dots = paginationContainer ? Array.from(paginationContainer.querySelectorAll('.ps-dot')) : [];
+
             this.currentIndex = 0;
             this.startX = 0;
             this.isPointerDown = false;
@@ -22,6 +26,7 @@
         init() {
             this.attachEventListeners();
             this.ensureActiveSlide();
+            this.updatePagination();
             this.exposePublicMethods();
         }
 
@@ -33,13 +38,27 @@
 
                 if (prevBtn) prevBtn.addEventListener('click', (e) => {
                     e.preventDefault();
+                    e.stopPropagation();
                     this.changeSlide(-1);
                 });
                 if (nextBtn) nextBtn.addEventListener('click', (e) => {
                     e.preventDefault();
+                    e.stopPropagation();
                     this.changeSlide(1);
                 });
             }
+
+            // Puntos de paginación - solo si existen
+            this.dots.forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const index = parseInt(dot.getAttribute('data-index'), 10);
+                    if (!isNaN(index)) {
+                        this.showSlide(index);
+                    }
+                });
+            });
 
             // Touch/swipe
             this.slider.addEventListener('touchstart', (e) => {
@@ -76,8 +95,14 @@
             // Teclado
             this.slider.setAttribute('tabindex', '0');
             this.slider.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft') this.changeSlide(-1);
-                if (e.key === 'ArrowRight') this.changeSlide(1);
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    this.changeSlide(-1);
+                }
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    this.changeSlide(1);
+                }
             });
         }
 
@@ -92,27 +117,47 @@
             this.slides.forEach(s => s.classList.remove('active'));
             this.slides[index].classList.add('active');
             this.currentIndex = index;
+            this.updatePagination();
         }
 
         changeSlide(direction) {
-            let next = this.getActiveIndex() + direction;
+            let next = this.currentIndex + direction;
             if (next < 0) next = this.slides.length - 1;
             if (next >= this.slides.length) next = 0;
             this.showSlide(next);
+        }
+
+        updatePagination() {
+            // Actualizar solo si hay puntos de paginación
+            if (this.dots.length > 0) {
+                this.dots.forEach(dot => {
+                    const index = parseInt(dot.getAttribute('data-index'), 10);
+                    if (index === this.currentIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
         }
 
         handleSwipe(sx, ex) {
             const diff = sx - ex;
             const minSwipe = 40;
             if (Math.abs(diff) > minSwipe) {
-                if (diff > 0) this.changeSlide(1);
-                else this.changeSlide(-1);
+                if (diff > 0) {
+                    this.changeSlide(1); // Deslizar a la izquierda -> siguiente
+                } else {
+                    this.changeSlide(-1); // Deslizar a la derecha -> anterior
+                }
             }
         }
 
         ensureActiveSlide() {
             if (!this.slider.querySelector('.ps-slide.active')) {
                 this.showSlide(0);
+            } else {
+                this.currentIndex = this.getActiveIndex();
             }
         }
 
@@ -131,7 +176,10 @@
 
     function initAllSliders() {
         document.querySelectorAll('.ps-slider').forEach(slider => {
-            new ProductSlider(slider.id);
+            // Solo inicializar sliders que tengan slides
+            if (slider.querySelectorAll('.ps-slide').length > 0) {
+                new ProductSlider(slider.id);
+            }
         });
     }
 

@@ -91,9 +91,45 @@
     fill: white;
 }
 
+/* Paginador de puntitos */
+.ps-slider-pagination {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.ps-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none; /* Sin borde */
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+}
+
+.ps-dot:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    transform: scale(1.2);
+}
+
+.ps-dot.active {
+    background-color: white;
+    transform: scale(1.4); /* Más grande cuando está activo */
+}
+
 /* Ajustes para móvil */
 @media (max-width: 768px) {
-
     .ps-slider-btn {
         width: 40px;
         height: 40px;
@@ -103,5 +139,19 @@
     .ps-slider-btn svg {
         width: 32px;
         height: 32px;
+    }
+    
+    .ps-slider-pagination {
+        bottom: 15px;
+        gap: 6px;
+    }
+    
+    .ps-dot {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .ps-dot.active {
+        transform: scale(1.3);
     }
 }

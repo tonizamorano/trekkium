@@ -81,12 +81,12 @@ add_shortcode( 'mc_contenido', function() {
         </div>
 
         <div class="mc-grid-label" style="margin-top:10px;">
-            <?php echo trekkium_icon_blog('', 'Teléfono'); ?>
+            <?php echo do_shortcode('[icon_whatsapp]'); ?>
             <?php echo esc_html( $telefono ); ?>
         </div>
 
         <div class="mc-grid-label">
-            <?php echo trekkium_icon_blog('', 'Email'); ?>
+            <?php echo do_shortcode('[icon_email]'); ?>
             <?php echo esc_html( $email ); ?>
         </div>    
 

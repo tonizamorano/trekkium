@@ -48,7 +48,7 @@
 }
 
 .contenedor-filtros-contenido {
-    background-color: #fff;
+    background-color: var(--azul1-20);
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -61,27 +61,27 @@
 }
 
 .filtros-seccion-titular {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 !important;
-      color: #fff;
-      font-weight: bold;
-      text-align: center;
-      font-size: 28px;
-      background-color: var(--naranja1-100);
-      gap: 5px;
-      padding: 3px 10px;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;      
+    background-color: var(--azul1-80);
+    gap: 5px;
+    padding: 5px 10px;
+}
 
 .filtros-seccion-titular h5 {
-      color: #fff !important;
-    }
+    color: #fff !important;
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+}
 
 
 .filtros-seccion-contenido {
-      padding: 10px;
-      background-color: var(--naranja1-20);
+    padding: 10px;
+    background-color: #fff;
 }
 
 /* BOTONES */
@@ -100,22 +100,28 @@
 .filtro-item { 
     padding: 5px 10px; 
     border-radius:50px; 
-    background:var(--azul1-60); 
-    color:#fff; 
+    background: #fff; 
+    color:var(--azul1-100); 
+    border: 2px solid var(--azul1-100);
     cursor:pointer; 
-    font-weight:500; 
+    font-weight:600; 
     font-size:14px; 
     transition:background-color .3s; 
 }
 
 /* Estado activo de los filtros */
 .filtro-item:hover { 
-    background: var(--azul1-100);
+    background: var(--azul1-80);
+    border: 2px solid var(--azul1-80);
+    color: #fff;
+    font-weight:500;
 }
 
 /* Estado activo de los filtros */
 .filtro-item.active { 
     background:var(--azul1-100);
+    color: #fff;
+    font-weight:500;
 }
 
 /* Estado oculto de los filtros */
@@ -188,17 +194,17 @@
 
 .filtros-activos-item {
     display: inline-block;
-    background-color: var(--naranja1-80);
-    color: white;
+    background-color:#fff;
+    color: var(-azul1-100);
     padding: 5px 10px;
     border-radius: 50px;
     margin-bottom: 10px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .filtros-activos-item a.quitar-filtro {
-    color: white;
+    color:  var(-azul1-100);
     text-decoration: none;
     margin-left: 5px;
     font-weight: bold;

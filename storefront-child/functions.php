@@ -27,11 +27,6 @@ function cargar_archivos_inc() {
 add_action( 'after_setup_theme', 'cargar_archivos_inc' );
 
 /**
- * Cargar helpers de SVG (sprites consolidados)
- */
-require_once get_stylesheet_directory() . '/inc/svg/svg-helpers.php';
-
-/**
  * Encolar estilos y scripts del tema hijo
  */
 function storefront_child_enqueue_styles() {
