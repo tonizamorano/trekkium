@@ -58,9 +58,6 @@ add_shortcode( 'mc_contenido', function() {
         $provincia = $provincia_code;
     }
 
-    $fecha_nacimiento_raw = get_user_meta( $user_id, 'fecha_nacimiento', true );
-    $fecha_nacimiento     = $fecha_nacimiento_raw ? date_i18n( 'j \d\e F \d\e Y', strtotime( $fecha_nacimiento_raw ) ) : '';
-
     ob_start();
     ?>
 
@@ -203,3 +200,28 @@ add_shortcode( 'mc_contenido', function() {
 <?php
     return ob_get_clean();
 });
+
+add_action( 'woocommerce_customer_save_address', function( $user_id, $load_address ) {
+
+    if ( $load_address !== 'billing' ) {
+        return;
+    }
+
+    $pais = get_user_meta( $user_id, 'billing_country', true );
+    $provincia = get_user_meta( $user_id, 'billing_state', true );
+    $comunidad = get_user_meta( $user_id, 'comunidad_autonoma', true );
+
+    // Si el país NO es España, elimina la comunidad autónoma
+    if ( $pais !== 'ES' ) {
+        delete_user_meta( $user_id, 'comunidad_autonoma' );
+        return;
+    }
+
+    // Si es España pero la comunidad está vacía → asegurar limpieza
+    if ( empty( $comunidad ) ) {
+        delete_user_meta( $user_id, 'comunidad_autonoma' );
+        return;
+    }
+
+}, 10, 2 );
+

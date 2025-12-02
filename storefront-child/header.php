@@ -119,6 +119,12 @@
         $color_fondo = 'var(--rojo-100)';
     }
 
+    // 8️⃣ Finalizar compra (checkout)
+    elseif ( is_checkout() ) {
+        $titulo = 'Finalizar reserva';
+        $color_fondo = 'var(--azul1-100)';
+    }
+
   // Mostrar solo si hay título
   if ( !empty($titulo) ) :
   ?>

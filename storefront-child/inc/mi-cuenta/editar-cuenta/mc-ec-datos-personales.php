@@ -124,214 +124,7 @@ function trekkium_custom_edit_account_fields() {
         $current_user = wp_get_current_user();
         $allowed_roles = ['guia', 'administrator'];
 
-        // **Sección Modalidades favoritas para clientes**
-        if (in_array('customer', $current_user->roles)):
-            $selected_modalidades = wp_get_object_terms($current_user->ID, 'modalidad', ['fields' => 'ids']);
-            if (is_wp_error($selected_modalidades)) $selected_modalidades = [];
-
-            $modalidades_terms = get_terms([
-                'taxonomy' => 'modalidad',
-                'hide_empty' => false,
-            ]);
-            
-            // Preparar IDs seleccionados para el hidden field
-            $selected_ids = !empty($selected_modalidades) ? $selected_modalidades : [];
-            ?>
-            <div class="mc-form-row mc-form-row-wide mc-modalidades-container" style="margin-top: 25px;">
-                <label for="user_modalidades">Modalidades favoritas <span class="mc-required">*</span></label>
-                
-                <?php if (!empty($modalidades_terms) && !is_wp_error($modalidades_terms)): ?>
-                    <div class="mc-modalidades-toggle-list" style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
-                        <?php foreach ($modalidades_terms as $term): 
-                            $is_active = in_array($term->term_id, $selected_ids) ? 'active' : '';
-                            $active_style = $is_active ? 'background-color: #0b568b; color: #ffffff;' : 'background-color: #ffffff; color: #0b568b; border: 2px solid #0b568b;';
-                        ?>
-                            <button type="button" 
-                                class="mc-modalidad-toggle <?php echo $is_active; ?>" 
-                                data-term-id="<?php echo esc_attr($term->term_id); ?>"
-                                style="
-                                    border: none;
-                                    border-radius: 50px;
-                                    <?php echo $active_style; ?>
-                                    cursor: pointer;
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:center;
-                                    font-size:16px;
-                                    transition: all 0.2s;
-                                    padding: 5px 10px;
-                                    line-height:1;
-                                    font-family: inherit;
-                                ">
-                                <?php echo esc_html($term->name); ?>
-                            </button>
-                        <?php endforeach; ?>
-                        <input type="hidden" name="user_modalidades" id="user_modalidades" value="<?php echo esc_attr(implode(',', $selected_ids)); ?>" />
-                    </div>
-
-                    <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const toggleButtons = document.querySelectorAll('.mc-modalidad-toggle');
-                        const hiddenField = document.getElementById('user_modalidades');
-
-                        // Función para actualizar el campo hidden
-                        function updateHiddenField() {
-                            const selectedButtons = document.querySelectorAll('.mc-modalidad-toggle.active');
-                            const selectedIds = Array.from(selectedButtons).map(button => button.dataset.termId);
-                            hiddenField.value = selectedIds.join(',');
-                            
-                            // Validación visual - marcar como error si no hay selección
-                            if (selectedIds.length === 0) {
-                                hiddenField.style.borderColor = 'red';
-                            } else {
-                                hiddenField.style.borderColor = '';
-                            }
-                        }
-
-                        // Inicializar botones con estado actual
-                        toggleButtons.forEach(button => {
-                            const termId = button.dataset.termId;
-                            const currentValues = hiddenField.value ? hiddenField.value.split(',') : [];
-                            
-                            if (currentValues.includes(termId)) {
-                                button.classList.add('active');
-                                button.style.backgroundColor = '#0b568b';
-                                button.style.color = '#ffffff';
-                            }
-
-                            // Agregar event listener
-                            button.addEventListener('click', function() {
-                                this.classList.toggle('active');
-
-                                // Cambiar colores según estado
-                                if (this.classList.contains('active')) {
-                                    this.style.backgroundColor = '#0b568b';
-                                    this.style.color = '#ffffff';
-                                } else {
-                                    this.style.backgroundColor = '#ffffff';
-                                    this.style.color = '#0b568b';
-                                    this.style.border = '2px solid #0b568b';
-                                }
-
-                                updateHiddenField();
-                            });
-                        });
-
-                        // Validación inicial
-                        updateHiddenField();
-                    });
-                    </script>
-                <?php else: ?>
-                    <p>No hay modalidades disponibles.</p>
-                <?php endif; ?>
-            </div>
-
-            <!-- NUEVA SECCIÓN: ETIQUETAS FAVORITAS PARA CLIENTES -->
-            <?php
-            $selected_etiquetas = wp_get_object_terms($current_user->ID, 'etiquetas_actividad', ['fields' => 'ids']);
-            if (is_wp_error($selected_etiquetas)) $selected_etiquetas = [];
-
-            $etiquetas_terms = get_terms([
-                'taxonomy' => 'etiquetas_actividad',
-                'hide_empty' => false,
-            ]);
-            
-            // Preparar IDs seleccionados para el hidden field
-            $selected_etiquetas_ids = !empty($selected_etiquetas) ? $selected_etiquetas : [];
-            ?>
-            <div class="mc-form-row mc-form-row-wide mc-etiquetas-container" style="margin-top: 25px;">
-                <label for="user_etiquetas">Etiquetas favoritas <span class="mc-required">*</span></label>
-                
-                <?php if (!empty($etiquetas_terms) && !is_wp_error($etiquetas_terms)): ?>
-                    <div class="mc-etiquetas-toggle-list" style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
-                        <?php foreach ($etiquetas_terms as $term): 
-                            $is_active = in_array($term->term_id, $selected_etiquetas_ids) ? 'active' : '';
-                            $active_style = $is_active ? 'background-color: #0b568b; color: #ffffff;' : 'background-color: #ffffff; color: #0b568b; border: 2px solid #0b568b;';
-                        ?>
-                            <button type="button" 
-                                class="mc-etiqueta-toggle <?php echo $is_active; ?>" 
-                                data-term-id="<?php echo esc_attr($term->term_id); ?>"
-                                style="
-                                    border: none;
-                                    border-radius: 50px;
-                                    <?php echo $active_style; ?>
-                                    cursor: pointer;
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:center;
-                                    font-size:16px;
-                                    transition: all 0.2s;
-                                    padding: 5px 10px;
-                                    line-height:1;
-                                    font-family: inherit;
-                                ">
-                                <?php echo esc_html($term->name); ?>
-                            </button>
-                        <?php endforeach; ?>
-                        <input type="hidden" name="user_etiquetas" id="user_etiquetas" value="<?php echo esc_attr(implode(',', $selected_etiquetas_ids)); ?>" />
-                    </div>
-
-                    <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const toggleButtons = document.querySelectorAll('.mc-etiqueta-toggle');
-                        const hiddenField = document.getElementById('user_etiquetas');
-
-                        // Función para actualizar el campo hidden
-                        function updateHiddenField() {
-                            const selectedButtons = document.querySelectorAll('.mc-etiqueta-toggle.active');
-                            const selectedIds = Array.from(selectedButtons).map(button => button.dataset.termId);
-                            hiddenField.value = selectedIds.join(',');
-                            
-                            // Validación visual - marcar como error si no hay selección
-                            if (selectedIds.length === 0) {
-                                hiddenField.style.borderColor = 'red';
-                            } else {
-                                hiddenField.style.borderColor = '';
-                            }
-                        }
-
-                        // Inicializar botones con estado actual
-                        toggleButtons.forEach(button => {
-                            const termId = button.dataset.termId;
-                            const currentValues = hiddenField.value ? hiddenField.value.split(',') : [];
-                            
-                            if (currentValues.includes(termId)) {
-                                button.classList.add('active');
-                                button.style.backgroundColor = '#0b568b';
-                                button.style.color = '#ffffff';
-                            }
-
-                            // Agregar event listener
-                            button.addEventListener('click', function() {
-                                this.classList.toggle('active');
-
-                                // Cambiar colores según estado
-                                if (this.classList.contains('active')) {
-                                    this.style.backgroundColor = '#0b568b';
-                                    this.style.color = '#ffffff';
-                                } else {
-                                    this.style.backgroundColor = '#ffffff';
-                                    this.style.color = '#0b568b';
-                                    this.style.border = '2px solid #0b568b';
-                                }
-
-                                updateHiddenField();
-                            });
-                        });
-
-                        // Validación inicial
-                        updateHiddenField();
-                    });
-                    </script>
-                <?php else: ?>
-                    <p>No hay etiquetas disponibles.</p>
-                <?php endif; ?>
-            </div>
-            <!-- FIN NUEVA SECCIÓN ETIQUETAS FAVORITAS -->
-        <?php endif; ?>
-
-        <?php
-        // Sección sobre mí para guías y administradores
+        // Sección sobre mí para guías y administradores (ANTES de idiomas, modalidades y etiquetas)
         if (array_intersect($allowed_roles, $current_user->roles)):
             $sobre_mi_value = get_user_meta($current_user->ID, 'sobre_mi', true);
         ?>
@@ -357,17 +150,14 @@ function trekkium_custom_edit_account_fields() {
                 ?>
                 <input type="hidden" name="sobre_mi_required" value="1" /> 
             </div>
+        <?php endif; ?>
 
-            <!-- SECCIÓN: Idiomas -->
-
-            <?php
-            // Agregar sección de idiomas usando shortcode
-            echo do_shortcode('[mc_ec_datos_personales_idiomas]');
-            ?>
-
+        <?php
+        // **AGREGAR SHORTCODE PARA IDIOMAS, MODALIDADES Y ETIQUETAS** (DESPUÉS de sobre mí)
+        echo do_shortcode('[mc_ec_idiomas_modalidades_etiquetas]');
+        ?>
             
             <!-- SECCIÓN: Imagen del banner para guías -->
-
             <?php if (in_array('guia', $current_user->roles)): ?>
                 <?php
                     // Compatibilidad: algunos usuarios tienen 'imagen_banner_guia' (URL), otros el nuevo 'imagen_banner' (attach ID)
@@ -400,7 +190,6 @@ function trekkium_custom_edit_account_fields() {
                     </div>
                 </div>
             <?php endif; ?>
-        <?php endif; ?>
 
     </div> 
     <div class="mc-editar-cuenta-boton-section">
@@ -472,8 +261,8 @@ document.addEventListener('DOMContentLoaded', function() {
 return ob_get_clean();
 }
 
-// Guardado de los campos personalizados (ACTUALIZADO para incluir etiquetas)
-add_action('woocommerce_save_account_details', 'trekkium_save_custom_account_fields', 100, 1);
+// Guardado de los campos personalizados
+add_action('woocommerce_save_account_details', 'trekkium_save_custom_account_fields', 20, 1);
 function trekkium_save_custom_account_fields($user_id) {
     if (isset($_POST['save-account-details-nonce']) && !wp_verify_nonce($_POST['save-account-details-nonce'], 'save_account_details')) return;
 
@@ -495,6 +284,8 @@ function trekkium_save_custom_account_fields($user_id) {
         'billing_phone'      => $full_phone_normalized,
         'billing_country'    => sanitize_text_field($_POST['billing_country']),
         'billing_state'      => sanitize_text_field($_POST['billing_state']),
+        // Añade también el email en los metadatos de facturación
+        'billing_email'      => sanitize_email($_POST['account_email']),
     ];
 
     foreach ($meta_fields as $key => $value) {
@@ -509,41 +300,7 @@ function trekkium_save_custom_account_fields($user_id) {
         update_user_meta($user_id, 'sobre_mi', wp_kses_post($_POST['sobre_mi']));
     }
 
-    // Guardado de idiomas (ACTUALIZADO para el nuevo formato)
-    if (isset($_POST['user_idiomas'])) {
-        $idiomas_string = sanitize_text_field($_POST['user_idiomas']);
-        $idiomas_array = !empty($idiomas_string) ? 
-            array_map('intval', explode(',', $idiomas_string)) : 
-            [];
-        
-        wp_set_object_terms($user_id, $idiomas_array, 'idiomas', false);
-    } else {
-        wp_set_object_terms($user_id, [], 'idiomas', false);
-    }
-
-    // GUARDADO PARA MODALIDADES
-    if (isset($_POST['user_modalidades'])) {
-        $modalidades_string = sanitize_text_field($_POST['user_modalidades']);
-        $modalidades_array = !empty($modalidades_string) ? 
-            array_map('intval', explode(',', $modalidades_string)) : 
-            [];
-        
-        wp_set_object_terms($user_id, $modalidades_array, 'modalidad', false);
-    } else {
-        wp_set_object_terms($user_id, [], 'modalidad', false);
-    }
-
-    // NUEVO GUARDADO PARA ETIQUETAS
-    if (isset($_POST['user_etiquetas'])) {
-        $etiquetas_string = sanitize_text_field($_POST['user_etiquetas']);
-        $etiquetas_array = !empty($etiquetas_string) ? 
-            array_map('intval', explode(',', $etiquetas_string)) : 
-            [];
-        
-        wp_set_object_terms($user_id, $etiquetas_array, 'etiquetas_actividad', false);
-    } else {
-        wp_set_object_terms($user_id, [], 'etiquetas_actividad', false);
-    }
+    // Guardado de idiomas, modalidades y etiquetas se maneja en el otro snippet
 
     if (isset($_POST['account_email'])) {
         $new_email = sanitize_email($_POST['account_email']);
@@ -617,7 +374,7 @@ function trekkium_load_scripts_on_account_page() {
     }
 }
 
-// VALIDACIONES (ACTUALIZADAS para incluir etiquetas)
+// VALIDACIONES
 add_action('woocommerce_save_account_details_errors', 'trekkium_validate_required_fields', 10, 2);
 function trekkium_validate_required_fields($errors, $user) {
     $required_fields = [
@@ -663,36 +420,6 @@ function trekkium_validate_billing_state($errors, $user) {
     if (empty($_POST['billing_state'])) $errors->add('billing_state_error', __('Por favor, selecciona o introduce una provincia.', 'woocommerce'));
 }
 
-// Validación modalidades para clientes
-add_action('woocommerce_save_account_details_errors', function($errors, $user) {
-    $current_user = wp_get_current_user();
-    if (in_array('customer', $current_user->roles)) {
-        if (!isset($_POST['user_modalidades']) || empty($_POST['user_modalidades'])) {
-            $errors->add('user_modalidades_error', __('Por favor, selecciona al menos una modalidad favorita.', 'woocommerce'));
-        } else {
-            $modalidades_string = sanitize_text_field($_POST['user_modalidades']);
-            if (empty(trim($modalidades_string, ','))) {
-                $errors->add('user_modalidades_error', __('Por favor, selecciona al menos una modalidad favorita.', 'woocommerce'));
-            }
-        }
-    }
-}, 25, 2);
-
-// NUEVA VALIDACIÓN PARA ETIQUETAS FAVORITAS
-add_action('woocommerce_save_account_details_errors', function($errors, $user) {
-    $current_user = wp_get_current_user();
-    if (in_array('customer', $current_user->roles)) {
-        if (!isset($_POST['user_etiquetas']) || empty($_POST['user_etiquetas'])) {
-            $errors->add('user_etiquetas_error', __('Por favor, selecciona al menos una etiqueta favorita.', 'woocommerce'));
-        } else {
-            $etiquetas_string = sanitize_text_field($_POST['user_etiquetas']);
-            if (empty(trim($etiquetas_string, ','))) {
-                $errors->add('user_etiquetas_error', __('Por favor, selecciona al menos una etiqueta favorita.', 'woocommerce'));
-            }
-        }
-    }
-}, 26, 2);
-
 // Validación teléfono duplicado
 add_action('woocommerce_save_account_details_errors', 'trekkium_validate_duplicate_phone', 30, 2);
 function trekkium_validate_duplicate_phone($errors, $user) {
@@ -724,22 +451,6 @@ function trekkium_validate_duplicate_email($errors, $user) {
 
     if ($new_email !== $current_user->user_email && email_exists($new_email)) {
         $errors->add('account_email_duplicate_error', __('El correo electrónico ya está registrado por otra cuenta.', 'woocommerce'));
-    }
-}
-
-// Validación idiomas para guías
-add_action('woocommerce_save_account_details_errors', 'trekkium_validate_idiomas', 20, 2);
-function trekkium_validate_idiomas($errors, $user) {
-    $current_user = wp_get_current_user();
-    if (array_intersect(['guia', 'administrator'], $current_user->roles)) {
-        if (!isset($_POST['user_idiomas']) || empty($_POST['user_idiomas'])) {
-            $errors->add('user_idiomas_error', __('Por favor, selecciona al menos un idioma.', 'woocommerce'));
-        } else {
-            $idiomas_string = sanitize_text_field($_POST['user_idiomas']);
-            if (empty(trim($idiomas_string, ','))) {
-                $errors->add('user_idiomas_error', __('Por favor, selecciona al menos un idioma.', 'woocommerce'));
-            }
-        }
     }
 }
 ?>

@@ -304,3 +304,4 @@ add_action('template_redirect', 'restringir_acceso_usuarios_no_registrados');
 add_action('wp_head', function() {
     echo '<meta name="format-detection" content="telephone=no,email=no">';
 });
+

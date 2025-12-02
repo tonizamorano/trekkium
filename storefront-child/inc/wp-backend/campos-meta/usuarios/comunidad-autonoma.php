@@ -70,3 +70,18 @@ function autofill_comunidad_autonoma($user_id, $old_user_data = null) {
         update_user_meta($user_id, 'comunidad_autonoma', $map[$billing_state]);
     }
 }
+
+/**
+ * Recalcular comunidad autónoma cuando se actualicen billing_country o billing_state desde cualquier sitio
+ */
+add_action('updated_user_meta', 'recalcular_comunidad_autonoma_en_meta_update', 10, 4);
+function recalcular_comunidad_autonoma_en_meta_update($meta_id, $user_id, $meta_key, $meta_value) {
+
+    // Solo actuar si cambian estos campos
+    if ($meta_key !== 'billing_country' && $meta_key !== 'billing_state') {
+        return;
+    }
+
+    // Ejecutar el cálculo
+    autofill_comunidad_autonoma($user_id);
+}

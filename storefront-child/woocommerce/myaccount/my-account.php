@@ -38,6 +38,7 @@ defined( 'ABSPATH' ) || exit;
         <?php
         // Solo mostrar en la página principal de "Mi cuenta", no en endpoints
         if ( ! is_wc_endpoint_url() ) {
+            
             echo do_shortcode('[mc_contenido]');
         } else {
             // Contenido normal de endpoints

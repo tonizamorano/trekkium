@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // NOTICES – No los borramos (importante p/evitar sesión caducada)
 // ---------------------------------------------------
 
+
 // Eliminar mensajes de "producto añadido al carrito" si quieres
 add_filter( 'woocommerce_add_to_cart_message_html', '__return_empty_string' );
 add_filter( 'woocommerce_cart_item_removed_notice', '__return_empty_string' );

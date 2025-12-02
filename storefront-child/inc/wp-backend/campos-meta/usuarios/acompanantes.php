@@ -63,7 +63,6 @@ add_action( 'woocommerce_admin_order_data_after_order_details', function( $order
 			font-size: 12px;
 		}
 		.trekkium-data-value {
-		
 			min-height: 15px;
 		}
 		.trekkium-no-acompanantes { 
@@ -116,6 +115,7 @@ function trekkium_acompanantes_metabox_content( $order_or_post ) {
 					<div class="trekkium-acompanante-header">Acompañante <?php echo ( $index + 1 ); ?></div>
 					
 					<div class="trekkium-data-grid">
+
 						<div class="trekkium-data-item">
 							<span class="trekkium-data-label">Nombre completo:</span>
 							<div class="trekkium-data-value"><?php echo esc_html( $acompanante['nombre'] ?? 'No especificado' ); ?></div>
@@ -132,14 +132,10 @@ function trekkium_acompanantes_metabox_content( $order_or_post ) {
 						</div>
 						
 						<div class="trekkium-data-item">
-							<span class="trekkium-data-label">DNI / NIE / Pasaporte:</span>
-							<div class="trekkium-data-value"><?php echo esc_html( $acompanante['dni'] ?? 'No especificado' ); ?></div>
-						</div>
-						
-						<div class="trekkium-data-item">
 							<span class="trekkium-data-label">Edad:</span>
 							<div class="trekkium-data-value"><?php echo esc_html( $acompanante['edad'] ?? 'No especificado' ); ?></div>
 						</div>
+
 					</div>
 				</div>
 			<?php endforeach; ?>

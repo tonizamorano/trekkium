@@ -1,0 +1,41 @@
+/* Oculta los mensajes de WooCommerce en la página de checkout */
+.woocommerce-checkout .woocommerce-message {
+	display: none !important;
+}
+
+.seccion_oculta {
+    display: none;
+}
+
+.checkout-contenedor-seccion {
+    background: #fff;
+    padding: 0px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.checkout-seccion-titulo {
+    background: var(--azul1-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    gap: 5px;
+}
+
+.checkout-seccion-titulo svg {
+    flex-shrink: 0;
+}
+
+.checkout-seccion-titulo-texto {
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+
+.checkout-seccion-contenido {
+    background: #fff; 
+    padding: 20px;
+    text-align: center;
+}

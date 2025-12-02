@@ -12,9 +12,14 @@ function pa_filtros_shortcode() {
 
         <!-- Titular -->
         <div class="contenedor-filtros-titular" tabindex="0" role="button" aria-expanded="true">
-            <svg class="filtros-titular-icono" viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M496 384H160v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h80v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h336c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160h-80v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h336v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h80c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160H288V48c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16C7.2 64 0 71.2 0 80v32c0 8.8 7.2 16 16 16h208v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h208c8.8 0 16-7.2 16-16V80c0-8.8-7.2-16-16-16z"></path>
-            </svg>
+            
+            <div class="filtros-titular-icono">
+
+                <?php echo do_shortcode('[icon_filtros]'); ?> 
+
+            </div>
+
+
             <h4>FILTROS</h4>
             <span class="desplegable-indicador">+</span>
         </div>
@@ -25,6 +30,7 @@ function pa_filtros_shortcode() {
             <!-- Sección Región -->
             <div class="filtros-seccion">
                 <div class="filtros-seccion-titular">
+                    <?php echo do_shortcode('[icon_region1]'); ?> 
                     <h5>Región</h5>             
                 </div>
                 <div class="filtros-seccion-contenido">
@@ -35,6 +41,7 @@ function pa_filtros_shortcode() {
             <!-- Sección Modalidad -->
             <div class="filtros-seccion">
                 <div class="filtros-seccion-titular">
+                    <?php echo do_shortcode('[icon_modalidad1]'); ?>
                     <h5>Modalidad</h5>             
                 </div>
                 <div class="filtros-seccion-contenido">
@@ -45,6 +52,7 @@ function pa_filtros_shortcode() {
             <!-- Sección Dificultad -->
             <div class="filtros-seccion">
                 <div class="filtros-seccion-titular">
+                    <?php echo do_shortcode('[icon_dificultad1]'); ?>
                     <h5>Dificultad</h5>             
                 </div>
                 <div class="filtros-seccion-contenido">

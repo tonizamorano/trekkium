@@ -1,0 +1,36 @@
+
+
+.woocommerce-message, .woocommerce-info, .woocommerce-error, .woocommerce-noreviews, p.no-comments {
+    margin-bottom: 10px !important;
+    background-color: #fff !important;
+    margin-left: 0;
+    border-radius: 10px !important;
+    color: var(--azul1-100) !important;
+    clear: both;
+    border-left: 0 solid rgba(0, 0, 0, .15) !important;
+    padding: 1em 2em 1em 3.5em;
+    position: relative;
+    list-style: none outside;
+    font-weight: 500 !important;
+}
+
+.woocommerce-message::before, .woocommerce-info::before, .woocommerce-error::before, .woocommerce-noreviews::before, p.no-comments::before {
+    font-family: "Font Awesome 5 Free";
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 1.05em;
+    left: 1.5em;
+    color: var(--azul1-100) !important;
+}
+
+
+@media (max-width: 768px) {
+
+    .woocommerce-notices-wrapper {
+        background-color: white !important;
+        padding: 15px 15px 0 15px !important;
+    }
+
+
+}

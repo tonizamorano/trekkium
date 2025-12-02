@@ -1,0 +1,101 @@
+.acompanante-item {
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.acompanante-header {
+    background: var(--azul1-100);
+    padding: 7px 15px;
+    display: flex;
+    align-items: center;
+}
+
+.acompanante-title {
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.acompanante-body {
+    padding: 15px;
+    background-color: var(--azul1-60);
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+/* Alinear el contenido a la izquierda dentro de la sección de acompañantes */
+.trekkium-acompanantes-checkout .checkout-seccion-contenido,
+.trekkium-acompanantes-checkout .acompanante-grid-2,
+.trekkium-acompanantes-checkout .acompanante-group {
+    text-align: left;
+}
+
+.trekkium-acompanantes-checkout .acompanante-group-title {
+    text-align: left;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.acompanante-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 0;
+}
+
+.acompanante-columna {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.acompanante-columna label {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--azul1-100);
+    margin-bottom: 3px;
+    line-height: 1;
+}
+
+/* Asterisco rojo automático en campos obligatorios de acompañantes */
+.acompanante-titular::after {
+    content: " *";
+    color: var(--naranja1-100);
+}
+
+/* Separator between companions */
+
+.trekkium-acompanantes-checkout .acompanante-group {
+    /* Espacio vertical entre cada acompañante (sin línea separadora) */
+    margin-bottom: 24px;
+}
+
+.acompanante-columna input {
+    padding: 5px 10px !important;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    font-family: inherit;
+}
+
+.acompanante-input:focus {
+    outline: none;
+    border-color: var(--azul1-100);
+}
+
+.acompanante-input:required:invalid {
+    border-color: var(--naranja1-100);
+}
+
+@media (max-width: 768px) {
+    .acompanante-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
