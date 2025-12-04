@@ -62,12 +62,6 @@ function trekkium_checkout_datos_acompanantes_shortcode() {
 								<input type="text" name="trekkium_acompanantes[<?php echo $i; ?>][telefono]" required
 									value="<?php echo esc_attr($get_value($i, 'telefono')); ?>">
 							</div>
-							<div class="acompanante-columna">
-								<label>Correo electrónico *</label>
-								<input type="email" required
-									name="trekkium_acompanantes[<?php echo $i; ?>][email]"
-									value="<?php echo esc_attr($get_value($i, 'email')); ?>">
-							</div>
 						</div>
 
 					</div>
@@ -113,10 +107,9 @@ add_action('woocommerce_checkout_process', function() {
 		$nombre   = isset($a['nombre'])   ? trim($a['nombre'])   : '';
 		$edad     = isset($a['edad'])     ? trim($a['edad'])     : '';
 		$telefono = isset($a['telefono']) ? trim($a['telefono']) : '';
-		$email    = isset($a['email'])    ? trim($a['email'])    : '';
 
 		// Validaciones básicas
-		if ($nombre === '' || $telefono === '' || $email === '' || $edad === '') {
+		if ($nombre === '' || $telefono === '' || $edad === '') {
 			wc_add_notice("Por favor completa todos los campos obligatorios del acompañante " . ($i + 1) . ".", 'error');
 			continue;
 		}
@@ -124,11 +117,6 @@ add_action('woocommerce_checkout_process', function() {
 		// Edad numérica y razonable
 		if (!is_numeric($edad) || intval($edad) < 0 || intval($edad) > 120) {
 			wc_add_notice("Edad inválida para el acompañante " . ($i + 1) . ".", 'error');
-		}
-
-		// Email válido
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			wc_add_notice("Correo electrónico inválido para el acompañante " . ($i + 1) . ".", 'error');
 		}
 
 		// Teléfono: al menos 6 caracteres (puedes ajustar)
@@ -146,7 +134,6 @@ add_action('woocommerce_checkout_process', function() {
 			'nombre'   => isset($a['nombre']) ? wc_clean($a['nombre']) : '',
 			'edad'     => isset($a['edad']) ? wc_clean($a['edad']) : '',
 			'telefono' => isset($a['telefono']) ? wc_clean($a['telefono']) : '',
-			'email'    => isset($a['email']) ? wc_clean($a['email']) : '',
 		);
 	}
 	WC()->session->set('trekkium_acompanantes', $acomps_clean);
@@ -171,7 +158,6 @@ add_action('woocommerce_checkout_create_order', function($order, $data) {
 				'nombre'   => isset($a['nombre']) ? wc_clean($a['nombre']) : '',
 				'edad'     => isset($a['edad']) ? wc_clean($a['edad']) : '',
 				'telefono' => isset($a['telefono']) ? wc_clean($a['telefono']) : '',
-				'email'    => isset($a['email']) ? wc_clean($a['email']) : '',
 			);
 		}
 
@@ -187,3 +173,5 @@ add_action('woocommerce_thankyou', function($order_id) {
 		WC()->session->__unset('trekkium_acompanantes');
 	}
 });
+
+

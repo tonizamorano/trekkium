@@ -78,8 +78,6 @@
 /* Usuario no logueado: icono SVG */
 .icono-avatar.no-user svg {
     fill: white;
-    opacity: 0.7;
-    transition: opacity 0.3s;
 }
 .icono-avatar.no-user:hover svg,
 .icono-avatar.no-user.active svg {

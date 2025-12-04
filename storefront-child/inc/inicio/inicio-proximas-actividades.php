@@ -79,25 +79,26 @@ function trekkium_in_proximas_actividades() {
                     <div class="in-item">
                         <a href="<?php echo esc_url(get_permalink()); ?>">
 
-                            <div class="in-imgcontenedor">
+                            <div class="in-contenedor-imagen">
                                 <?php if (has_post_thumbnail()) : ?>
-                                    <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'in-img']); ?>
+                                    <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'in-imagen']); ?>
                                 <?php endif; ?>
-
+                                
+                                <!-- Modalidad - MOVIDA AQUÍ -->
+                                <?php if (!empty($modalidades) && !is_wp_error($modalidades)) : ?>
+                                    <div class="in-modalidad">
+                                        <?php echo esc_html($modalidades[0]->name); ?>
+                                    </div>
+                                <?php endif; ?>
+                                
                                 <?php if ($avatar) : ?>
-                                    <div class="in-avatarcontenedor">
-                                        <img src="<?php echo esc_url($avatar); ?>" class="in-avatar" />
+                                    <div class="in-avatar-contenedor">
+                                        <img src="<?php echo esc_url($avatar); ?>" class="in-avatar-autor" />
                                     </div>
                                 <?php endif; ?>
                             </div>
 
                             <div class="in-contenido">
-
-                                <?php if ($modalidad_name) : ?>
-                                    <div class="in-modalidad">
-                                        <?php echo strtoupper(esc_html($modalidad_name)); ?>
-                                    </div>
-                                <?php endif; ?>
 
                                 <div class="in-titulo"><?php the_title(); ?></div>
 

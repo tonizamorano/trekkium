@@ -35,8 +35,6 @@ function trekkium_in_ultimas_entradas() {
 
                 <?php while ($query->have_posts()) : $query->the_post(); ?>
                     <?php
-                    $autor_id  = get_the_author_meta('ID');
-                    $avatar    = get_avatar_url($autor_id, ['size' => 80]);
                     $permalink = get_permalink();
                     $categorias = get_the_category();
                     $fecha = get_the_date('d/m/Y');
@@ -50,12 +48,6 @@ function trekkium_in_ultimas_entradas() {
                                     <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'in-blog-img']); ?>
                                 <?php else: ?>
                                     <div class="in-blog-img-placeholder"></div>
-                                <?php endif; ?>
-
-                                <?php if ($avatar) : ?>
-                                    <div class="in-blog-avatarcontenedor">
-                                        <img src="<?php echo esc_url($avatar); ?>" class="in-blog-avatar" alt="<?php echo esc_attr(get_the_author()); ?>" />
-                                    </div>
                                 <?php endif; ?>
                             </div>
                         </a>
@@ -82,7 +74,7 @@ function trekkium_in_ultimas_entradas() {
                                 </div>
 
                                 <div class="in-blog-info-item">
-                                    <?php echo do_shortcode('[icon_ojo2]'); ?>
+                                    <?php echo do_shortcode('[icon_ojo1]'); ?>
                                     <span><?php echo esc_html($views); ?></span>
                                 </div>
                             </div>
@@ -146,7 +138,6 @@ function trekkium_in_ultimas_entradas() {
 
         dots.forEach((dot, i) => dot.addEventListener('click', () => scrollToIndex(i)));
 
-        // inicializar estado según posición actual
         index = Math.max(0, Math.min(Math.round((carousel.scrollLeft - items[0].offsetLeft) / step), items.length - 1));
         updateDots();
 

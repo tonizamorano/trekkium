@@ -1,0 +1,16 @@
+.texto-cancelacion {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--azul1-100);
+    line-height: 1.1;
+}
+
+
+
+@media screen and (max-width: 768px) {
+
+    .texto-cancelacion {
+        font-size: 20px;
+    }
+    
+}

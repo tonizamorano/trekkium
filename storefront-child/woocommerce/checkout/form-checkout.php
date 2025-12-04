@@ -13,8 +13,7 @@ add_filter( 'woocommerce_cart_item_added_to_cart', '__return_empty_string' );
 
 // NO USAR wc_clear_notices() → rompe la sesión y el checkout
 
-// Mantener WooCommerce funcionando normal en este hook
-do_action( 'woocommerce_before_checkout_form', $checkout );
+
 
 // Comprobación de registro obligatorio
 if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_required() && ! is_user_logged_in() ) {

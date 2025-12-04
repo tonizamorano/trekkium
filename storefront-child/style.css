@@ -28,24 +28,12 @@ Text Domain: storefront-child
     --azul2-40: #a7c6e0;
     --azul2-20: #d3e3ef;
 
-  
-    /* Naranja tema */
-    --naranja1-100: #e2a725;
-    --naranja1-80: #e8b951;
-    --naranja1-60: #eeca7c;
-    --naranja1-40: #f3dca8;
-    --naranja1-20: #f9edd3;  
-
-    /* Naranja tema old*/
-    --naranja1-100-old: #E67E22;
-    --naranja1-80-old: #eb984e;
-    --naranja1-60-old: #f0b27a;
-    --naranja1-40-old: #f5cba7;
-    --naranja1-20-old: #fae5d3;  
-
-
-
-
+    /* Naranja princial*/
+    --naranja1-100: #E67E22;
+    --naranja1-80: #eb984e;
+    --naranja1-60: #f0b27a;
+    --naranja1-40: #f5cba7;
+    --naranja1-20: #fae5d3; 
 
     /* Naranja Alpine */
     --naranja2-100: #FF6600;
@@ -53,15 +41,20 @@ Text Domain: storefront-child
     --naranja2-60: #ffa366;
     --naranja2-40: #ffc299;
     --naranja2-20: #ffe0cc;
+  
+    /* Naranja tema */
+    --naranja3-100: #e2a725;
+    --naranja3-80: #e8b951;
+    --naranja3-60: #eeca7c;
+    --naranja3-40: #f3dca8;
+    --naranja3-20: #f9edd3;  
 
     /* Rojo Coral */
     --rojo-100: #ff4040;
     --rojo-80: #ff6666;
     --rojo-60: #ff8c8c;
     --rojo-40: #ffb3b3;
-    --rojo-20: #ffd9d9;
-    
-
+    --rojo-20: #ffd9d9;   
 
     /* Amarillo Alpine */
     --amarillo-100: #ffd300;
@@ -69,8 +62,7 @@ Text Domain: storefront-child
     --amarillo-60: #ffe566;
     --amarillo-40: #ffed99;
     --amarillo-20: #fff6cc;
-
-    
+        
     /* Verde lima */
     --verde-100: #7ed321;
     --verde-80: #98dc4d;

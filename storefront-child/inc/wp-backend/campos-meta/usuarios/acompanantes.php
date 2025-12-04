@@ -122,11 +122,6 @@ function trekkium_acompanantes_metabox_content( $order_or_post ) {
 						</div>
 						
 						<div class="trekkium-data-item">
-							<span class="trekkium-data-label">Correo electrónico:</span>
-							<div class="trekkium-data-value"><?php echo esc_html( $acompanante['email'] ?? 'No especificado' ); ?></div>
-						</div>
-						
-						<div class="trekkium-data-item">
 							<span class="trekkium-data-label">Teléfono móvil:</span>
 							<div class="trekkium-data-value"><?php echo esc_html( $acompanante['telefono'] ?? 'No especificado' ); ?></div>
 						</div>

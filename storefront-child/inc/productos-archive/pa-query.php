@@ -159,27 +159,31 @@ function trekkium_query_productos() {
                         
                         <a href="<?php echo esc_url($permalink); ?>">
 
-                        <!-- Imagen con avatar -->
-                        <div class="pa-contenedor-imagen">
-                            <?php if (has_post_thumbnail()) : ?>
-                                <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'pa-imagen']); ?>
-                            <?php endif; ?>
-                            
-                            <?php if ($avatar) : ?>
-                                <div class="pa-avatar-contenedor">
-                                    <img src="<?php echo esc_url($avatar); ?>" class="pa-avatar-autor" />
-                                </div>
-                            <?php endif; ?>
-                        </div>
+                            <!-- Contenedor de imagen con la modalidad superpuesta -->
+                            <div class="pa-contenedor-imagen">
+                                <?php if (has_post_thumbnail()) : ?>
+                                    <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'pa-imagen']); ?>
+                                <?php endif; ?>
+                                
+                                <!-- Modalidad - MOVIDA AQUÍ -->
+                                <?php if (!empty($modalidades) && !is_wp_error($modalidades)) : ?>
+                                    <div class="pa-modalidad">
+                                        <?php echo esc_html($modalidades[0]->name); ?>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if ($avatar) : ?>
+                                    <div class="pa-avatar-contenedor">
+                                        <img src="<?php echo esc_url($avatar); ?>" class="pa-avatar-autor" />
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
+            
 
                             <div class="pa-query-contenido">                                
 
-                                <!-- Modalidad -->
-                                <?php if (!empty($modalidades) && !is_wp_error($modalidades)) : ?>
-                                    <div class="pa-modalidad">
-                                        <?php echo strtoupper(esc_html($modalidades[0]->name)); ?>
-                                    </div>
-                                <?php endif; ?>
+
 
                                 <!-- Título -->
                                 <div class="pa-titulo"><?php the_title(); ?></div>

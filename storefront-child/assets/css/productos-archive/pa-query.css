@@ -49,14 +49,14 @@
 .pa-avatar-contenedor {
     position: absolute;
     right: 10px;       
-    bottom: -20px;     /* sobresale 20px por debajo del borde inferior */
+    top: 10px;     /* sobresale 20px por debajo del borde inferior */
     z-index: 2;        /* asegura que quede por encima de la imagen */
 }
 
 .pa-avatar-autor {
     border-radius: 50%;
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     border: 3px solid #fff; 
     object-fit: cover;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* opcional: da un poco de relieve */
@@ -64,21 +64,26 @@
 
 
 .pa-modalidad {
-    background-color: var(--naranja2-60);
-    padding: 2px 10px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: var(--naranja1-100);
+    padding: 5px 10px;
     color: white;
-    border-radius: 50px;
-    font-size: 13px;
+    border-radius: 5px;
+    line-height: 1;
+    font-size: 14px;
     font-weight: 500;
-    text-transform: uppercase;
     display: inline-block;
-} 
+    z-index: 2; /* Para que esté por encima de la imagen */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Opcional: para darle un poco de profundidad */
+}
 
 .pa-titulo {    
     font-size: 22px;
     color: var(--azul1-100);
     font-weight: 600;
-    margin-top: 5px;
+    
     line-height: 1;
     word-wrap: break-word;
 }
@@ -175,7 +180,11 @@
         padding: 15px;
     }
 
-     .filtros-activos {
+    .pa-query-item {
+        border-radius: 15px;
+    }
+
+    .filtros-activos {
         padding: 0 15px;
     }
 
@@ -191,12 +200,14 @@
     }
 
     .pa-avatar-autor {
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
     }
     
     .pa-modalidad {
-        font-size: 16px;
+       
+        font-size: 18px;
+        
     }
     
     .pa-titulo {

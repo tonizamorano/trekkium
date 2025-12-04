@@ -40,19 +40,30 @@ function mostrar_reservas_directamente() {
     ob_start();
     ?>
     <div class="reservas-container">
+
         <div class="reservas-container-titulo">
             <h2>Mis reservas</h2>
         </div>
+
+        <?php if (empty($reservas)): ?>
+
+                <div class="contenedor-sin-reservas">
+
+                <span>En este momento no tienes ninguna actividad reservada.</span>
+
+
+                </div>
+        
+        <?php else: ?>
+
         <div class="grid-reservas">
-            <?php if (empty($reservas)): ?>
-                <p>No has realizado ninguna reserva.</p>
-            <?php else: ?>
+
                 <?php 
                 foreach ($reservas as $r) {
                     echo generar_tarjeta_individual($r['product'], $r['order']);
                 }
                 ?>
-            <?php endif; ?>
+        <?php endif; ?>
         </div>
     </div>
     <?php
@@ -61,11 +72,13 @@ function mostrar_reservas_directamente() {
 
 function obtener_ordenes_usuario_actual() {
     $user_id = get_current_user_id();
+
     return wc_get_orders([
         'customer_id' => $user_id,
         'limit'       => -1,
         'orderby'     => 'date',
         'order'       => 'DESC',
+        'status'      => ['pending', 'processing', 'completed'], 
     ]);
 }
 
@@ -73,11 +86,11 @@ function generar_tarjeta_individual($product, $order) {
     $nombre = esc_html($product->get_name());
     $product_id = $product->get_id();
     $order_id = $order->get_id();
+    
+    // Obtener la URL de la página de detalles de la reserva
+    $url_detalles = wc_get_account_endpoint_url('ver-reservas') . $order_id . '/';
 
     $imagen_html = obtener_imagen_producto($product_id, $nombre);
-    $actividad_url = get_permalink($product_id);
-    $ver_reserva_url = site_url('/mi-cuenta/ver-reservas/' . $order_id);
-
     $fecha_actividad = get_post_meta($product_id, 'fecha', true);
     $fecha_actividad = $fecha_actividad ? date_i18n('d/m/y', strtotime($fecha_actividad)) : 'Sin fecha';
 
@@ -86,12 +99,15 @@ function generar_tarjeta_individual($product, $order) {
         'pending'    => 'Pendiente',
         'processing' => 'Procesando',
         'on-hold'    => 'En espera',
-        'completed'  => 'Completado',
-        'cancelled'  => 'Cancelado',
-        'refunded'   => 'Reembolsado',
-        'failed'     => 'Fallido'
+        'completed'  => 'Completada',
+        'cancelled'  => 'Cancelada',
+        'refunded'   => 'Reembolsada',
+        'failed'     => 'Fallida'
     ];
     $estado_traducido = $estados_traducidos[$estado_wc] ?? ucfirst($estado_wc);
+    
+    // Añade la clase CSS basada en el estado para estilos
+    $clase_estado = 'estado-' . sanitize_html_class($estado_wc);
 
     $cantidad_comprada = 0;
     foreach ($order->get_items() as $item) {
@@ -103,8 +119,14 @@ function generar_tarjeta_individual($product, $order) {
 
     ob_start();
     ?>
-    <div class="card-reserva">
-        <a href="<?php echo esc_url($ver_reserva_url); ?>" class="card-reserva-info-link">
+    <a href="<?php echo esc_url($url_detalles); ?>" class="card-reserva-link">
+        <div class="card-reserva">
+            <div class="card-reserva-imagen">
+                <?php echo $imagen_html; ?>
+                <div class="reserva-info-item-estado <?php echo esc_attr($clase_estado); ?>">
+                    <?php echo esc_html($estado_traducido); ?>
+                </div>
+            </div>
 
             <div class="card-reserva-info">
 
@@ -114,9 +136,7 @@ function generar_tarjeta_individual($product, $order) {
 
                 <div class="reserva-info-titulo">
                     <h3><?php echo $nombre; ?></h3>
-                </div>
-
-                <!-- <?php echo $imagen_html; ?> -->
+                </div>                
 
                 <div class="reserva-info-extra">
 
@@ -129,21 +149,12 @@ function generar_tarjeta_individual($product, $order) {
                         <svg class="icon" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
                         <?php echo esc_html($cantidad_comprada); ?>
                     </div>
-
-                    <?php $clase_estado = 'estado-' . sanitize_html_class($estado_wc); ?>
-
-                    <div class="reserva-info-item-estado <?php echo esc_attr($clase_estado); ?>">
-                        <?php echo esc_html($estado_traducido); ?>
-                    </div>
                     
                 </div>
 
             </div>
-        </a>
-        <div class="boton-reserva-section">
-            <a href="<?php echo esc_url($actividad_url); ?>" class="btn-reserva">Ver publicación</a>
         </div>
-    </div>
+    </a>
     <?php
     return ob_get_clean();
 }
