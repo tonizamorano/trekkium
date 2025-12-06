@@ -60,28 +60,28 @@ add_shortcode( 'mc_vr_titular', function() {
     ob_start();
     ?>
 
-<div class="mc-contenido-contenedor">
+<div class="mc-mr-vr-contenedor">
 
-    <div class="mc-contenido-titular">
+    <div class="mc-mr-vr-titular">
         <h2>Titular de la reserva</h2>
     </div>
 
-    <div class="mc-contenido-contenido">
+    <div class="mc-mr-vr-contenido">
 
-        <div class="mc-contenido-nombre">
+        <div class="mc-mr-vr-nombre">
             <?php echo esc_html( $nombre . ' ' . $apellidos ); ?>
         </div>
 
-        <div class="mc-contenido-ubicacion">
+        <div class="mc-mr-vr-ubicacion">
             <?php echo esc_html( $provincia ); ?><?php echo $comunidad ? " ({$comunidad})" : ''; ?>
         </div>
 
-        <div class="mc-grid-label" style="margin-top:10px;">
+        <div class="mc-mr-vr-label" style="margin-top:10px;">
             <?php echo do_shortcode('[icon_whatsapp]'); ?>
             <?php echo esc_html( $telefono ); ?>
         </div>
 
-        <div class="mc-grid-label">
+        <div class="mc-mr-vr-label">
             <?php echo do_shortcode('[icon_email]'); ?>
             <?php echo esc_html( $email ); ?>
         </div>    

@@ -1,22 +1,9 @@
-.contenedor-sin-reservas {
-    background-color: #fff;
-    padding: 15px;
-    font-size: 18px;
-    color: var(--azul1-100);
-}
-
-
-
-
-
-
-
-.reservas-container {
+.mc-mis-reservas-contenedor {
     padding: 0;
     background-color: transparent !important;
 }
 
-.reservas-container-titulo {
+.mc-mis-reservas-titulo {
     background-color: var(--azul1-100);    
     margin: 0 0 15px 0 !important;    
     padding: 7px 10px;
@@ -26,15 +13,31 @@
     gap: 5px;
 }
 
-.reservas-container-titulo h2 {    
+.mc-mis-reservas-titulo h2 {    
     color: #fff;
     font-size: 18px;
     font-weight: 500;
     text-align: center;
 }
 
-/* --- Grid de reservas --- */
-.grid-reservas {
+.mc-mis-reservas-contenedor-sin-reservas {
+    padding: 15px;
+    background-color: #fff;
+    grid-column: 1 / -1; /* <-- ocupa todas las columnas disponibles */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mc-mis-reservas-contenedor-sin-reservas p {
+    color: var(--azul1-100);
+    margin: 0 !important;
+    background-color: #fff;
+    padding: 15px;
+    font-size: 18px;
+}
+
+.mc-mis-reservas-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
@@ -42,9 +45,7 @@
     align-items: start;
 }
 
-/* --- Tarjeta individual --- */
-.card-reserva {
-      
+.mc-mis-reservas-card {      
     cursor: pointer;
     position: relative;
     border: 0;
@@ -56,14 +57,12 @@
     box-sizing: border-box;
 }
 
-
-.card-reserva-imagen {
+.mc-mis-reservas-card-imagen {
     display: block;
     position: relative;
 }
 
-/* --- Imagen --- */
-.imagen-actividad {
+.mc-mis-reservas-card-imagen img {
     width: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
@@ -71,7 +70,6 @@
     border-radius: 10px 10px 0px 0px;
 }
 
-/* --- Estado de la reserva --- */
 .reserva-info-item-estado {
     padding: 5px 10px;
     border-radius: 5px;
@@ -88,17 +86,14 @@
     line-height: 1;
 }
 
-
-
-
-.card-reserva-info-link {
+.mc-mis-reservas-card-info-link {
     display: block;
     text-decoration: none;
     color: inherit;
     width: 100%;
 }
 
-.card-reserva-info {
+.mc-mis-reservas-card-info {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -106,29 +101,24 @@
     padding: 10px 10px;
 }
 
-/* --- Número de reserva --- */
-
-.numero-reserva {
+.mc-mis-reservas-numero-reserva {
     display: inline-block;
     margin: 0 0 5px 0;
 }
 
-.numero-reserva h4 {
+.mc-mis-reservas-numero-reserva h4 {
     font-size: 16px;
     font-weight: 500;
     color: var(--azul1-100);
     margin: 0;
 }
 
-/* --- Título de la actividad --- */
-
-.reserva-info-titulo {
+.mc-mis-reservas-info-titulo {
     margin-bottom: 5px;
-    width: 100%;
-    
+    width: 100%;    
 }
 
-.reserva-info-titulo h3 {
+.mc-mis-reservas-info-titulo h3 {
     font-size: 22px;
     font-weight: bold;
     color: var(--azul1-100);
@@ -136,10 +126,7 @@
     margin: 0;
 }
 
-
-
-/* --- Información extra (fecha, estado, cantidad) --- */
-.reserva-info-extra {
+.mc-mis-reservas-info-extra {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -147,8 +134,8 @@
     margin-top: 5px;
 }
 
-.reserva-info-item-fecha,
-.reserva-info-item-plazas {
+.mc-mis-reservas-info-item-fecha,
+.mc-mis-reservas-info-item-plazas {
     padding: 3px 10px;
     border-radius: 50px;
     display: flex;
@@ -157,26 +144,15 @@
     font-size: 14px;
 }
 
-.reserva-info-item-fecha {
-    background: var(--rojo-100);  
+.mc-mis-reservas-info-item-fecha,
+.mc-mis-reservas-info-item-plazas {
+    background: var(--azul2-100);  
     color: #fff;
     font-weight: bold;
 }
 
-.reserva-info-item-fecha .icon {
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-    fill: #fff;
-}
-
-.reserva-info-item-plazas {
-    background: var(--naranja2-100);
-    color: #fff;
-    font-weight: bold !important;
-}
-
-.reserva-info-item-plazas .icon {
+.mc-mis-reservas-info-item-plazas svg,
+.mc-mis-reservas-info-item-fecha svg {
     width: 14px;
     height: 14px;
     flex-shrink: 0;
@@ -186,51 +162,40 @@
 /* --- Responsive --- */
 @media (max-width: 768px) {
 
-    .grid-reservas {
+    .mc-mis-reservas-grid {
         grid-template-columns: 1fr;
         margin: 15px 0;
         padding: 0 15px;
     }
 
-    .titulo-reservas {
+    .mc-mis-reservas-titulo {
         font-size: 20px;
         margin-top: 0 !important;
     }
 
-    .reservas-container-titulo h2 {    
+    .mc-mis-reservas-titulo h2 {    
         font-size: 20px;
     }
 
-    .card-reserva h3 {
-        font-size: 24px;
-    }
-
-    .numero-reserva h4 {
+    .mc-mis-reservas-numero-reserva h4 {
         font-size: 18px;
     }
 
-    .reserva-info-titulo h3 {
+    .mc-mis-reservas-info-titulo h3 {
         font-size: 26px;
     }
 
-    .reserva-info-item-fecha,
-    .reserva-info-item-plazas,
-    .reserva-info-item-estado {
+    .mc-mis-reservas-info-item-fecha,
+    .mc-mis-reservas-info-item-plazas,
+    .mc-mis-reservas-info-item-estado {
         font-size: 18px;
         padding: 3px 15px;
     }
 
-    .reserva-info-item-fecha .icon,
-    .reserva-info-item-plazas .icon {
+    .mc-mis-reservas-info-item-fecha .icon,
+    .mc-mis-reservas-info-item-plazas .icon {
         width: 16px;
         height: 16px;
     }
-
-
-
-    .btn-reserva {
-        font-size: 18px;
-    }
-
 
 }

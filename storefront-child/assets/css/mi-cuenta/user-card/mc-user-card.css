@@ -1,25 +1,25 @@
-.card-micuenta-contenedor-principal {
+.mc-user-card-contenedor {
     background-color: #fff;
     border-radius: 0px;
     position: relative;
     padding-bottom: 10px;
 }
 
-.card-micuenta-imagen-fondo {
+.mc-user-card-imagen-fondo {
     width: 100%;
     aspect-ratio: 16/8;
     overflow: hidden;   
     margin-bottom: 20px;
 }
 
-.card-micuenta-imagen-fondo img {
+.mc-user-card-imagen-fondo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 0;
 }
 
-.card-micuenta-editar-avatar {
+.mc-user-card-editar-avatar {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -30,7 +30,7 @@
     z-index: 2;
 }
 
-.card-micuenta-nombre-usuario {
+.mc-user-card-nombre-usuario {
     text-align: center;
     font-weight: bold;
     color: var(--azul1-100);
@@ -38,12 +38,12 @@
     margin-top: 20px;
 }
 
-.card-micuenta-tipo-cuenta {
+.mc-user-card-tipo-cuenta {
     text-align: center;
     margin-top: 5px;
 }
 
-.tipo_cuenta {
+.mc-user-card-tipo-cuenta-texto {
     display: inline-block;
     font-size: 14px;
     font-weight: bold;
@@ -54,25 +54,25 @@
     text-align: center;
 }
 
-.card-micuenta-menu-micuenta {
+.mc-user-card-menu-micuenta {
     margin-top: 10px;
 }
 
 @media (max-width: 768px) {
     
-    .card-micuenta-imagen-fondo {
+    .mc-user-card-imagen-fondo {
         margin-bottom: 40px;
     }
     
-    .card-micuenta-editar-avatar {
+    .mc-user-card-editar-avatar {
         top: 30px;
     }
 
-    .card-micuenta-nombre-usuario {
+    .mc-user-card-nombre-usuario {
         font-size: 30px;
     }
 
-    .tipo_cuenta {
+    .mc-user-card-tipo-cuenta-texto {
         font-size: 16px;
     }
 }

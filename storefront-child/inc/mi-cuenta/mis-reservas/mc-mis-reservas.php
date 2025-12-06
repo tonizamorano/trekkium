@@ -39,33 +39,33 @@ function mostrar_reservas_directamente() {
 
     ob_start();
     ?>
-    <div class="reservas-container">
+    <div class="mc-mis-reservas-contenedor">
 
-        <div class="reservas-container-titulo">
+        <div class="mc-mis-reservas-titulo">
             <h2>Mis reservas</h2>
         </div>
 
         <?php if (empty($reservas)): ?>
 
-                <div class="contenedor-sin-reservas">
+                <div class="mc-mis-reservas-contenedor-sin-reservas">
 
-                <span>En este momento no tienes ninguna actividad reservada.</span>
-
+                <p>En este momento no tienes ninguna actividad reservada.</p>
 
                 </div>
         
         <?php else: ?>
 
-        <div class="grid-reservas">
-
+        <div class="mc-mis-reservas-grid">
                 <?php 
                 foreach ($reservas as $r) {
                     echo generar_tarjeta_individual($r['product'], $r['order']);
                 }
                 ?>
-        <?php endif; ?>
+                <?php endif; ?>
         </div>
+
     </div>
+
     <?php
     return ob_get_clean();
 }
@@ -120,33 +120,35 @@ function generar_tarjeta_individual($product, $order) {
     ob_start();
     ?>
     <a href="<?php echo esc_url($url_detalles); ?>" class="card-reserva-link">
-        <div class="card-reserva">
-            <div class="card-reserva-imagen">
+
+        <div class="mc-mis-reservas-card">
+
+            <div class="mc-mis-reservas-card-imagen">
                 <?php echo $imagen_html; ?>
                 <div class="reserva-info-item-estado <?php echo esc_attr($clase_estado); ?>">
                     <?php echo esc_html($estado_traducido); ?>
                 </div>
             </div>
 
-            <div class="card-reserva-info">
+            <div class="mc-mis-reservas-card-info">
 
-                <div class="numero-reserva">
+                <div class="mc-mis-reservas-numero-reserva">
                     <h4>Reserva Nº <?php echo $order_id; ?></h4>
                 </div>
 
-                <div class="reserva-info-titulo">
+                <div class="mc-mis-reservas-info-titulo">
                     <h3><?php echo $nombre; ?></h3>
                 </div>                
 
-                <div class="reserva-info-extra">
+                <div class="mc-mis-reservas-info-extra">
 
-                    <div class="reserva-info-item-fecha">
-                        <svg class="icon" viewBox="0 0 448 512"><path d="M436 160H12c-6.627 0-12-5.373-12-12v-36c0-26.51 21.49-48 48-48h48V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h128V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h48c26.51 0 48 21.49 48 48v36c0 6.627-5.373 12-12 12zM12 192h424c6.627 0 12 5.373 12 12v260c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V204c0-6.627 5.373-12 12-12zm333.296 95.947l-28.169-28.398c-4.667-4.705-12.265-4.736-16.97-.068L194.12 364.665l-45.98-46.352c-4.667-4.705-12.266-4.736-16.971-.068l-28.397 28.17c-4.705 4.667-4.736 12.265-.068 16.97l82.601 83.269c4.667 4.705 12.265 4.736 16.97.068l142.953-141.805c4.705-4.667 4.736-12.265.068-16.97z"/></svg>
+                    <div class="mc-mis-reservas-info-item-fecha">
+                        <?php echo do_shortcode('[icon_fecha1]'); ?>                        
                         <?php echo esc_html($fecha_actividad); ?>
                     </div>
 
-                    <div class="reserva-info-item-plazas">
-                        <svg class="icon" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+                    <div class="mc-mis-reservas-info-item-plazas">
+                        <?php echo do_shortcode('[icon_user_avatar]'); ?>
                         <?php echo esc_html($cantidad_comprada); ?>
                     </div>
                     
@@ -162,7 +164,7 @@ function generar_tarjeta_individual($product, $order) {
 function obtener_imagen_producto($product_id, $nombre) {
     $imagen_url = get_the_post_thumbnail_url($product_id, 'medium_large');
     if ($imagen_url) {
-        return '<img src="' . esc_url($imagen_url) . '" class="imagen-actividad" alt="' . esc_attr($nombre) . '" />';
+        return '<img src="' . esc_url($imagen_url) . '" alt="' . esc_attr($nombre) . '" />';
     }
     return '<div class="sin-imagen">Sin imagen</div>';
 }

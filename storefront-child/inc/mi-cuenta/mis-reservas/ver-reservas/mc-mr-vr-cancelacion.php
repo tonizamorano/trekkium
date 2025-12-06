@@ -47,35 +47,38 @@ function mc_vr_cancelacion_callback($atts) {
     ob_start();
     ?>
 
-    <div class="contenedor-detalles">
-        <h1>Cancelación</h1>
+    <div class="mc-mr-vr-contenedor">
 
-        <div class="contenido-detalles">
+        <div class="mc-mr-vr-titular">
+            <h2>Cancelación</h2>
+        </div>
+
+        <div class="mc-mr-vr-contenido">
 
             <?php if ($pedido_cancelado): ?>
 
-                <div class="texto-cancelacion cancelada">
+                <div class="mc-mr-vr-texto-cancelacion cancelada">
                     Esta reserva ha sido cancelada.
                 </div>
 
             <?php elseif ($cancelacion_vencida): ?>
 
-                <div class="texto-cancelacion vencida">
+                <div class="mc-mr-vr-texto-cancelacion vencida">
                     La fecha límite de cancelación ha vencido, ya no se puede cancelar la reserva.
                 </div>
 
             <?php else: ?>
 
-                <div class="texto-cancelacion">
+                <div class="mc-mr-vr-texto-cancelacion">
                     Puedes cancelar tu reserva hasta el <?php echo $limite_cancelacion_texto; ?>
                 </div>
 
             <?php endif; ?>
 
             <?php if ( ! $pedido_cancelado && ! $cancelacion_vencida ) : ?>
-                <div class="mc-vr-boton-wrapper">
+                <div class="mc-mr-vr-boton-wrapper">
                     <a href="#" 
-                    class="mc-vr-boton" 
+                    class="mc-mr-vr-boton" 
                     id="boton-cancelar-reserva"
                     data-order="<?php echo esc_attr( $order_id ); ?>">
                         Cancelar reserva

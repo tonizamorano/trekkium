@@ -178,26 +178,24 @@ function contenido_editar_actividad_shortcode() {
 
     <!-- Titular de sección -->
 
-    <div class="editar-actividad-seccion-titular">
-        <h2 class="editar-actividad-titular">
-            <span>Editar actividad</span>
-        </h2>	
+    <div class="mc-ma-na-titular">
+        <h2>Editar actividad</h2>  
     </div>
 
     <!-- Formulario de Editar Actividad -->
 
-    <form method="post" class="producto-edit-form-contenedor-ppal">
+    <form method="post" class="mc-ma-na-form-contenedor">
 
         <?php wp_nonce_field('guardar_actividad', 'formulario_editar_actividad_nonce'); ?>
 
         <!-- Título -->
-        <div class="contenedor-1col">
+        <div class="mc-ma-na-grid-1col">
             <label class="edit-form-titular">Título de la actividad*</label>
             <input type="text" name="actividad_titulo" class="edit-form-text" value="<?php echo esc_attr( $product->get_name() ); ?>" required>
         </div>
 
         <!-- Descripción -->
-        <div class="contenedor-1col">
+        <div class="mc-ma-na-grid-1col">
             <label class="edit-form-titular">Descripción*</label>
             <?php
             wp_editor(
@@ -221,9 +219,9 @@ function contenido_editar_actividad_shortcode() {
         </div>
 
         <!-- Imagenes 1 y 2 -->
-        <div class="contenedor-2col">
+        <div class="mc-ma-na-grid-2col">
             <!-- Imagen principal -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Imagen principal*</label>
                 <div class="edit-form-image-box" onclick="abrirMediaUploader(this, 'actividad_imagen_principal')">
                     <?php if ( $thumbnail_url ) : ?>
@@ -236,7 +234,7 @@ function contenido_editar_actividad_shortcode() {
             </div>
 
             <!-- Imagen 2 -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Imagen 2*</label>
                 <div class="edit-form-image-box" onclick="abrirMediaUploader(this, 'actividad_imagen_2')">
                     <?php if ( $imagen2_url ) : ?>
@@ -250,9 +248,9 @@ function contenido_editar_actividad_shortcode() {
         </div>
 
         <!-- Imagenes 3 y 4 -->
-        <div class="contenedor-2col">
+        <div class="mc-ma-na-grid-2col">
             <!-- Imagen 3 -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Imagen 3*</label>
                 <div class="edit-form-image-box" onclick="abrirMediaUploader(this, 'actividad_imagen_3')">
                     <?php if ( $imagen3_url ) : ?>
@@ -265,7 +263,7 @@ function contenido_editar_actividad_shortcode() {
             </div>
 
             <!-- Imagen 4 -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Imagen 4*</label>
                 <div class="edit-form-image-box" onclick="abrirMediaUploader(this, 'actividad_imagen_4')">
                     <?php if ( $imagen4_url ) : ?>
@@ -279,9 +277,9 @@ function contenido_editar_actividad_shortcode() {
         </div>
 
         <!-- Tipo y Modalidad -->
-        <div class="contenedor-2col">
+        <div class="mc-ma-na-grid-2col">
             <!-- Tipo -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Tipo*</label>
                 <?php
                 $terms_tipo = get_terms(['taxonomy'=>'tipo','hide_empty'=>false]);
@@ -298,7 +296,7 @@ function contenido_editar_actividad_shortcode() {
             </div>
 
             <!-- Modalidad -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Modalidad*</label>
                 <?php
                 $terms_modalidad = get_terms(['taxonomy'=>'modalidad','hide_empty'=>false]);
@@ -318,9 +316,9 @@ function contenido_editar_actividad_shortcode() {
 
 
         <!-- País y Región -->
-        <div class="contenedor-2col">
+        <div class="mc-ma-na-grid-2col">
             <!-- País -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">País*</label>
                 <?php
                 $terms_pais = get_terms(['taxonomy'=>'pais','hide_empty'=>false]);
@@ -337,7 +335,7 @@ function contenido_editar_actividad_shortcode() {
             </div>
 
             <!-- Región -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Región*</label>
                 <?php
                 $terms_region = get_terms(['taxonomy'=>'region','hide_empty'=>false]);
@@ -355,9 +353,9 @@ function contenido_editar_actividad_shortcode() {
         </div>
 
         <!-- Provincia -->
-        <div class="contenedor-2col">
+        <div class="mc-ma-na-grid-2col">
             <!-- Provincia -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Provincia*</label>
                 <?php
                 $terms_provincia = get_terms(['taxonomy'=>'provincia','hide_empty'=>false]);
@@ -374,43 +372,43 @@ function contenido_editar_actividad_shortcode() {
             </div>
 
             <!-- Columna vacía -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <!-- Espacio vacío -->
             </div>
         </div>
 
 
         <!-- Fecha y Hora -->
-        <div class="contenedor-2col">
+        <div class="mc-ma-na-grid-2col">
             <!-- Fecha -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Fecha*</label>
                 <input type="date" name="actividad_fecha" class="edit-form-text" value="<?php echo esc_attr($fecha_actual); ?>" required>
             </div>
 
             <!-- Hora -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Hora*</label>
                 <input type="time" name="actividad_hora" class="edit-form-text" value="<?php echo esc_attr($hora_actual); ?>" required>
             </div>
         </div>
 
         <!-- Punto de encuentro -->
-        <div class="contenedor-1col">
+        <div class="mc-ma-na-grid-1col">
             <label class="edit-form-titular">Punto de encuentro*</label>
             <textarea name="actividad_encuentro" class="edit-form-text" rows="3" required><?php echo esc_textarea( get_post_meta($product_id, 'encuentro', true) ); ?></textarea>
         </div>
 
         <!-- Enlace a Google Maps -->
-        <div class="contenedor-1col">
+        <div class="mc-ma-na-grid-1col">
             <label class="edit-form-titular">Enlace a GoogleMaps*</label>
             <textarea name="actividad_google_maps" class="edit-form-text" rows="3" required><?php echo esc_textarea( get_post_meta($product_id, 'google_maps', true) ); ?></textarea>
         </div>
 
         <!-- Distancia y Duración -->
-        <div class="contenedor-2col">
+        <div class="mc-ma-na-grid-2col">
             <!-- Distancia (Km) -->
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Distancia*</label>
                 <div class="input-with-suffix">
                     <input type="number" name="actividad_distancia" class="edit-form-text" 
@@ -422,7 +420,7 @@ function contenido_editar_actividad_shortcode() {
 
             <!-- Duración (h) -->
 
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Duración*</label>
                 <div class="input-with-suffix">
                     <input type="number" name="actividad_duracion" class="edit-form-text" 
@@ -434,11 +432,11 @@ function contenido_editar_actividad_shortcode() {
 
         <!-- Desnivel positivo y negativo -->
 
-        <div class="contenedor-2col">
+        <div class="mc-ma-na-grid-2col">
 
             <!-- Desnivel positivo (m) -->
 
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
 
                 <label class="edit-form-titular">Desnivel positivo*</label>
 
@@ -452,7 +450,7 @@ function contenido_editar_actividad_shortcode() {
 
             <!-- Desnivel negativo (m) -->
 
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
 
                 <label class="edit-form-titular">Desnivel negativo*</label>
 
@@ -468,11 +466,11 @@ function contenido_editar_actividad_shortcode() {
 
         <!-- Dificultad física -->
 
-        <div class="contenedor-2col">
+        <div class="mc-ma-na-grid-2col">
 
             <!-- Columna 1: selector de dificultad -->
 
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Dificultad física*</label>
                 <?php
                 $terms_dificultad = get_terms([
@@ -493,7 +491,7 @@ function contenido_editar_actividad_shortcode() {
 
             <!-- Columna 2: vacía -->
 
-            <div class="contenedor-1col">
+            <div class="mc-ma-na-grid-1col">
 
                 <!-- Espacio vacío -->
 
@@ -506,7 +504,7 @@ function contenido_editar_actividad_shortcode() {
 
     $dificultad_tecnica = get_post_meta($product_id, 'dificultad_tecnica', true);
     ?>
-    <div class="contenedor-1col">
+    <div class="mc-ma-na-grid-1col">
         <label class="edit-form-titular">Dificultad técnica*</label>
         <?php
         wp_editor(
@@ -532,7 +530,7 @@ function contenido_editar_actividad_shortcode() {
     // Planificación
     $planificacion = get_post_meta($product_id, 'planificacion', true);
     ?>
-    <div class="contenedor-1col">
+    <div class="mc-ma-na-grid-1col">
         <label class="edit-form-titular">Planificación*</label>
         <?php
         wp_editor(
@@ -558,7 +556,7 @@ function contenido_editar_actividad_shortcode() {
     // Material necesario
     $material = get_post_meta($product_id, 'material', true);
     ?>
-    <div class="contenedor-1col">
+    <div class="mc-ma-na-grid-1col">
         <label class="edit-form-titular">Material necesario*</label>
         <?php
         wp_editor(
@@ -584,7 +582,7 @@ function contenido_editar_actividad_shortcode() {
     // Incluído en la actividad
     $incluye = get_post_meta($product_id, 'incluye', true);
     ?>
-    <div class="contenedor-1col">
+    <div class="mc-ma-na-grid-1col">
         <label class="edit-form-titular">Incluído en la actividad*</label>
         <?php
         wp_editor(

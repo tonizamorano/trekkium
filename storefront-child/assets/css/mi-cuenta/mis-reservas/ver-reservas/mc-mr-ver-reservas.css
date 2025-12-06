@@ -1,0 +1,58 @@
+.hentry .wp-post-image {
+    margin-bottom: 0 !important;    
+}
+
+.mc-mr-ver-reservas-contenedor {
+    width: 100%;   
+}
+
+
+.mc-mr-ver-reservas-titulo {
+    background-color: var(--azul1-100);
+    padding: 7px 15px;
+    margin-bottom: 15px;
+}
+
+.mc-mr-ver-reservas-titulo h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.mc-mr-ver-reservas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 0;
+    
+}
+
+.mc-mr-ver-reservas-colder {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mc-mr-ver-reservas-colizq {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .mc-mr-ver-reservas-contenedor {
+        padding: 0 15px;
+        background-color: #fff;
+    }
+
+    .mc-mr-ver-reservas-titulo h2 {
+        font-size: 20px;
+    }
+
+    .mc-mr-ver-reservas-grid {
+        grid-template-columns: 1fr;
+        gap: 0px;
+    }
+
+}

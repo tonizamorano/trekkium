@@ -54,55 +54,42 @@ add_shortcode('mc_vr_estado_actividad', function ($atts) {
     ob_start();
     ?>
 
-    <style>
-        .estado-actividad-box {
-            background: #E67E22;
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 5px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 15px;
-            line-height: 1;
-        }
-       
-    </style>
+    <div class="mc-mr-vr-contenedor">
 
-    <div class="contenedor-detalles">
+        <div class="mc-mr-vr-titular">
+            <h2>Estado de la actividad</h2>
+        </div>
 
-        <h1>Estado de la actividad</h1>
+        <div class="mc-mr-vr-contenido">
 
-        <div class="contenido-detalles">
-
-            <div class="campo-detalle">
+            <div class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Grupo máximo</span>
                 <span class="valor"><?php echo esc_html($plazas_totales ?: '—'); ?></span>
             </div>
 
-            <div class="campo-detalle">
+            <div class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Grupo mínimo</span>
                 <span class="valor"><?php echo esc_html($plazas_minimas ?: '—'); ?></span>
             </div>
 
-            <div class="campo-detalle">
+            <div class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Plazas disponibles</span>
                 <span class="valor"><?php echo esc_html($plazas_disponibles !== '' ? $plazas_disponibles : '—'); ?></span>
             </div>
 
-            <div class="campo-detalle">
+            <div class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Plazas reservadas</span>
                 <span class="valor"><?php echo esc_html($plazas_reservadas); ?></span>
             </div>
 
             <!-- NUEVO BLOQUE: Estado -->
-            <div class="estado-actividad-box">
+            <div class="mc-mr-vr-estado-actividad">
                 <?php echo esc_html($estado_actividad ?: 'Sin definir'); ?>
             </div>
 
             <!-- NUEVO BLOQUE: Mensaje -->
             <?php if (!empty($mensaje_actividad)) : ?>
-                <div class="campo-detalle-texto">
+                <div class="mc-mr-vr-fila-datos-texto">
                     <?php echo esc_html($mensaje_actividad); ?>
                 </div>
             <?php endif; ?>

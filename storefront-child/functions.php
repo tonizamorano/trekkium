@@ -305,3 +305,4 @@ add_action('wp_head', function() {
     echo '<meta name="format-detection" content="telephone=no,email=no">';
 });
 
+

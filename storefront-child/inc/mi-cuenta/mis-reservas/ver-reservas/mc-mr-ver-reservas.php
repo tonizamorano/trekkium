@@ -85,16 +85,16 @@ function mostrar_detalles_del_pedido() {
     });
     </script>
 
-    <div class="detalles-reservas-container">  
+    <div class="mc-mr-ver-reservas-contenedor">  
         
-        <div class="reservas-container-titulo">
+        <div class="mc-mr-ver-reservas-titulo">
             <h2>Detalles de la reserva</h2>
         </div>
 
-        <div class="contenedor-dos-columnas">
+        <div class="mc-mr-ver-reservas-grid">
 
             <!-- COLUMNA IZQUIERDA -->
-            <div class="columna-izquierda">
+            <div class="mc-mr-ver-reservas-colizq">
 
                 <!-- Detalles de la reserva -->
                 <?php echo do_shortcode('[mc_vr_detalles_reserva]'); ?>
@@ -108,7 +108,7 @@ function mostrar_detalles_del_pedido() {
             </div>
 
             <!-- COLUMNA DERECHA -->
-            <div class="columna-derecha">
+            <div class="mc-mr-ver-reservas-colder">
 
                 <!-- Detalles de la actividad-->
                 <?php echo do_shortcode('[mc_vr_estado_actividad order_id="'.$order_id.'"]'); ?>

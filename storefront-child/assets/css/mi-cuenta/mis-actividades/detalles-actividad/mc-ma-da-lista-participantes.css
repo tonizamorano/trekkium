@@ -1,37 +1,3 @@
-.detalles-actividad-seccion-titular {
-    background: var(--azul1-100);
-    padding: 5px 10px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-}
-
-.detalles-actividad-titular {
-    color: #fff;
-    font-size: 18px;
-    margin: 0;			
-}
-
-.detalles-actividad-contenido {
-    background: #fff;
-    padding: 10px;
-}
-
-.detalles-actividad-titulo {
-    color:var(--azul1-100);
-    margin-bottom: 20px;
-    font-size: 1.6em;
-}
-
-.detalles-actividad-item {
-    margin-bottom: 10px;
-    font-size: 1.05em;
-}
-
-.detalles-actividad-item strong {
-    color:var(--naranja1-100);
-}
-
 .participantes-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -69,7 +35,7 @@
 .participante-item-estado-completado .participante-telefono,
 .participante-item-estado-completado .participante-numero-reserva,
 .participante-item-estado-completado .participante-estado-reserva {
-    color: var(--marron-100) !important; /* Granate */
+    color: var(--marron-100) !important;
 }
 
 .participante-avatar-col {
@@ -126,7 +92,7 @@
     font-weight: bold;
 }
 
-/* Estados específicos para el badge de estado */
+/* Estados específicos del badge */
 .participante-item-estado-pendiente .participante-estado-reserva {
     background: rgba(255, 255, 255, 0.3);
     color: white;
@@ -143,12 +109,8 @@
         grid-template-columns: 1fr;
         gap: 0;
     }
-    
+
     .participante-item {
         margin-bottom: 15px;
-    }
-    
-    .detalles-actividad-titular {
-        font-size: 20px;			
     }
 }

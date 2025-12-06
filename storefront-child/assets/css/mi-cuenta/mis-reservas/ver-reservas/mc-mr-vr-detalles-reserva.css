@@ -1,0 +1,37 @@
+.mc-mr-vr-numero-reserva {
+    font-size:18px; 
+    font-weight:500; 
+    color:var(--azul1-100); 
+    margin-bottom:4px;
+
+}
+
+.mc-mr-vr-titulo-reserva {
+    color: var(--azul1-100);
+    background-color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.mc-mr-vr-ubicacion-actividad {
+    color: var(--naranja1-100);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.mc-mr-vr-estado-sobre-imagen {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: var(--naranja1-100);
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 5px;
+    line-height: 1;
+}
+

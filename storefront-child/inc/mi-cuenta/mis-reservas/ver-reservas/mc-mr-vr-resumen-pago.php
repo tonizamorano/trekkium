@@ -35,50 +35,52 @@ function mc_vr_resumen_pago_callback($atts) {
     ob_start();
     ?>
 
-    <div class="contenedor-detalles">
+    <div class="mc-mr-vr-contenedor">
 
-        <h1>Resumen del pago</h1>
+        <div class="mc-mr-vr-titular">
+            <h2>Resumen del pago</h2>
+        </div>
 
-        <div class="contenido-detalles">
+        <div class="mc-mr-vr-contenido">
 
-            <div class="campo-detalle">
+            <div class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Precio actividad</span>
                 <span class="valor"><?php echo wc_price($precio_total_actividad); ?></span>
             </div>
 
-            <div class="campo-detalle">
+            <div class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Importe reserva</span>
                 <span class="valor"><?php echo wc_price($precio_unitario_con_iva); ?></span>
             </div>
 
-            <div class="campo-detalle">
+            <div class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Plazas reservadas</span>
                 <span class="valor">x <?php echo esc_html($plazas); ?></span>
             </div>
 
             <div class="linea-divisoria" style="height: 2px;background-color: var(--azul1-100);margin: 7px 0px;border-radius: 2px;"></div>
 
-            <div class="campo-detalle">
+            <div class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Total actividad</span>
                 <span class="valor"><?php echo wc_price($precio_total_actividad * $plazas); ?></span>
             </div>
 
-            <div class="campo-detalle">
+            <div class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Total reserva</span>
                 <span class="valor"><?php echo $total_formatted; ?></span>
             </div>
 
-            <p class="campo-detalle">
+            <p class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Importe pendiente</span>
                 <span class="valor"><?php echo wc_price($falta_por_pagar); ?></span>
             </p>
 
-            <div class="campo-detalle-texto">
+            <div class="mc-mr-vr-fila-datos-texto">
                 IVA incluido en todos los precios.<br>
                 El día de la actividad deberás pagar al guía al contado el importe pendiente.
             </div>
 
-            <div class="campo-detalle-texto">
+            <div class="mc-mr-vr-fila-datos-texto">
                 Tu pago se hará efectivo en tu tarjeta cuando finalice el plazo límite de cancelación gratuita.
             </div>
 

@@ -1,0 +1,76 @@
+.mc-ma-da-estado-sobre-imagen {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: var(--naranja1-100);
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 5px;
+    line-height: 1;
+}
+
+.mc-ma-da-contenido {
+    background: #fff;
+    padding: 10px;
+}
+
+.mc-ma-da-titulo-reserva {
+    color: var(--azul1-100);
+    background-color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 600;
+}
+
+.mc-ma-da-ubicacion {
+    color: #E67E22;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* BOTONES DE LA SECCION */
+
+.mc-ma-da-boton-wrapper {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    margin-top:10px;
+    gap: 5px;
+}
+
+.mc-ma-da-boton {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px; /* separación entre icono y texto */
+    padding: 5px 10px;
+    background-color: var(--azul2-100);
+    border-radius: 50px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500 !important;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.mc-ma-da-boton:hover {
+    background-color: var(--azul2-40);
+}
+
+.mc-ma-da-boton svg,
+.mc-ma-da-boton img {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+}
+
+@media screen and (max-width: 768px) {
+
+    .mc-ma-da-boton {
+        font-size: 18px;
+    }
+
+}
+          

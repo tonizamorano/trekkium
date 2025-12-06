@@ -44,7 +44,7 @@ function mc_vr_mostrar_detalles_reserva() {
 
     ob_start(); ?>
 
-    <div class="contenedor-detalles">
+    <div class="mc-mr-vr-contenedor">
 
         <?php if (has_post_thumbnail($product_id)) : ?>
             <div class="imagen-actividad" style="position: relative;">
@@ -53,18 +53,18 @@ function mc_vr_mostrar_detalles_reserva() {
                 ]); ?>
                 
                 <!-- Estado de la reserva sobre la imagen -->
-                <div class="estado-sobre-imagen"><?php echo esc_html($estado_traducido); ?></div>
+                <div class="mc-mr-vr-estado-sobre-imagen"><?php echo esc_html($estado_traducido); ?></div>
             </div>
         <?php endif; ?>
 
-        <div class="contenido-detalles"> 
+        <div class="mc-mr-vr-contenido"> 
             
             <!-- Número de reserva -->
-            <div class="numero-reserva">
+            <div class="mc-mr-vr-numero-reserva">
                 Reserva Nº <?php echo esc_html($order_id); ?>
             </div>
 
-            <div class="titulo-reserva"><?php echo esc_html($producto_nombre); ?></div>
+            <div class="mc-mr-vr-titulo-reserva"><?php echo esc_html($producto_nombre); ?></div>
 
             <?php
             // Obtener provincia y región
@@ -75,32 +75,21 @@ function mc_vr_mostrar_detalles_reserva() {
             $region = !empty($region_terms) ? $region_terms[0]->name : '—';
             ?>
 
-            <div class="ubicacion-actividad"><?php echo esc_html($provincia . ' (' . $region . ')'); ?></div>
-
-            <style>
-            .ubicacion-actividad {
-                color: #E67E22;
-                font-size: 18px;
-                font-weight: 600;
-                margin-bottom: 10px;
-            }
-            </style>
-
-
-            <!-- BLOQUE INFO EXTRA -->
-            <div class="reserva-info-extra"></div>
+            <div class="mc-mr-vr-ubicacion-actividad">
+                <?php echo esc_html($provincia . ' (' . $region . ')'); ?>
+            </div>
 
             <!-- Nueva fila: Fecha y Hora del producto -->
-            <div class="campo-detalle">
+            <div class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Fecha</span><span class="valor"><?php echo esc_html($fecha_actividad); ?></span>
             </div>
-            <div class="campo-detalle">
+            <div class="mc-mr-vr-fila-datos">
                 <span class="etiqueta">Hora</span><span class="valor"><?php echo esc_html($hora_actividad); ?></span>
             </div>
 
             <!-- Botón Ver Actividad -->
-            <div class="mc-vr-boton-wrapper">
-                <a href="<?php echo get_permalink($product_id); ?>" class="mc-vr-boton">Ver actividad</a>
+            <div class="mc-mr-vr-boton-wrapper">
+                <a href="<?php echo get_permalink($product_id); ?>" class="mc-mr-vr-boton">Ver actividad</a>
             </div>
 
         </div>

@@ -13,7 +13,7 @@ function pagina_editar_actividad_shortcode() {
         <div class="pagina-columna33-sticky">
 
             <!-- Sección Card de Mi cuenta con menú -->
-            <?php echo do_shortcode('[seccion_card_micuenta]'); ?>
+            <?php echo do_shortcode('[mc_user_card]'); ?>
 
         </div>
 
