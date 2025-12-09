@@ -112,11 +112,11 @@
     // 7️⃣ Acceso y crear cuenta
     elseif ( str_contains($current_url, '/acceso/') ) {
         $titulo = 'Acceso';
-        $color_fondo = 'var(--rojo-100)';
+        $color_fondo = 'var(--azul1-100)';
     }
     elseif ( str_contains($current_url, '/crear-cuenta/') ) {
         $titulo = 'Acceso';
-        $color_fondo = 'var(--rojo-100)';
+        $color_fondo = 'var(--azul1-100)';
     }
 
     // 8️⃣ Finalizar compra (checkout)

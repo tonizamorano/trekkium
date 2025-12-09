@@ -65,7 +65,7 @@
 }
 
 .mc-required {
-    color: #ff0000;
+    color: var(--naranja1-100);
 }
 
 .mc-input-text,
@@ -75,7 +75,7 @@
     box-sizing: border-box;
     font-weight: 500 !important;
     color: var(--azul1-100) !important;
-    background-color: #f2f2f2 !important;
+    background-color: #f3f3f3 !important;
     border-style: none !important;
     border-radius: 5px;
     padding: 5px 10px !important;
@@ -143,7 +143,7 @@
 
 .mc-wp-editor {
     width: 100%;
-    border: 1px solid grey;
+    border: 1px solid var(--azul1-40);
     border-radius: 5px;
 }
 
@@ -205,17 +205,18 @@
 
 .mc-editar-cuenta-boton {
     background-color: var(--naranja1-100) !important;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
-    padding: 5px 15px !important;
+    padding: 7px 15px !important;
     color: #fff !important;
+    font-family: inherit !important;
     font-size: 16px !important;
-    font-weight: 600 !important;
+    line-height: 1;
+    font-weight: 500 !important;
     border-radius: 50px !important;
     cursor: pointer !important;
     border: none;
-    min-width: 200px;
-    font-family: inherit !important;
+    
 }
 
 .mc-editar-cuenta-boton:hover {
@@ -293,5 +294,9 @@
 
     .mc-idioma-checkbox-item label {
         font-size: 18px;
+    }
+
+    .mc-editar-cuenta-boton {
+        font-size: 18px !important;        
     }
 }

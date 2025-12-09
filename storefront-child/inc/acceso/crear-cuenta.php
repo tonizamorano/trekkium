@@ -10,56 +10,97 @@ function trekkium_pagina_crear_cuenta() {
 
     // CÁLCULO DE LA FECHA MÁXIMA PERMITIDA (18 años atrás)
     $max_date = date('Y-m-d', strtotime('-18 years'));
+    
+    // Procesar el teléfono del POST si existe (igual que en el otro snippet)
+    $default_prefix = '+34';
+    $phone_prefix = $default_prefix;
+    $phone_number = '';
+    $full_phone = isset($_POST['billing_phone']) ? sanitize_text_field($_POST['billing_phone']) : '';
+    
+    if (!empty($full_phone)) {
+        $clean_phone = preg_replace('/\s+/', '', $full_phone);
+        if (preg_match('/^(\+\d+)(\d{9})$/', $clean_phone, $matches)) {
+            $phone_prefix = $matches[1];
+            $phone_number = $matches[2];
+        } else {
+            $phone_number = $full_phone; 
+            $phone_prefix = $default_prefix;
+        }
+    }
+    $phone_number = preg_replace('/\s+/', '', $phone_number);
 
     ob_start(); ?>
     <div class="crear-cuenta-contenedor">
-        <?php if ($mensaje_error): ?>
-            <div class="trekkium-admin-notice error"><?php echo esc_html($mensaje_error); ?></div>
-        <?php endif; ?>
-        <?php if ($mensaje_exito): ?>
-            <div class="trekkium-admin-notice success"><?php echo esc_html($mensaje_exito); ?></div>
+
+        <?php if ($mensaje_error || $mensaje_exito): ?>
+            <div id="trekkium-modal" class="trekkium-modal">
+                <div class="trekkium-modal-content <?php echo $mensaje_error ? 'error' : 'success'; ?>">
+                    <span class="trekkium-modal-close">&times;</span>
+                    <p><?php echo esc_html($mensaje_error ?: $mensaje_exito); ?></p>
+                </div>
+            </div>
         <?php endif; ?>
 
         <div class="crear-cuenta-titulo-seccion">
-            <span class="crear-cuenta-titulo">Crear cuenta</span>
+            <h2>Nueva cuenta de usuario</h2>
         </div>
 
         <div class="crear-cuenta-contenido">
-            <form id="crear-cuenta-form" method="post">
+
+            <form class="crear-cuenta-form" id="crear-cuenta-form" method="post">
+
                 <div class="crear-cuenta-form-grid">
+
                     <div class="crear-cuenta-form-grid-col">
                         <label for="account_first_name">Nombre*</label>
                         <input type="text" id="account_first_name" name="account_first_name" value="<?php echo isset($_POST['account_first_name']) ? esc_attr($_POST['account_first_name']) : ''; ?>" required>
                     </div>
+
                     <div class="crear-cuenta-form-grid-col">
                         <label for="account_last_name">Apellidos*</label>
                         <input type="text" id="account_last_name" name="account_last_name" value="<?php echo isset($_POST['account_last_name']) ? esc_attr($_POST['account_last_name']) : ''; ?>" required>
                     </div>
+
                 </div>
 
                 <div class="crear-cuenta-form-grid">
+
                     <div class="crear-cuenta-form-grid-col">
                         <label for="account_display_name">Nombre visible*</label>
                         <input type="text" id="account_display_name" name="account_display_name" value="<?php echo isset($_POST['account_display_name']) ? esc_attr($_POST['account_display_name']) : ''; ?>" required>
                     </div>
+
                     <div class="crear-cuenta-form-grid-col">
                         <label for="fecha_nacimiento">Fecha de nacimiento*</label>
                         <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="<?php echo isset($_POST['fecha_nacimiento']) ? esc_attr($_POST['fecha_nacimiento']) : ''; ?>" required max="<?php echo esc_attr($max_date); ?>" pattern="\d{4}-\d{2}-\d{2}">
                     </div>
+
                 </div>
 
                 <div class="crear-cuenta-form-grid">
+
                     <div class="crear-cuenta-form-grid-col">
-                        <label for="billing_phone">Teléfono móvil*</label>
-                        <input type="tel" id="billing_phone" name="billing_phone" value="<?php echo isset($_POST['billing_phone']) ? esc_attr($_POST['billing_phone']) : ''; ?>" required>
+
+                        <label for="billing_phone_number">Teléfono móvil*</label>
+
+                        <div class="mc-phone-input-group">  
+                            <input type="text" class="mc-phone-prefix" name="billing_phone_prefix" id="billing_phone_prefix" value="<?php echo esc_attr($phone_prefix); ?>" placeholder="+XX" pattern="\+\d+" title="Debe empezar con '+' seguido de dígitos." required aria-required="true"/>
+                            <input type="tel" class="mc-phone-number" name="billing_phone_number" id="billing_phone_number" value="<?php echo esc_attr($phone_number); ?>" pattern="\d{9}" maxlength="9" title="9 dígitos sin espacios" required aria-required="true"/>
+                        </div>
+
+                        <input type="hidden" name="billing_phone" id="billing_phone" value="<?php echo esc_attr($full_phone); ?>" />
+
                     </div>
+
                     <div class="crear-cuenta-form-grid-col">
                         <label for="account_email">Correo electrónico*</label>
                         <input type="email" id="account_email" name="account_email" value="<?php echo isset($_POST['account_email']) ? esc_attr($_POST['account_email']) : ''; ?>" required>
                     </div>
+
                 </div>
 
                 <div class="crear-cuenta-form-grid">
+
                     <div class="crear-cuenta-form-grid-col">
                         <label for="billing_country">País de residencia*</label>
                         <?php
@@ -79,35 +120,29 @@ function trekkium_pagina_crear_cuenta() {
                         }
                         ?>
                     </div>
+
                     <div class="crear-cuenta-form-grid-col">
                         <label for="billing_state">Provincia*</label>
                         <select id="billing_state" name="billing_state" required>
                             <option value="">Selecciona una provincia</option>
                         </select>
                     </div>
-                </div>
 
-                <div class="crear-cuenta-form-grid">
-                    <div class="crear-cuenta-form-grid-col">
-                        <label for="billing_postcode">Código Postal / ZIP*</label>
-                        <input type="text" id="billing_postcode" name="billing_postcode" value="<?php echo isset($_POST['billing_postcode']) ? esc_attr($_POST['billing_postcode']) : ''; ?>" required>
-                    </div>
-                    <div class="crear-cuenta-form-grid-col">
-                        <label for="billing_city">Ciudad*</label>
-                        <input type="text" id="billing_city" name="billing_city" value="<?php echo isset($_POST['billing_city']) ? esc_attr($_POST['billing_city']) : ''; ?>" required>
-                    </div>
                 </div>
 
                 <div class="crear-cuenta-form-grid" style="margin-top: 15px;"> 
+
                     <div class="crear-cuenta-form-grid-col">
                         <label for="account_password">Contraseña*</label>
                         <input type="password" id="account_password" name="account_password" required minlength="8" autocomplete="new-password">
                         <small class="password-hint">Mínimo 8 caracteres, usa letras, números y símbolos.</small>
                     </div>
+
                     <div class="crear-cuenta-form-grid-col">
                         <label for="account_password_repeat">Repetir contraseña*</label>
                         <input type="password" id="account_password_repeat" name="account_password_repeat" required minlength="8" autocomplete="new-password">
                     </div>
+                    
                 </div>
 
                 <div class="crear-cuenta-sugerencia" id="sugerir-container">
@@ -144,9 +179,22 @@ function trekkium_pagina_crear_cuenta() {
         const generarBtn = document.getElementById('generar-password');
         const passwordSugerida = document.getElementById('password-sugerida');
         const sugerirContainer = document.getElementById('sugerir-container');
+        const prefixField = document.getElementById('billing_phone_prefix');
+        const numberField = document.getElementById('billing_phone_number');
+        const hiddenPhoneField = document.getElementById('billing_phone');
+        const form = document.getElementById('crear-cuenta-form');
 
         // Estado seleccionado (si viene de POST)
         const selectedState = '<?php echo isset($_POST['billing_state']) ? esc_js($_POST['billing_state']) : ''; ?>';
+
+        // Función para actualizar el campo oculto del teléfono (IGUAL QUE EN EL OTRO SNIPPET)
+        function updateHiddenPhoneField() {
+            if (prefixField && numberField && hiddenPhoneField) {
+                var prefix = prefixField.value.trim().replace(/\s/g, '');
+                var number = numberField.value.trim().replace(/\s/g, '');
+                hiddenPhoneField.value = prefix + number; 
+            }
+        }
 
         // Función para poblar estados/provincias
         function loadStates(country, preselect) {
@@ -206,11 +254,8 @@ function trekkium_pagina_crear_cuenta() {
         // Detección razonable de gestor nativo de contraseñas para ocultar botón
         document.addEventListener('DOMContentLoaded', function() {
             const hasNativePasswordManager =
-                // Chrome/Edge/Opera expose PasswordCredential (may be deprecated) or user agent heuristics
                 ( !!window.PasswordCredential ) ||
-                // Safari detection (not perfect but práctico)
                 ( navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome') ) ||
-                // Firefox: tiene gestor salvo versiones antiguas (lo ocultamos igualmente)
                 navigator.userAgent.includes('Firefox');
 
             if (hasNativePasswordManager && sugerirContainer) {
@@ -221,9 +266,39 @@ function trekkium_pagina_crear_cuenta() {
             if (countrySelect && countrySelect.value) {
                 loadStates(countrySelect.value, selectedState);
             }
+
+            // Configurar listeners para el teléfono (IGUAL QUE EN EL OTRO SNIPPET)
+            if (prefixField) prefixField.addEventListener('input', updateHiddenPhoneField);
+            if (numberField) numberField.addEventListener('input', function() {
+                this.value = this.value.replace(/\s/g, '');
+                updateHiddenPhoneField();
+            });
+        });
+
+        // Actualizar teléfono antes de enviar el formulario
+        if (form) {
+            form.addEventListener('submit', updateHiddenPhoneField);
+        }
+    })();
+    </script>
+
+    <script>
+    (function(){
+        const modal = document.getElementById('trekkium-modal');
+        if (!modal) return;
+
+        const closeBtn = modal.querySelector('.trekkium-modal-close');
+        closeBtn.addEventListener('click', function(){
+            modal.style.display = 'none';
+        });
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.addEventListener('click', function(event){
+            if (event.target === modal) modal.style.display = 'none';
         });
     })();
     </script>
+
 
     <?php
     return ob_get_clean();
@@ -253,12 +328,15 @@ function trekkium_procesar_registro_usuario() {
     $first_name = sanitize_text_field($_POST['account_first_name']);
     $last_name = sanitize_text_field($_POST['account_last_name']);
     $display_name = sanitize_text_field($_POST['account_display_name']);
-    $phone = sanitize_text_field($_POST['billing_phone']);
+    
+    // OBTENER EL TELÉFONO COMBINADO (IGUAL QUE EN EL OTRO SNIPPET)
+    $full_phone_normalized = '';
+    if (isset($_POST['billing_phone'])) {
+        $full_phone_normalized = sanitize_text_field(preg_replace('/\s+/', '', $_POST['billing_phone']));
+    }
+    
     $country = sanitize_text_field($_POST['billing_country']);
     $state = sanitize_text_field($_POST['billing_state']);
-    $postcode = sanitize_text_field($_POST['billing_postcode']);
-    $city = sanitize_text_field($_POST['billing_city']);
-    // NACIONALIDAD ELIMINADA
     $fecha_nacimiento = sanitize_text_field($_POST['fecha_nacimiento']);
     $password = sanitize_text_field($_POST['account_password']);
     $password_repeat = sanitize_text_field($_POST['account_password_repeat']);
@@ -268,6 +346,20 @@ function trekkium_procesar_registro_usuario() {
     if (strlen($password) < 8) return new WP_Error('password_short', 'La contraseña debe tener al menos 8 caracteres.');
     if ($password !== $password_repeat) return new WP_Error('password_mismatch', 'Las contraseñas no coinciden.');
 
+    // VALIDACIÓN DEL TELÉFONO (IGUAL QUE EN EL OTRO SNIPPET)
+    if (isset($_POST['billing_phone_prefix']) && isset($_POST['billing_phone_number'])) {
+        $prefix = sanitize_text_field($_POST['billing_phone_prefix']);
+        $number = sanitize_text_field($_POST['billing_phone_number']);
+        $clean_number = preg_replace('/\s+/', '', $number);
+        
+        if (!preg_match('/^\+\d+$/', $prefix)) {
+            return new WP_Error('billing_phone_prefix_format_error', __('El prefijo del teléfono debe empezar con "+" y contener solo números.', 'woocommerce'));
+        }
+        if (!preg_match('/^\d{9}$/', $clean_number)) {
+            return new WP_Error('billing_phone_number_format_error', __('El número de teléfono debe tener exactamente 9 dígitos y no puede contener espacios.', 'woocommerce'));
+        }
+    }
+
     // VALIDACIÓN DE EDAD: El usuario debe tener al menos 18 años.
     $fecha_nac = DateTime::createFromFormat('Y-m-d', $fecha_nacimiento);
     if (!$fecha_nac) return new WP_Error('invalid_date', 'Fecha de nacimiento no válida.');
@@ -276,10 +368,10 @@ function trekkium_procesar_registro_usuario() {
     if ($fecha_nac > $fecha_minima_registro) return new WP_Error('underage', 'Debes tener al menos 18 años para registrarte.');
 
     global $wpdb;
-    // Teléfono duplicado
+    // Teléfono duplicado (USANDO EL TELÉFONO COMBINADO)
     $phone_exists = $wpdb->get_var($wpdb->prepare(
         "SELECT user_id FROM $wpdb->usermeta WHERE meta_key='billing_phone' AND meta_value=%s LIMIT 1",
-        $phone
+        $full_phone_normalized
     ));
     if ($phone_exists) return new WP_Error('phone_exists', 'Este número de teléfono ya está registrado.');
 
@@ -290,12 +382,9 @@ function trekkium_procesar_registro_usuario() {
         'last_name' => $last_name,
         'display_name' => $display_name,
         'email' => $email,
-        'phone' => $phone,
+        'phone' => $full_phone_normalized, // GUARDAR EL TELÉFONO COMBINADO
         'country' => $country,
         'state' => $state,
-        'postcode' => $postcode,
-        'city' => $city,
-        // NACIONALIDAD ELIMINADA
         'fecha_nacimiento' => $fecha_nacimiento,
         'password' => base64_encode($password)
     ];
@@ -330,8 +419,10 @@ add_action('template_redirect', function() {
                 'role' => 'customer'
             ]);
 
-            // Se elimina 'nacionalidad' de la lista de metas a guardar
-            foreach (['phone','country','state','postcode','city','fecha_nacimiento'] as $meta) {
+            // Guardar el teléfono combinado en los metadatos
+            update_user_meta($user_id, 'billing_phone', $data['phone']);
+            
+            foreach (['country','state','fecha_nacimiento'] as $meta) {
                 if ($meta === 'fecha_nacimiento') {
                     update_user_meta($user_id, 'fecha_nacimiento', $data[$meta]);
                 } else {

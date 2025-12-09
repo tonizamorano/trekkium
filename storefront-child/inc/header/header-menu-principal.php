@@ -45,7 +45,7 @@ add_shortcode('menu_principal', function () {
 
         <?php } else { 
             $login_url = home_url('/acceso/');
-            $is_active = is_page('acceso'); ?>
+            $is_active = is_page(['acceso', 'crear-cuenta']); ?>
 
             <a href="<?php echo esc_url($login_url); ?>" 
                class="icono-avatar no-user <?php echo $is_active ? 'active' : ''; ?>" 

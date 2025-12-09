@@ -1,37 +1,32 @@
 /* ======== Estilos generales ======== */
 
-.crear-cuenta-contenedor {
-   
-    max-width: 700px;
+.crear-cuenta-contenedor {   
+    max-width: 600px;
     margin: 0 auto;
-    padding: 0;
-    
+    padding: 0;    
 }
 
 .crear-cuenta-titulo-seccion {
-    background-color: var(--azul1-100, #0b568b);
-    padding: 5px 10px;
+    background-color: var(--azul1-100);
+    padding: 10px 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
 
-.crear-cuenta-titulo {
+.crear-cuenta-titulo-seccion h2 {
     font-size: 18px;
     color: #fff;
-    font-weight: 600;
+    font-weight: 500;
 }
-
-@media (max-width: 768px) {
-    .crear-cuenta-titulo {
-        font-size: 20px;
-    }
-}
-
 .crear-cuenta-contenido {
-    padding: 10px 20px;
-     background: #fff;
+    padding: 15px;
+    background: #fff;
+}
+
+.crear-cuenta-form {
+    margin-bottom: 0px !important;
 }
 
 .crear-cuenta-form-grid {
@@ -41,37 +36,42 @@
     margin-bottom: 15px;
 }
 
-@media (max-width: 768px) {
-    .crear-cuenta-form-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
 .crear-cuenta-form-grid-col {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
 }
 
 .crear-cuenta-form-grid-col label {
     font-weight: 500;
-    color: #333;
+    font-family: inherit;
+    font-size: 18px;
+    color: var(--azul1-100);
 }
 
 .crear-cuenta-form-grid-col input,
 .crear-cuenta-form-grid-col select {
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 7px 10px !important;
+    line-height: 1;
     border-radius: 6px;
     font-size: 15px;
+    font-family: inherit;
     width: 100%;
 }
 
 .crear-cuenta-form-grid-col input:focus,
 .crear-cuenta-form-grid-col select:focus {
-    border-color: var(--azul1-100, #0b568b);
+    border-color: var(--azul1-100);
     outline: none;
 }
+
+
+
+
+
+
+
+
 
 .crear-cuenta-seccion-requisitos {
     margin-top: 20px;
@@ -89,35 +89,87 @@
 
 .crear-cuenta-boton-seccion {
     display: flex;
-    justify-content: center;
-    margin: 25px 0;
+    justify-content: left;
+    margin: 15px 0 0 0;
 }
 
 .crear-cuenta-boton {
-    background-color: var(--naranja100, #E67E22);
+    background-color: var(--naranja1-100);
     color: #fff;
-    font-weight: bold;
-    padding: 10px 15px;
+    font-weight: 500;
+    padding: 7px 15px;
     font-size: 16px;
+    line-height: 1;
     border: none;
-    border-radius: 8px;
+    border-radius: 50px;
+    font-family: inherit;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .crear-cuenta-boton:hover {
-    background-color: var(--naranja60, #F39C12);
+    background-color: var(--naranja1-40);
+    color: #fff !important;
 }
 
 @media (max-width: 768px) {
 
 
     .crear-cuenta-contenedor {
-        padding: 15px;
-        
+        padding: 15px;        
+    }
+ 
+    .crear-cuenta-titulo-seccion h2,
+    .crear-cuenta-form-grid-col label {
+        font-size: 20px;
+    }
+
+    .crear-cuenta-form-grid {
+        grid-template-columns: 1fr;
     }
 
     .crear-cuenta-boton {
         font-size: 18px;
     }
+}
+
+
+
+/* MODAL!! */
+
+.trekkium-modal {
+    display: block; /* visible solo cuando hay mensaje */
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+.trekkium-modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    font-size: 16px;
+    text-align: center;
+}
+.trekkium-modal-content.error { border-left: 5px solid #e74c3c; }
+.trekkium-modal-content.success { border-left: 5px solid #2ecc71; }
+.trekkium-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+.trekkium-modal-close:hover {
+    color: #000;
 }

@@ -57,8 +57,10 @@
     background: rgba(0,0,0,0.6);
     display: none;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Cambiado de center a flex-start */
     z-index: 9999;
+    overflow-y: auto; /* Permitir scroll en el overlay */
+    padding: 20px 0; /* Espacio en top y bottom */
 }
 
 .mc-mr-vr-modal {
@@ -67,8 +69,30 @@
     max-width: 500px;
     width: 90%;
     border-radius: 8px;
-    margin: 15px 0;
+    margin: 15px auto; /* Centrado vertical con margen */
+    max-height: 90vh; /* Máximo 90% de la altura de la ventana */
+    overflow-y: auto; /* Scroll interno si es necesario */
 }
+
+.mc-mr-vr-modal {
+    scrollbar-width: thin;
+    scrollbar-color: var(--azul1-100) #f1f1f1;
+}
+
+.mc-mr-vr-modal::-webkit-scrollbar {
+    width: 10px;
+}
+
+.mc-mr-vr-modal::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.mc-mr-vr-modal::-webkit-scrollbar-thumb {
+    background: var(--azul1-100);
+    border-radius: 10px;
+}
+
 
 .mc-mr-vr-modal h2 { 
     margin-top: 0; 
@@ -79,7 +103,7 @@
 }
 
 .mc-mr-vr-modal-form {
-
+    min-height: min-content; /* Ajustar altura al contenido */
     margin:0 !important;
 }
 

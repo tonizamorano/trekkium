@@ -1,6 +1,6 @@
 <?php
 // -------------------------
-// Shortcode: cambiar contraseña + eliminar cuenta (1 columna)
+// Shortcode: cambiar contraseña + eliminar cuenta (sin buttons)
 add_shortcode('contenido_contrasena_eliminar', 'trekkium_password_delete_account_shortcode');
 
 function trekkium_password_delete_account_shortcode() {
@@ -9,169 +9,235 @@ function trekkium_password_delete_account_shortcode() {
     }
 
     ob_start();
-    
     $user = wp_get_current_user();
     ?>
 
-    <div class="trekkium-cambiar-contrasena-section">
+<div class="mc-ec-ce-contenedor">
 
-        <!-- COLUMNA ÚNICA -->
+    <div class="mc-ec-ce-seccion">
+        
+        <a href="#" class="mc-ec-ce-boton" data-modal="change-password-modal">
+            Cambiar contraseña
+        </a>   
 
-        <!-- Cambiar Contraseña -->
-        <div class="micuenta-contrasena-eliminar-columna">
+        <?php if (array_intersect(['customer', 'administrator'], $user->roles)) : ?>   
+    
+        <a href="#" class="mc-ec-ce-boton" data-modal="delete-account-modal">
+            Eliminar cuenta
+        </a>
 
-            <div class="titular-contrasena-section accordion-header">
-                <h2 class="cambiar-contrasena-titulo">Cambiar contraseña</h2>
-            </div>
-
-            <div class="accordion-content" style="display: none;">
-                <div class="woocommerce-billing-fields__field-wrapper trekkium-extra-fields">
-                    <form id="ajax-change-password-form" method="post">
-                        <?php wp_nonce_field('ajax_change_password', 'ajax_change_password_nonce'); ?>
-
-                        <div class="form-row password-field-wrapper">
-                            <label for="password_current">Contraseña actual <span class="required">*</span></label>
-                            <div class="password-input-container">
-                                <input type="password" name="password_current" id="password_current" class="input-text" autocomplete="current-password" required placeholder="Introduce tu contraseña actual" />
-                                <span class="toggle-password" data-target="password_current">
-                                    <svg class="eye-icon eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                    <svg class="eye-icon eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
-                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                                        <line x1="1" y1="1" x2="23" y2="23"></line>
-                                    </svg>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="form-row password-field-wrapper">
-                            <label for="password_1">Nueva contraseña <span class="required">*</span></label>
-                            <div class="password-input-container">
-                                <input type="password" name="password_1" id="password_1" class="input-text" autocomplete="new-password" required placeholder="Introduce tu nueva contraseña" />
-                                <span class="toggle-password" data-target="password_1">
-                                    <svg class="eye-icon eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                    <svg class="eye-icon eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
-                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                                        <line x1="1" y1="1" x2="23" y2="23"></line>
-                                    </svg>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="form-row password-field-wrapper">
-                            <label for="password_2">Repetir nueva contraseña <span class="required">*</span></label>
-                            <div class="password-input-container">
-                                <input type="password" name="password_2" id="password_2" class="input-text" autocomplete="new-password" required placeholder="Repite tu nueva contraseña" />
-                                <span class="toggle-password" data-target="password_2">
-                                    <svg class="eye-icon eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                    <svg class="eye-icon eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
-                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                                        <line x1="1" y1="1" x2="23" y2="23"></line>
-                                    </svg>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="micuenta-contrasena-eliminar-buton-section">                            
-                            <button class="micuenta-contrasena-eliminar-buton" type="submit">Cambiar contraseña</button>
-                        </div>
-                        
-                        <div id="password-change-message"></div>
-                    </form>
-                </div>
-            </div>
-
-        </div>
-
-        <?php if (array_intersect(['customer', 'administrator'], $user->roles)) : ?>
-
-        <!-- Eliminar Cuenta -->
-        <div class="micuenta-contrasena-eliminar-columna">
-
-            <div class="titular-contrasena-section accordion-header">
-                <h2 class="cambiar-contrasena-titulo">Eliminar cuenta</h2>
-            </div>
-
-            <div class="accordion-content" style="display: none;">
-                <div class="woocommerce-billing-fields__field-wrapper trekkium-extra-fields">
-                    <p class="texto-eliminar-cuenta">Al eliminar tu cuenta se borrarán todos tus datos de contacto, contraseñas, reservas, cupones, etc. ¿Estás seguro de que quieres eliminar tu cuenta? Esta acción es irreversible.</p>
-                    
-                    <div class="micuenta-contrasena-eliminar-buton-section">
-                        <button class="micuenta-contrasena-eliminar-buton" id="confirm-delete-account" type="button">Eliminar cuenta</button>
-                    </div>
-
-                    <div id="delete-account-message"></div>
-                </div>
-            </div>
-
-        </div>
         <?php endif; ?>
 
     </div>
-    
-    <!-- JS funcionalidad acordeón y AJAX -->
-    <script type="text/javascript">
-        jQuery(function($) {
-            $('.accordion-header').on('click', function() {
-                $(this).toggleClass('active');
-                $(this).next('.accordion-content').slideToggle(300);
-            });
 
-            $('.toggle-password').on('click', function() {
-                const target = $(this).data('target');
-                const input = $('#' + target);
-                const eyeOpen = $(this).find('.eye-open');
-                const eyeClosed = $(this).find('.eye-closed');
-                if (input.attr('type') === 'password') {
-                    input.attr('type', 'text');
-                    eyeOpen.hide(); eyeClosed.show();
-                } else {
-                    input.attr('type', 'password');
-                    eyeOpen.show(); eyeClosed.hide();
-                }
-            });
+    <!-- Modal Cambiar Contraseña -->
+    <div id="change-password-modal" class="mc-ec-ce-modal" style="display:none;">
+        <div class="mc-ec-ce-modal-overlay"></div>
+        <div class="mc-ec-ce-modal-content">
+            <a href="#" class="mc-ec-ce-modal-close">&times;</a>
+            <h2 class="mc-ec-ce-titulo">Cambiar contraseña</h2>
+            
+            <div id="password-change-message" style="display:none; padding: 10px; margin: 15px 0; border-radius: 4px;"></div>
+            
+            <div id="password-form-container">
+                <form id="ajax-change-password-form" method="post">
+                    <?php wp_nonce_field('ajax_change_password', 'ajax_change_password_nonce'); ?>
 
-            $('#ajax-change-password-form').on('submit', function(e) {
-                e.preventDefault();
-                let data = $(this).serialize() + '&action=ajax_change_password';
-                $('#password-change-message').css('color', 'red').html('Procesando...');
-                $.post('<?php echo admin_url('admin-ajax.php'); ?>', data, function(response) {
-                    if (response.success) {
-                        $('#password-change-message').css('color', 'green').html(response.data.message);
-                        $('#ajax-change-password-form')[0].reset();
-                        setTimeout(() => location.reload(), 2000);
-                    } else {
-                        $('#password-change-message').css('color', 'red').html(response.data.message);
-                    }
-                });
-            });
+                    <div class="form-row mc-ec-ce-field-wrapper">
+                        <label for="password_current">Contraseña actual <span class="required">*</span></label>
+                        <div class="mc-ec-ce-input-container">
+                            <input type="password" name="password_current" id="password_current" required placeholder="Introduce tu contraseña actual" />
+                            <a href="#" class="mc-ec-ce-toggle" data-target="password_current">
+                                <span class="eye-icon eye-open"><?php echo do_shortcode('[icon_ojo1]'); ?></span>
+                                <span class="eye-icon eye-closed" style="display:none;"><?php echo do_shortcode('[icon_ojo2]'); ?></span>
+                            </a>
+                        </div>
+                    </div>
 
-            $('#confirm-delete-account').on('click', function() {
-                if (!confirm('¿Confirmas que quieres eliminar tu cuenta? Esta acción no se puede deshacer.')) return;
-                $('#delete-account-message').css('color', 'red').html('Procesando...');
-                $.post('<?php echo admin_url('admin-ajax.php'); ?>', {
-                    action: 'ajax_delete_account',
-                    ajax_delete_account_nonce: '<?php echo wp_create_nonce('ajax_delete_account'); ?>'
-                }, function(response) {
-                    if (response.success) {
-                        $('#delete-account-message').css('color', 'green').html(response.data.message);
-                        setTimeout(() => { window.location.href = '<?php echo esc_url(home_url()); ?>'; }, 2000);
-                    } else {
-                        $('#delete-account-message').css('color', 'red').html(response.data.message);
-                    }
-                });
-            });
+                    <div class="form-row mc-ec-ce-field-wrapper">
+                        <label for="password_1">Nueva contraseña <span class="required">*</span></label>
+                        <div class="mc-ec-ce-input-container">
+                            <input type="password" name="password_1" id="password_1" required placeholder="Introduce tu nueva contraseña" />
+                            <a href="#" class="mc-ec-ce-toggle" data-target="password_1">
+                                <span class="eye-icon eye-open"><?php echo do_shortcode('[icon_ojo1]'); ?></span>
+                                <span class="eye-icon eye-closed" style="display:none;"><?php echo do_shortcode('[icon_ojo2]'); ?></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="form-row mc-ec-ce-field-wrapper">
+                        <label for="password_2">Repetir nueva contraseña <span class="required">*</span></label>
+                        <div class="mc-ec-ce-input-container">
+                            <input type="password" name="password_2" id="password_2" required placeholder="Repite tu nueva contraseña" />
+                            <a href="#" class="mc-ec-ce-toggle" data-target="password_2">
+                                <span class="eye-icon eye-open"><?php echo do_shortcode('[icon_ojo1]'); ?></span>
+                                <span class="eye-icon eye-closed" style="display:none;"><?php echo do_shortcode('[icon_ojo2]'); ?></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="micuenta-contrasena-eliminar-buton-section">
+                        <a href="#" class="micuenta-contrasena-eliminar-trigger" id="submit-change-password">Cambiar contraseña</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Eliminar Cuenta -->
+    <div id="delete-account-modal" class="mc-ec-ce-modal" style="display:none;">
+        <div class="mc-ec-ce-modal-overlay"></div>
+        <div class="mc-ec-ce-modal-content">
+            <a href="#" class="mc-ec-ce-modal-close">&times;</a>
+            <h2 class="mc-ec-ce-titulo">Eliminar cuenta</h2>
+            
+            <div id="delete-account-message" style="display:none; padding: 10px; margin: 15px 0; border-radius: 4px;"></div>
+            
+            <div id="delete-account-content">
+                <div class="woocommerce-billing-fields__field-wrapper trekkium-extra-fields">
+                    <p class="texto-eliminar-cuenta">
+                        Al eliminar tu cuenta se borrarán todos tus datos.  
+                        Esta acción es irreversible.
+                    </p>
+
+                    <div class="micuenta-contrasena-eliminar-buton-section">
+                        <a href="#" class="micuenta-contrasena-eliminar-trigger" id="confirm-delete-account">
+                            Eliminar cuenta
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+jQuery(function($){
+
+    // Abrir modal (resetear mensajes al abrir)
+    $('.mc-ec-ce-boton').on('click', function(e){
+        e.preventDefault();
+        var modalId = $(this).data('modal');
+        
+        // Resetear mensajes cuando se abre cualquier modal
+        $('#password-change-message, #delete-account-message').hide().empty();
+        
+        // Mostrar el formulario/contenido principal
+        $('#password-form-container, #delete-account-content').show();
+        
+        $('#' + modalId).fadeIn(300);
+        $('body').css('overflow', 'hidden');
+    });
+
+    // Cerrar modal
+    $('.mc-ec-ce-modal-close, .mc-ec-ce-modal-overlay').on('click', function(e){
+        e.preventDefault();
+        $(this).closest('.mc-ec-ce-modal').fadeOut(300);
+        $('body').css('overflow','auto');
+    });
+
+    // Toggle ver contraseña
+    $('.mc-ec-ce-toggle').on('click', function(e){
+        e.preventDefault();
+        const input = $('#' + $(this).data('target'));
+        const open = $(this).find('.eye-open');
+        const closed = $(this).find('.eye-closed');
+
+        if(input.attr('type') === 'password'){
+            input.attr('type','text'); open.hide(); closed.show();
+        } else {
+            input.attr('type','password'); open.show(); closed.hide();
+        }
+    });
+
+    // Envío cambio contraseña
+    $('#submit-change-password').on('click', function(e){
+        e.preventDefault();
+        $('#ajax-change-password-form').trigger('submit');
+    });
+
+    $('#ajax-change-password-form').on('submit', function(e){
+        e.preventDefault();
+
+        let data = $(this).serialize() + '&action=ajax_change_password';
+        $('#password-change-message')
+            .css({'color': '#ff6b6b', 'background-color': '#fff5f5', 'border': '1px solid #ffcccc'})
+            .html('Procesando...')
+            .show();
+        
+        // Ocultar formulario temporalmente
+        $('#password-form-container').hide();
+
+        $.post('<?php echo admin_url('admin-ajax.php'); ?>', data, function(response){
+            if(response.success){
+                $('#password-change-message')
+                    .css({'color': '#2e7d32', 'background-color': '#edf7ed', 'border': '1px solid #c8e6c9'})
+                    .html(response.data.message);
+                
+                // No mostrar más el formulario si fue exitoso
+                $('#password-form-container').hide();
+                
+                setTimeout(()=>{ 
+                    $('#change-password-modal').fadeOut(300);
+                    $('body').css('overflow','auto');
+                    location.reload();
+                }, 1500);
+            } else {
+                $('#password-change-message')
+                    .css({'color': '#ff6b6b', 'background-color': '#fff5f5', 'border': '1px solid #ffcccc'})
+                    .html(response.data.message);
+                
+                // Volver a mostrar formulario para corregir errores
+                $('#password-form-container').show();
+            }
         });
-    </script>
+    });
+
+    // Eliminar cuenta
+    $('#confirm-delete-account').on('click', function(e){
+        e.preventDefault();
+        if(!confirm('¿Confirmas que quieres eliminar tu cuenta?')) return;
+
+        $('#delete-account-message')
+            .css({'color': '#ff6b6b', 'background-color': '#fff5f5', 'border': '1px solid #ffcccc'})
+            .html('Procesando...')
+            .show();
+        
+        // Ocultar contenido principal
+        $('#delete-account-content').hide();
+
+        $.post('<?php echo admin_url('admin-ajax.php'); ?>', {
+            action: 'ajax_delete_account',
+            ajax_delete_account_nonce: '<?php echo wp_create_nonce('ajax_delete_account'); ?>'
+        }, function(response){
+            if(response.success){
+                $('#delete-account-message')
+                    .css({'color': '#2e7d32', 'background-color': '#edf7ed', 'border': '1px solid #c8e6c9'})
+                    .html(response.data.message);
+                
+                // No mostrar más el contenido principal
+                $('#delete-account-content').hide();
+                
+                setTimeout(()=>{ 
+                    $('#delete-account-modal').fadeOut(300);
+                    $('body').css('overflow','auto');
+                    window.location.href = '<?php echo home_url(); ?>'; 
+                }, 1500);
+            } else {
+                $('#delete-account-message')
+                    .css({'color': '#ff6b6b', 'background-color': '#fff5f5', 'border': '1px solid #ffcccc'})
+                    .html(response.data.message);
+                
+                // Volver a mostrar contenido principal
+                $('#delete-account-content').show();
+            }
+        });
+    });
+
+});
+</script>
 
 <?php
-    return ob_get_clean();
+return ob_get_clean();
 }

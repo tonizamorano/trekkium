@@ -19,6 +19,36 @@
     font-weight: 500;		
 }
 
+.mc-mis-actividades-nueva-actividad {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.mc-mis-actividades-boton-nueva-actividad {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--naranja1-100);
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.mc-mis-actividades-boton-nueva-actividad:hover {
+    background-color: var(--naranja1-40);
+}
+
+.mc-mis-actividades-nueva-actividad svg {
+    width: 18px;
+    height: 18px;
+    fill: #fff;
+}
+
 .mc-mis-actividades-contenido {    
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -158,36 +188,6 @@
     background-color: #fff;
     padding: 15px;
     font-size: 18px;
-}
-
-.mc-mis-actividades-nueva-actividad {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-}
-
-.mc-mis-actividades-boton-nueva-actividad {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: var(--naranja1-100);
-    color: #fff;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 10px;
-    font-weight: 500;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.mc-mis-actividades-boton-nueva-actividad:hover {
-    background-color: var(--naranja1-40);
-}
-
-.mc-mis-actividades-nueva-actividad svg {
-    width: 18px;
-    height: 18px;
-    fill: #fff;
 }
 
 

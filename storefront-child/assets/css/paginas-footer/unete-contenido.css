@@ -1,27 +1,14 @@
-.unete-trekkium {
+.ut-contenedor {
     margin: 0 auto;
-    padding: 15px;
+    padding: 0;
     color: var(--azul1-100);
     background-color: #fff;
-}
-
-.ut-header {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.ut-header h2 {
-    font-size: 30px;
-    color: var(--azul1-100);
-    margin-bottom: 15px;
-    font-weight: 600;
 }
 
 .ut-image {
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    margin-bottom: 15px;
 }
 
 .ut-image img {
@@ -29,20 +16,34 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: 0px;
 }
 
-.ut-subtitle {
-    font-size: 1.2rem;
+.ut-contenido {
+    padding: 15px;
+}
+
+.ut-titular h2 {
+    font-size: 26px;
     color: var(--azul1-100);
     margin-bottom: 15px;
+    font-weight: 600;
+}
+
+
+
+.ut-subtitle {
+    font-size: 22px;
+    color: var(--azul1-100);
+    margin-bottom: 15px;
+    font-weight: 600;
 }
 
 .ut-description {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--azul1-100);
     margin: 0;
     line-height: 1.2;
-    text-align: center;
     margin-bottom: 15px;
 }
 
@@ -52,25 +53,22 @@
     gap: 15px;
 }
 
-.ut-column {
-    
-}
-
 .ut-column-titulo {
-    background: var(--naranja1-100);
+    background: var(--azul2-100);
     padding: 5px 10px;
     display: flex;
-    justify-content: center;    
+    justify-content: left;    
 }
 
 .ut-column-titulo h3 {
     color: #fff;
     font-size: 18px;
     margin-bottom: 0px;
+    font-weight: 500;
 }
 
 .ut-column-contenido {
-    background: var(--naranja1-20);
+    background: var(--azul2-20);
     padding: 15px 10px 5px 10px;
 }
 
@@ -85,13 +83,13 @@
     position: relative;
     margin-bottom: 10px;
     line-height: 1.2;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .ut-column ul li::before {
     content: "✓";
     color: var(--azul1-100);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     position: absolute;
     left: 0;
@@ -106,5 +104,25 @@
 @media (max-width: 768px) {
     .ut-columns {
         grid-template-columns: 1fr;
+    }
+    .ut-titular h2 {
+        font-size: 28px;
+    }
+
+    .ut-subtitle {
+        font-size: 24px;
+    }
+
+    .ut-description {
+        font-size: 20px;
+    }
+
+    .ut-column-titulo h3 {
+        font-size: 20px;
+    }
+
+    .ut-column ul li,
+    .ut-column ul li::before {
+        font-size: 20px;
     }
 }

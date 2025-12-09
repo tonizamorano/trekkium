@@ -87,10 +87,12 @@ function mc_vr_mostrar_detalles_reserva() {
                 <span class="etiqueta">Hora</span><span class="valor"><?php echo esc_html($hora_actividad); ?></span>
             </div>
 
-            <!-- Botón Ver Actividad -->
-            <div class="mc-mr-vr-boton-wrapper">
-                <a href="<?php echo get_permalink($product_id); ?>" class="mc-mr-vr-boton">Ver actividad</a>
-            </div>
+            <!-- Botón Ver Actividad solo si está publicado -->
+            <?php if (get_post_status($product_id) === 'publish') : ?>
+                <div class="mc-mr-vr-boton-wrapper">
+                    <a href="<?php echo get_permalink($product_id); ?>" class="mc-mr-vr-boton">Ver actividad</a>
+                </div>
+            <?php endif; ?>
 
         </div>
 

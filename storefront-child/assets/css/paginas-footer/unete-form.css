@@ -5,37 +5,31 @@
 
 .ut-form-seccion-titular {
     background: var(--azul1-100);
-    padding: 5px 10px;
-    text-align: center;
+    padding: 7px 15px;
+    text-align: left;
 }
 
 .ut-form-titular {
     color: #fff;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 18px;
 }
 
-@media (max-width: 600px) {
-    .ut-form-titular {
-        font-size: 20px;
-    }
-}
-
 .ut-form-seccion-contenido {
-    padding: 10px 15px;
+    padding: 15px;
     background: var(--azul1-20);
 }
 
 .ut-form-group {
-    margin-bottom: 7px;
+    margin-bottom: 10px;
 }
 
 .ut-form-group label {
     display: block;
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 2px;
     color: var(--azul1-100);
-    font-size: 16px;
+    
 }
 
 .ut-form-group input,
@@ -44,24 +38,33 @@
     padding: 5px 10px !important;
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 18px;
     box-sizing: border-box;
 }
 
-.ut-form-checkboxes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.ut-form-checkboxes label {
+.ut-form-checkbox-label {
     font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    color: var(--azul1-100);
+    font-size: 16px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.ut-form-checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.ut-form-checkbox-label a {
+    color: var(--naranja1-100);
+    text-decoration: none;
+}
+
+.ut-form-checkbox-label a:hover {
+    text-decoration: underline;
 }
 
 .ut-form-submit {
@@ -102,26 +105,16 @@
     color: #721c24;
 }
 
-.ut-form-checkbox-label {
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--azul1-100);
-    font-size: 16px;
-    cursor: pointer;
-}
+@media (max-width: 768px) {
+    .ut-form-titular {
+        font-size: 20px;
+    }
 
-.ut-form-checkbox-label input[type="checkbox"] {
-    width: auto;
-    margin: 0;
-}
+    .ut-form-contenedor {
+        padding: 15px;
+    }
 
-.ut-form-checkbox-label a {
-    color: var(--naranja1-100);
-    text-decoration: none;
-}
-
-.ut-form-checkbox-label a:hover {
-    text-decoration: underline;
+    .ut-form-group label {
+        font-size: 20px;
+    }
 }

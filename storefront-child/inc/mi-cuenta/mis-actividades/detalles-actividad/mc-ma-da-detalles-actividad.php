@@ -28,12 +28,14 @@ function mc_ma_da_mostrar_detalles_actividad($atts) {
     // Estado de la publicación
     $estado_post = get_post_status($product_id);
     $estados_traducidos = [
-        'publish'   => 'Publicado',
+        'publish'   => 'Publicada',
         'draft'     => 'Borrador',
-        'pending'   => 'Pendiente revisión',
+        'pending'   => 'Pendiente',
         'private'   => 'Privado',
         'future'    => 'Programado',
-        'trash'     => 'Papelera'
+        'trash'     => 'Papelera',
+        'wc-finalizado' => 'Finalizada',
+        'wc-cancelado' => 'Cancelada',
     ];
     $estado_traducido = $estados_traducidos[$estado_post] ?? ucfirst($estado_post);
 

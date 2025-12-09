@@ -14,8 +14,9 @@ function mc_ec_idiomas_modalidades_etiquetas_shortcode() {
     
     <div class="mc-idiomas-modalidades-etiquetas-container">
         <?php
-        // Sección Modalidades favoritas solo para clientes PUROS (no para guías)
+        // Sección de preferencias para clientes PUROS (no para guías)
         if (in_array('customer', $current_user->roles) && !in_array('guia', $current_user->roles)):
+            // Obtener modalidades
             $selected_modalidades = wp_get_object_terms($user_id, 'modalidad', ['fields' => 'ids']);
             if (is_wp_error($selected_modalidades)) $selected_modalidades = [];
 
@@ -24,93 +25,9 @@ function mc_ec_idiomas_modalidades_etiquetas_shortcode() {
                 'hide_empty' => false,
             ]);
             
-            $selected_ids = !empty($selected_modalidades) ? $selected_modalidades : [];
-            ?>
-            <div class="mc-form-row mc-form-row-wide mc-modalidades-container" style="margin-top: 25px;">
-                <label for="user_modalidades">Modalidades favoritas <span class="mc-required">*</span></label>
-                
-                <?php if (!empty($modalidades_terms) && !is_wp_error($modalidades_terms)): ?>
-                    <div class="mc-modalidades-toggle-list" style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
-                        <?php foreach ($modalidades_terms as $term): 
-                            $is_active = in_array($term->term_id, $selected_ids) ? 'active' : '';
-                            $active_style = $is_active ? 'background-color: #0b568b; color: #ffffff;' : 'background-color: #ffffff; color: #0b568b; border: 2px solid #0b568b;';
-                        ?>
-                            <button type="button" 
-                                class="mc-modalidad-toggle <?php echo $is_active; ?>" 
-                                data-term-id="<?php echo esc_attr($term->term_id); ?>"
-                                style="
-                                    border: none;
-                                    border-radius: 50px;
-                                    <?php echo $active_style; ?>
-                                    cursor: pointer;
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:center;
-                                    font-size:16px;
-                                    transition: all 0.2s;
-                                    padding: 5px 10px;
-                                    line-height:1;
-                                    font-family: inherit;
-                                ">
-                                <?php echo esc_html($term->name); ?>
-                            </button>
-                        <?php endforeach; ?>
-                        <input type="hidden" name="user_modalidades" id="user_modalidades" value="<?php echo esc_attr(implode(',', $selected_ids)); ?>" />
-                    </div>
-
-                    <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const toggleButtons = document.querySelectorAll('.mc-modalidad-toggle');
-                        const hiddenField = document.getElementById('user_modalidades');
-
-                        function updateHiddenField() {
-                            const selectedButtons = document.querySelectorAll('.mc-modalidad-toggle.active');
-                            const selectedIds = Array.from(selectedButtons).map(button => button.dataset.termId);
-                            hiddenField.value = selectedIds.join(',');
-                            
-                            if (selectedIds.length === 0) {
-                                hiddenField.style.borderColor = 'red';
-                            } else {
-                                hiddenField.style.borderColor = '';
-                            }
-                        }
-
-                        toggleButtons.forEach(button => {
-                            const termId = button.dataset.termId;
-                            const currentValues = hiddenField.value ? hiddenField.value.split(',') : [];
-                            
-                            if (currentValues.includes(termId)) {
-                                button.classList.add('active');
-                                button.style.backgroundColor = '#0b568b';
-                                button.style.color = '#ffffff';
-                            }
-
-                            button.addEventListener('click', function() {
-                                this.classList.toggle('active');
-
-                                if (this.classList.contains('active')) {
-                                    this.style.backgroundColor = '#0b568b';
-                                    this.style.color = '#ffffff';
-                                } else {
-                                    this.style.backgroundColor = '#ffffff';
-                                    this.style.color = '#0b568b';
-                                    this.style.border = '2px solid #0b568b';
-                                }
-
-                                updateHiddenField();
-                            });
-                        });
-
-                        updateHiddenField();
-                    });
-                    </script>
-                <?php else: ?>
-                    <p>No hay modalidades disponibles.</p>
-                <?php endif; ?>
-            </div>
-
-            <!-- SECCIÓN: ETIQUETAS FAVORITAS PARA CLIENTES PUROS -->
-            <?php
+            $selected_modalidades_ids = !empty($selected_modalidades) ? $selected_modalidades : [];
+            
+            // Obtener etiquetas
             $selected_etiquetas = wp_get_object_terms($user_id, 'etiquetas_actividad', ['fields' => 'ids']);
             if (is_wp_error($selected_etiquetas)) $selected_etiquetas = [];
 
@@ -121,89 +38,188 @@ function mc_ec_idiomas_modalidades_etiquetas_shortcode() {
             
             $selected_etiquetas_ids = !empty($selected_etiquetas) ? $selected_etiquetas : [];
             ?>
-            <div class="mc-form-row mc-form-row-wide mc-etiquetas-container" style="margin-top: 25px;">
-                <label for="user_etiquetas">Etiquetas favoritas <span class="mc-required">*</span></label>
+            
+            <div class="mc-form-row mc-form-row-wide mc-preferencias-container" style="margin-top: 25px;">
+                <label for="user_preferencias">Mis preferencias <span class="mc-required">*</span></label>
                 
-                <?php if (!empty($etiquetas_terms) && !is_wp_error($etiquetas_terms)): ?>
-                    <div class="mc-etiquetas-toggle-list" style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
-                        <?php foreach ($etiquetas_terms as $term): 
-                            $is_active = in_array($term->term_id, $selected_etiquetas_ids) ? 'active' : '';
-                            $active_style = $is_active ? 'background-color: #0b568b; color: #ffffff;' : 'background-color: #ffffff; color: #0b568b; border: 2px solid #0b568b;';
-                        ?>
-                            <button type="button" 
-                                class="mc-etiqueta-toggle <?php echo $is_active; ?>" 
-                                data-term-id="<?php echo esc_attr($term->term_id); ?>"
-                                style="
-                                    border: none;
-                                    border-radius: 50px;
-                                    <?php echo $active_style; ?>
-                                    cursor: pointer;
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:center;
-                                    font-size:16px;
-                                    transition: all 0.2s;
-                                    padding: 5px 10px;
-                                    line-height:1;
-                                    font-family: inherit;
-                                ">
-                                <?php echo esc_html($term->name); ?>
-                            </button>
-                        <?php endforeach; ?>
-                        <input type="hidden" name="user_etiquetas" id="user_etiquetas" value="<?php echo esc_attr(implode(',', $selected_etiquetas_ids)); ?>" />
+                <!-- Modalidades -->
+                <?php if (!empty($modalidades_terms) && !is_wp_error($modalidades_terms)): ?>
+                    <div class="mc-preferencias-row" style="margin-top:10px; margin-bottom:15px;">
+                        <div class="mc-preferencias-toggle-list" style="display:flex; gap:10px; flex-wrap:wrap;">
+                            <?php foreach ($modalidades_terms as $term): 
+                                $is_active = in_array($term->term_id, $selected_modalidades_ids) ? 'active' : '';
+                                $active_style = $is_active ? 'background-color: #0b568b; color: #ffffff;' : 'background-color: #ffffff; color: #0b568b; border: 2px solid #0b568b;';
+                            ?>
+                                <button type="button" 
+                                    class="mc-modalidad-toggle <?php echo $is_active; ?>" 
+                                    data-term-id="<?php echo esc_attr($term->term_id); ?>"
+                                    data-type="modalidad"
+                                    style="
+                                        border: none;
+                                        border-radius: 50px;
+                                        <?php echo $active_style; ?>
+                                        cursor: pointer;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                        font-size:16px;
+                                        transition: all 0.2s;
+                                        padding: 5px 10px;
+                                        line-height:1;
+                                        font-family: inherit;
+                                    ">
+                                    <?php echo esc_html($term->name); ?>
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
+                <?php else: ?>
+                    <p style="margin:10px 0 15px 0;">No hay modalidades disponibles.</p>
+                <?php endif; ?>
+                
+                <!-- Etiquetas -->
+                <?php if (!empty($etiquetas_terms) && !is_wp_error($etiquetas_terms)): ?>
+                    <div class="mc-preferencias-row">
+                        <div class="mc-preferencias-toggle-list" style="display:flex; gap:10px; flex-wrap:wrap;">
+                            <?php foreach ($etiquetas_terms as $term): 
+                                $is_active = in_array($term->term_id, $selected_etiquetas_ids) ? 'active' : '';
+                                $active_style = $is_active ? 'background-color: #0b568b; color: #ffffff;' : 'background-color: #ffffff; color: #0b568b; border: 2px solid #0b568b;';
+                                
+                                // Formatear el nombre de la etiqueta: si empieza con #, quitar espacios y caracteres especiales
+                                $display_name = $term->name;
+                                if (strpos($display_name, '#') === 0) {
+                                    // Quitar acentos y caracteres especiales, mantener # al inicio
+                                    $display_name = '#' . preg_replace('/[^a-zA-Z0-9]/', '', substr($display_name, 1));
+                                }
+                            ?>
+                                <button type="button" 
+                                    class="mc-etiqueta-toggle <?php echo $is_active; ?>" 
+                                    data-term-id="<?php echo esc_attr($term->term_id); ?>"
+                                    data-type="etiqueta"
+                                    style="
+                                        border: none;
+                                        border-radius: 50px;
+                                        <?php echo $active_style; ?>
+                                        cursor: pointer;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                        font-size:16px;
+                                        transition: all 0.2s;
+                                        padding: 5px 10px;
+                                        line-height:1;
+                                        font-family: inherit;
+                                    ">
+                                    <?php echo esc_html($display_name); ?>
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <p style="margin:10px 0;">No hay etiquetas disponibles.</p>
+                <?php endif; ?>
+                
+                <!-- Campos ocultos para ambos tipos -->
+                <input type="hidden" name="user_modalidades" id="user_modalidades" value="<?php echo esc_attr(implode(',', $selected_modalidades_ids)); ?>" />
+                <input type="hidden" name="user_etiquetas" id="user_etiquetas" value="<?php echo esc_attr(implode(',', $selected_etiquetas_ids)); ?>" />
+            </div>
 
-                    <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const toggleButtons = document.querySelectorAll('.mc-etiqueta-toggle');
-                        const hiddenField = document.getElementById('user_etiquetas');
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Función para actualizar campos ocultos
+                function updateHiddenField(type) {
+                    let hiddenField, toggleButtons;
+                    
+                    if (type === 'modalidad') {
+                        hiddenField = document.getElementById('user_modalidades');
+                        toggleButtons = document.querySelectorAll('.mc-modalidad-toggle.active');
+                    } else if (type === 'etiqueta') {
+                        hiddenField = document.getElementById('user_etiquetas');
+                        toggleButtons = document.querySelectorAll('.mc-etiqueta-toggle.active');
+                    }
+                    
+                    if (!hiddenField) return;
+                    
+                    const selectedIds = Array.from(toggleButtons).map(button => button.dataset.termId);
+                    hiddenField.value = selectedIds.join(',');
+                    
+                    // Validación visual
+                    if (selectedIds.length === 0) {
+                        hiddenField.style.borderColor = 'red';
+                    } else {
+                        hiddenField.style.borderColor = '';
+                    }
+                }
 
-                        function updateHiddenField() {
-                            const selectedButtons = document.querySelectorAll('.mc-etiqueta-toggle.active');
-                            const selectedIds = Array.from(selectedButtons).map(button => button.dataset.termId);
-                            hiddenField.value = selectedIds.join(',');
-                            
-                            if (selectedIds.length === 0) {
-                                hiddenField.style.borderColor = 'red';
-                            } else {
-                                hiddenField.style.borderColor = '';
-                            }
+                // Configurar botones de modalidad
+                const modalidadButtons = document.querySelectorAll('.mc-modalidad-toggle');
+                modalidadButtons.forEach(button => {
+                    const termId = button.dataset.termId;
+                    const currentValues = document.getElementById('user_modalidades').value ? 
+                        document.getElementById('user_modalidades').value.split(',') : [];
+                    
+                    // Establecer estado inicial
+                    if (currentValues.includes(termId)) {
+                        button.classList.add('active');
+                        button.style.backgroundColor = '#0b568b';
+                        button.style.color = '#ffffff';
+                    }
+
+                    // Agregar event listener
+                    button.addEventListener('click', function() {
+                        this.classList.toggle('active');
+
+                        if (this.classList.contains('active')) {
+                            this.style.backgroundColor = '#0b568b';
+                            this.style.color = '#ffffff';
+                            this.style.border = 'none';
+                        } else {
+                            this.style.backgroundColor = '#ffffff';
+                            this.style.color = '#0b568b';
+                            this.style.border = '2px solid #0b568b';
                         }
 
-                        toggleButtons.forEach(button => {
-                            const termId = button.dataset.termId;
-                            const currentValues = hiddenField.value ? hiddenField.value.split(',') : [];
-                            
-                            if (currentValues.includes(termId)) {
-                                button.classList.add('active');
-                                button.style.backgroundColor = '#0b568b';
-                                button.style.color = '#ffffff';
-                            }
-
-                            button.addEventListener('click', function() {
-                                this.classList.toggle('active');
-
-                                if (this.classList.contains('active')) {
-                                    this.style.backgroundColor = '#0b568b';
-                                    this.style.color = '#ffffff';
-                                } else {
-                                    this.style.backgroundColor = '#ffffff';
-                                    this.style.color = '#0b568b';
-                                    this.style.border = '2px solid #0b568b';
-                                }
-
-                                updateHiddenField();
-                            });
-                        });
-
-                        updateHiddenField();
+                        updateHiddenField('modalidad');
                     });
-                    </script>
-                <?php else: ?>
-                    <p>No hay etiquetas disponibles.</p>
-                <?php endif; ?>
-            </div>
-            <!-- FIN SECCIÓN ETIQUETAS FAVORITAS -->
+                });
+
+                // Configurar botones de etiqueta
+                const etiquetaButtons = document.querySelectorAll('.mc-etiqueta-toggle');
+                etiquetaButtons.forEach(button => {
+                    const termId = button.dataset.termId;
+                    const currentValues = document.getElementById('user_etiquetas').value ? 
+                        document.getElementById('user_etiquetas').value.split(',') : [];
+                    
+                    // Establecer estado inicial
+                    if (currentValues.includes(termId)) {
+                        button.classList.add('active');
+                        button.style.backgroundColor = '#0b568b';
+                        button.style.color = '#ffffff';
+                    }
+
+                    // Agregar event listener
+                    button.addEventListener('click', function() {
+                        this.classList.toggle('active');
+
+                        if (this.classList.contains('active')) {
+                            this.style.backgroundColor = '#0b568b';
+                            this.style.color = '#ffffff';
+                            this.style.border = 'none';
+                        } else {
+                            this.style.backgroundColor = '#ffffff';
+                            this.style.color = '#0b568b';
+                            this.style.border = '2px solid #0b568b';
+                        }
+
+                        updateHiddenField('etiqueta');
+                    });
+                });
+
+                // Inicializar campos ocultos
+                updateHiddenField('modalidad');
+                updateHiddenField('etiqueta');
+            });
+            </script>
         <?php endif; ?>
 
         <?php

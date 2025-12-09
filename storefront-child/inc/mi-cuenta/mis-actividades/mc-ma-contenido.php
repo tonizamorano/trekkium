@@ -6,20 +6,51 @@ function contenido_mis_actividades_shortcode() {
     }
 
     $current_user_id = get_current_user_id();
+    
+    // REMOVER FILTROS TEMPORALMENTE para diagnosticar
+    remove_all_filters('pre_get_posts');
+    
     $args = array(
         'post_type'      => 'product',
         'author'         => $current_user_id,
         'posts_per_page' => -1,
-        'post_status'    => array('publish', 'pending', 'draft', 'private', 'wc-finalizado', 'wc-cancelado')
+        'post_status'    => array('publish', 'pending', 'draft', 'private', 'wc-finalizado', 'wc-cancelado'),
+        'suppress_filters' => true // Ignorar filtros
     );
 
     $query = new WP_Query($args);
     
+    // DEBUG: Ver qué estamos obteniendo
+    echo '<pre style="display:none;">';
+    echo 'User ID: ' . $current_user_id . "\n";
+    echo 'Found posts: ' . $query->found_posts . "\n";
+    
+    // Listar todos los posts encontrados con sus autores
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            echo 'Post ID: ' . get_the_ID() . ' | ';
+            echo 'Title: ' . get_the_title() . ' | ';
+            echo 'Author ID: ' . get_the_author_meta('ID') . ' | ';
+            echo 'Status: ' . get_post_status() . "\n";
+        }
+        wp_reset_postdata();
+    }
+    echo '</pre>';
+    
     ob_start();
+    // Resto del código...
     ?>
 
     <div class="mc-mis-actividades-contenedor">
 
+        <div class="mc-mis-actividades-nueva-actividad">
+            <a href="<?php echo esc_url(home_url('/nueva-actividad/')); ?>" class="mc-mis-actividades-boton-nueva-actividad">
+                <?php echo do_shortcode('[icon_mas]'); ?>
+                <span>Nueva actividad</span>
+            </a>
+        </div>
+        
         <div class="mc-mis-actividades-titulo">
             <h2>Mis actividades</h2>	
         </div>
@@ -108,12 +139,7 @@ function contenido_mis_actividades_shortcode() {
     
     </div>
 
-    <div class="mc-mis-actividades-nueva-actividad">
-        <a href="<?php echo esc_url(home_url('/nueva-actividad/')); ?>" class="mc-mis-actividades-boton-nueva-actividad">
-            <?php echo do_shortcode('[icon_mas]'); ?>
-            <span>Nueva actividad</span>
-        </a>
-    </div>
+    
 
     <?php
     return ob_get_clean();

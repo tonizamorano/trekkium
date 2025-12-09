@@ -114,26 +114,77 @@ add_shortcode( 'mc_contenido', function() {
 
         <?php endif; ?>
 
-        <!-- Modalidades -->        
+        <!-- Preferencias SOLO para clientes -->
+<?php if ( in_array( 'customer', (array) $user->roles, true ) ) : ?>
 
-        <div class="mc-modalidades">
+    <div class="mc-preferencias">
 
-            <h4>Mis modalidades</h4>
+        <h4>Mis preferencias</h4>
 
-            <div class="mc-modalidades-lista">
-                <?php
-                $modalidades = wp_get_object_terms( $user_id, 'modalidad', array( 'fields' => 'names' ) );
-                if ( ! empty( $modalidades ) && ! is_wp_error( $modalidades ) ) {
-                    foreach ( $modalidades as $modalidad ) {
-                        echo '<span class="mc-modalidad-item">' . esc_html( $modalidad ) . '</span>';
-                    }
-                } else {
-                    echo '<p>No hay modalidades asignadas.</p>';
+        <!-- Fila 1: Modalidades -->
+        <div class="mc-preferencias-lista">
+        <?php
+            $modalidades = wp_get_object_terms( $user_id, 'modalidad', array( 'fields' => 'names' ) );
+            if ( ! empty( $modalidades ) && ! is_wp_error( $modalidades ) ) {
+                foreach ( $modalidades as $modalidad ) {
+                    echo '<span class="mc-modalidad-item">' . esc_html( $modalidad ) . '</span>';
                 }
-                ?>  
-            </div>
+            } else {
+                echo '<p>No hay modalidades asignadas.</p>';
+            }
+        ?>
+        </div>
 
-        </div>   
+        <!-- Fila 2: Etiquetas como hashtags normalizados -->
+        <div class="mc-preferencias-lista">
+        <?php
+            $etiquetas = wp_get_object_terms( $user_id, 'etiquetas_actividad', array( 'fields' => 'names' ) );
+
+            if ( ! empty( $etiquetas ) && ! is_wp_error( $etiquetas ) ) {
+
+                foreach ( $etiquetas as $etiqueta ) {
+
+                    // Normalización: minúsculas, sin acentos, sin especiales, sin espacios
+                    $tag = strtolower( $etiqueta );
+                    $tag = iconv('UTF-8', 'ASCII//TRANSLIT', $tag);  // elimina acentos
+                    $tag = preg_replace('/[^a-z0-9]+/', '', $tag);  // solo letras y números
+
+                    echo '<span class="mc-modalidad-item">#' . esc_html( $tag ) . '</span>';
+                }
+
+            } else {
+                echo '<p>No hay etiquetas asignadas.</p>';
+            }
+        ?>
+        </div>
+
+    </div>
+
+<?php else : ?>
+
+    <!-- CONTENIDO ORIGINAL PARA NO CLIENTES (tal cual lo tenías) -->
+
+    <!-- Modalidades -->
+    <div class="mc-modalidades">
+        <h4>Mis modalidades</h4>
+        <div class="mc-modalidades-lista">
+        <?php
+            $modalidades = wp_get_object_terms( $user_id, 'modalidad', array( 'fields' => 'names' ) );
+            if ( ! empty( $modalidades ) && ! is_wp_error( $modalidades ) ) {
+                foreach ( $modalidades as $modalidad ) {
+                    echo '<span class="mc-modalidad-item">' . esc_html( $modalidad ) . '</span>';
+                }
+            } else {
+                echo '<p>No hay modalidades asignadas.</p>';
+            }
+        ?>
+        </div>
+    </div>
+
+    <!-- Etiquetas (solo para clientes, así que aquí no se muestran) -->
+
+<?php endif; ?>
+
 
         <!-- Idiomas -->
         
@@ -158,36 +209,6 @@ add_shortcode( 'mc_contenido', function() {
             </div>
 
         </div>
-
-        <?php endif; ?>
-
-
-
-        <!-- Etiquetas -->
-
-        <?php if ( in_array( 'customer', (array) $user->roles, true ) ) : ?>
-
-            <div class="mc-etiquetas">
-
-                <h4>Mis etiquetas</h4>
-
-                <div class="mc-etiquetas-lista">
-                    <?php
-                    // Obtenemos los términos de la taxonomía 'etiquetas_actividad'
-                    $etiquetas = wp_get_object_terms( $user_id, 'etiquetas_actividad', array( 'fields' => 'names' ) );
-
-                    if ( ! empty( $etiquetas ) && ! is_wp_error( $etiquetas ) ) {
-                        foreach ( $etiquetas as $etiqueta ) {
-                            // Mostramos en minúsculas con # delante
-                            echo '<span class="mc-etiqueta-item">#' . esc_html( strtolower( $etiqueta ) ) . '</span>';
-                        }
-                    } else {
-                        echo '<p>No hay etiquetas asignadas.</p>';
-                    }
-                    ?>  
-                </div>
-
-            </div>
 
         <?php endif; ?>
 

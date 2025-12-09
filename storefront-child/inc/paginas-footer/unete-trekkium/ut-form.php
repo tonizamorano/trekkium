@@ -125,7 +125,7 @@ function ut_form_shortcode() {
                     </select>
                 </div>
 
-                <div class="ut-form-group">
+                <div class="ut-form-group" style="margin-top:15px;">
                     <label class="ut-form-checkbox-label">
                         <input type="checkbox" name="terminos" id="terminos" required>
                         He leído y acepto los <a href="/terminos-y-condiciones/" target="_blank">Términos y condiciones legales</a> *

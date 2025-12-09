@@ -33,16 +33,16 @@ function contenido_nueva_actividad_shortcode() {
 
             } elseif ( $new_product_id ) {
 
-                // Imagen destacada
+                // IMÁGENES - procesar desde el formulario de imágenes
                 if ( isset($_POST['actividad_imagen_1']) && intval($_POST['actividad_imagen_1']) ) {
                     set_post_thumbnail( $new_product_id, intval($_POST['actividad_imagen_1']) );
                 }
 
                 // Galería
                 $galeria_ids = [];
-                for ($i=2; $i<=4; $i++) {
-                    if ( isset($_POST['actividad_imagen_'.$i]) && intval($_POST['actividad_imagen_'.$i]) ) {
-                        $galeria_ids[] = intval($_POST['actividad_imagen_'.$i]);
+                for ($i=1; $i<=4; $i++) {
+                    if ( isset($_POST['actividad_galeria_'.$i]) && intval($_POST['actividad_galeria_'.$i]) ) {
+                        $galeria_ids[] = intval($_POST['actividad_galeria_'.$i]);
                     }
                 }
                 if (! empty($galeria_ids)) {
@@ -72,15 +72,25 @@ function contenido_nueva_actividad_shortcode() {
                 foreach ( $campos_meta as $campo ) {
                     if ( isset($_POST["actividad_{$campo}"]) ) {
 
-                        if ( in_array($campo, ['distancia','duracion','desnivel_positivo','desnivel_negativo','plazas_totales','plazas_minimas','edad_minima']) ) {
+                        if ($campo === 'distancia') {
+                            $valor = number_format(floatval($_POST["actividad_distancia"]), 2, '.', '');
+                        }
+                        elseif ($campo === 'duracion') {
+                            $valor = number_format(floatval($_POST["actividad_duracion"]), 2, '.', '');
+                        }
+                        elseif (in_array($campo, ['desnivel_positivo','desnivel_negativo','plazas_totales','plazas_minimas','edad_minima'])) {
                             $valor = intval($_POST["actividad_{$campo}"]);
-                        } elseif ($campo === 'precio_guia') {
+                        }
+                        elseif ($campo === 'precio_guia') {
                             $valor = number_format(floatval($_POST["actividad_{$campo}"]), 2, '.', '');
-                        } elseif ($campo === 'google_maps' || $campo === 'enlace_whatsapp') {
+                        }
+                        elseif ($campo === 'google_maps' || $campo === 'enlace_whatsapp') {
                             $valor = esc_url_raw($_POST["actividad_{$campo}"]);
-                        } elseif ($campo === 'espacio_natural') {
+                        }
+                        elseif ($campo === 'espacio_natural') {
                             $valor = sanitize_text_field($_POST["actividad_{$campo}"]);
-                        } else {
+                        }
+                        else {
                             $valor = wp_kses_post($_POST["actividad_{$campo}"]);
                         }
 
@@ -110,6 +120,10 @@ function contenido_nueva_actividad_shortcode() {
                 if (isset($_POST['actividad_dias'])) {
                     update_post_meta($new_product_id, 'dias', intval($_POST['actividad_dias']));
                 }
+
+                // Redirigir finalmente a mis-actividades
+                wp_safe_redirect( home_url('/mis-actividades/?creado=1') );
+                exit;
 
                 echo '<p style="color:green;font-weight:bold;">✅ Actividad creada correctamente y pendiente de revisión.</p>';
             }
@@ -159,22 +173,9 @@ function contenido_nueva_actividad_shortcode() {
             ?>
         </div>
 
-        <!-- Imágenes -->
-        <div class="mc-ma-na-grid-2col-imagenes">
-            <?php for($i=1;$i<=4;$i++): ?>
-                <div class="mc-ma-na-grid-1col">
-
-                    <label class="edit-form-titular">Imagen <?php echo $i; ?>*</label>
-
-                    <div class="edit-form-image-box" onclick="abrirMediaUploader(this, 'actividad_imagen_<?php echo $i; ?>')">
-                        <span>Haz clic para seleccionar</span>
-                    </div>
-
-                    <input type="hidden" name="actividad_imagen_<?php echo $i; ?>" id="actividad_imagen_<?php echo $i; ?>">
-
-                </div>
-            <?php endfor; ?>
-        </div>
+        <!-- IMÁGENES - REEMPLAZADO POR SHORTCODE -->
+        <?php echo do_shortcode('[mc_ma_na_form_imagen_principal]'); ?>
+        <?php echo do_shortcode('[mc_ma_na_form_imagenes]'); ?>
 
         <!-- Tipo y Modalidad -->
         <div class="mc-ma-na-grid-2col">
@@ -335,12 +336,13 @@ function contenido_nueva_actividad_shortcode() {
         <div class="mc-ma-na-grid-2col">
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Distancia (Km)*</label>
-                <input type="number" name="actividad_distancia" class="edit-form-text" required>
+                <input type="number" name="actividad_distancia" class="edit-form-text" required step="0.01">
             </div>
 
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Duración (h)*</label>
-                <input type="number" name="actividad_duracion" class="edit-form-text" required>
+                <input type="number" name="actividad_duracion" class="edit-form-text" required step="0.01">
+
             </div>
         </div>
 
@@ -388,50 +390,15 @@ function contenido_nueva_actividad_shortcode() {
         </div>
 
         <!-- Campos editor -->
-        <?php
-        $campos_editor = [
-            'dificultad_tecnica' => 'Dificultad técnica*',
-            'experiencia_requisitos' => 'Requisitos y experiencia*',
-            'planificacion'      => 'Planificación*',
-            'material'           => 'Material necesario*',
-            'incluye'            => 'Incluido en la actividad*',
-        ];
+        <?php echo do_shortcode('[mc_ma_na_form_edit_text]'); ?>
 
-        foreach($campos_editor as $slug=>$label){
-            echo '<div class="mc-ma-na-grid-1col"><label class="edit-form-titular">'.$label.'</label>';
-            wp_editor(
-                '',
-                'actividad_'.$slug,
-                [
-                    'textarea_name' => 'actividad_'.$slug,
-                    'textarea_rows' => 8,
-                    'media_buttons' => false,
-                    'teeny'         => false,
-                    'quicktags'     => false,
-                ]
-            );
-            echo '</div>';
-        }
-        ?>
-
-        <button class="mis-actividades-boton-guardar-cambios" type="submit">Crear actividad</button>
+        <div class="mc-ma-na-botones-contenedor">
+            <button class="mis-actividades-boton-guardar-cambios" type="submit">Crear actividad</button>
+            <button type="button" class="mis-actividades-boton-cancelar" onclick="window.location.href='<?php echo esc_url(home_url('/mis-actividades/')); ?>'">Cancelar</button>
+        </div>
     </form>
 
     <script>
-    function abrirMediaUploader(box, inputId){
-        var frame = wp.media({
-            title: 'Seleccionar imagen',
-            button: { text: 'Usar esta imagen' },
-            multiple: false
-        });
-        frame.on('select', function(){
-            var attachment = frame.state().get('selection').first().toJSON();
-            box.innerHTML = '<img src="'+attachment.url+'" alt="">';
-            document.getElementById(inputId).value = attachment.id;
-        });
-        frame.open();
-    }
-
     // Dependencias país -> región -> provincia
     jQuery(document).ready(function($){
         function cargarOpciones(taxonomia, parentId, targetSelect){
@@ -441,7 +408,7 @@ function contenido_nueva_actividad_shortcode() {
                 data: {
                     action: "cargar_terminos_condicionales",
                     taxonomia: taxonomia,
-                    parent: parentId // Cambiado de parent_id a parent para coincidir con el segundo snippet
+                    parent: parentId
                 },
                 success: function(response){
                     $(targetSelect).html(response);
