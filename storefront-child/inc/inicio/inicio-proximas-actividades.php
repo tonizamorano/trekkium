@@ -41,6 +41,8 @@ function trekkium_in_proximas_actividades() {
                     <?php
                     global $product;
 
+                    $estado_actividad = get_post_meta(get_the_ID(), 'estado_actividad', true);
+
                     $fecha = get_post_meta(get_the_ID(), 'fecha', true);
                     if ($fecha) {
                         $fecha_obj = DateTime::createFromFormat('Y-m-d', $fecha);
@@ -151,25 +153,18 @@ function trekkium_in_proximas_actividades() {
                                     <?php endif; ?>
                                 </div>
 
-                                <div class="in-ultima">
 
-                                    <div class="in-plazas">
-                                        <?php
-                                        if ($product && $product->managing_stock()) {
-                                            $stock = (int)$product->get_stock_quantity();
+                                <!-- Sección del precio -->
+                                    <div class="in-ultima">
 
-                                            if ($stock > 1) {
-                                                echo '<span>' . esc_html($stock) . ' plazas disponibles</span>';
-                                            } elseif ($stock === 1) {
-                                                echo '<span>1 plaza disponible</span>';
-                                            } else {
-                                                echo '<span class="in-completa">Actividad completa</span>';
-                                            }
-                                        } else {
-                                            echo '<span>Plazas no definidas</span>';
-                                        }
-                                        ?>
+                                    <!-- Mostrar el estado de la actividad -->
+                                    <?php if (!empty($estado_actividad) && $estado_actividad !== 'Sin definir'): ?>
+
+                                    <div class="in-estado-actividad">
+                                        <?php echo esc_html($estado_actividad); ?>
                                     </div>
+                                    
+                                    <?php endif; ?>
 
                                     <div class="in-precio">
                                         <?php if ($precio) : ?>

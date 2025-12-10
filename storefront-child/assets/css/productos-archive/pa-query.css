@@ -93,10 +93,8 @@
     color: var(--naranja1-100) !important;
     font-weight: 600;
     line-height: 1.1;
-    margin: 3px 0 10px 0 !important;
+    margin: 3px 0 0px 0 !important;
 }
-
-
 
 .info-extra {
     display: flex;
@@ -104,7 +102,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
-    margin-top: 5px;
+    margin-top: 15px;
 }
 
 
@@ -130,17 +128,20 @@
 .pa-seccion-ultima {
     display: flex;
     justify-content: space-between;
-    margin-top: 5px;
+    margin-top: 10px;
     align-items: start;
 }
 
-.pa-plazas-disponibles { 
-    color: var(--azul1-100);
-    font-weight: bold;
+.pa-estado-actividad {
     font-size: 16px;
-    display: inline-block;
-    font-style: italic;
+    color: var(--naranja1-100);
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 3px;
+    background-color: var(--amarillo-100);
+    line-height: 1;
 }
+
 
 .pa-precio {
 

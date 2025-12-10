@@ -32,8 +32,11 @@ function trekkium_password_delete_account_shortcode() {
 
     <!-- Modal Cambiar Contraseña -->
     <div id="change-password-modal" class="mc-ec-ce-modal" style="display:none;">
+
         <div class="mc-ec-ce-modal-overlay"></div>
+
         <div class="mc-ec-ce-modal-content">
+            
             <a href="#" class="mc-ec-ce-modal-close">&times;</a>
             <h2 class="mc-ec-ce-titulo">Cambiar contraseña</h2>
             

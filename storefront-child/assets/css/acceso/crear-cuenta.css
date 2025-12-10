@@ -136,21 +136,25 @@
 
 
 /* MODAL!! */
-
-.trekkium-modal {
-    display: block; /* visible solo cuando hay mensaje */
+.acceso-cc-modal {
+    display: none; /* oculto por defecto - ¡ESTA LÍNEA ES CLAVE! */
     position: fixed;
     z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0; /* top:0; left:0; right:0; bottom:0; */
     overflow: auto;
     background-color: rgba(0,0,0,0.5);
+    /* Flex para centrar contenido */
+    justify-content: center;
+    align-items: center;
 }
-.trekkium-modal-content {
+
+/* Mostrar modal - SOLO aquí debe tener display:flex */
+.acceso-cc-modal.show {
+    display: flex !important;
+}
+
+.acceso-cc-modal-content {
     background-color: #fff;
-    margin: 15% auto;
     padding: 20px 30px;
     border-radius: 8px;
     width: 90%;
@@ -158,10 +162,26 @@
     position: relative;
     font-size: 16px;
     text-align: center;
+    margin: 0;
 }
-.trekkium-modal-content.error { border-left: 5px solid #e74c3c; }
-.trekkium-modal-content.success { border-left: 5px solid #2ecc71; }
-.trekkium-modal-close {
+
+.acceso-cc-modal-content h2 {
+    margin-bottom: 10px !important;
+}
+
+.acceso-cc-modal-content p {
+    margin: 0 !important;
+}
+
+.acceso-cc-modal-content.error { 
+    border-left: none; 
+}
+
+.acceso-cc-modal-content.success { 
+    border-left: none; 
+}
+
+.acceso-cc-modal-close {
     position: absolute;
     top: 10px;
     right: 15px;
@@ -170,6 +190,7 @@
     color: #333;
     cursor: pointer;
 }
-.trekkium-modal-close:hover {
+
+.acceso-cc-modal-close:hover {
     color: #000;
 }

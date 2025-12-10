@@ -33,9 +33,10 @@ function trekkium_pagina_crear_cuenta() {
     <div class="crear-cuenta-contenedor">
 
         <?php if ($mensaje_error || $mensaje_exito): ?>
-            <div id="trekkium-modal" class="trekkium-modal">
-                <div class="trekkium-modal-content <?php echo $mensaje_error ? 'error' : 'success'; ?>">
-                    <span class="trekkium-modal-close">&times;</span>
+            <div id="acceso-cc-modal" class="acceso-cc-modal">
+                <div class="acceso-cc-modal-content <?php echo $mensaje_error ? 'error' : 'success'; ?>">
+                    <span class="acceso-cc-modal-close">&times;</span>
+                    <h2>Error de registro</h2>
                     <p><?php echo esc_html($mensaje_error ?: $mensaje_exito); ?></p>
                 </div>
             </div>
@@ -251,6 +252,8 @@ function trekkium_pagina_crear_cuenta() {
             });
         }
 
+        
+
         // Detección razonable de gestor nativo de contraseñas para ocultar botón
         document.addEventListener('DOMContentLoaded', function() {
             const hasNativePasswordManager =
@@ -280,23 +283,51 @@ function trekkium_pagina_crear_cuenta() {
             form.addEventListener('submit', updateHiddenPhoneField);
         }
     })();
-    </script>
-
-    <script>
-    (function(){
-        const modal = document.getElementById('trekkium-modal');
+    
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('acceso-cc-modal');
         if (!modal) return;
 
-        const closeBtn = modal.querySelector('.trekkium-modal-close');
-        closeBtn.addEventListener('click', function(){
-            modal.style.display = 'none';
+        const closeBtn = modal.querySelector('.acceso-cc-modal-close');
+        const contenido = modal.querySelector('p');
+
+        // Solo mostrar si hay contenido en el mensaje
+        if (contenido && contenido.textContent.trim() !== '') {
+            modal.classList.add('show');
+        }
+
+        // Cerrar con X
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                modal.classList.remove('show');
+                // Asegurarnos de que se quite la clase
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            });
+        }
+
+        // Cerrar al hacer clic fuera del contenido
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
         });
 
-        // Cerrar modal al hacer clic fuera del contenido
-        window.addEventListener('click', function(event){
-            if (event.target === modal) modal.style.display = 'none';
+        // También cerrar al presionar Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && modal.classList.contains('show')) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
         });
-    })();
+    });
     </script>
 
 

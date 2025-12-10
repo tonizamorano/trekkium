@@ -243,26 +243,21 @@ function trekkium_query_productos() {
                                 <!-- Sección del precio -->
                                 <div class="pa-seccion-ultima">
                                     
-                                    <div class="pa-plazas-disponibles">
-                                        <?php
-                                        if (function_exists('wc_get_product')) {
-                                            $product = wc_get_product(get_the_ID());
-                                            if ($product && $product->managing_stock()) {
-                                                $stock = (int) $product->get_stock_quantity();
+                                    <div style="display:flex;flex-direction:column;">
+                                       
+                                        
+                                        <!-- Mostrar el estado de la actividad -->
+                                        <?php if (!empty($estado_actividad) && $estado_actividad !== 'Sin definir'): ?>
 
-                                                if ($stock > 1) {
-                                                    echo '<span>' . esc_html($stock) . ' plazas disponibles</span>';
-                                                } elseif ($stock === 1) {
-                                                    echo '<span>1 plaza disponible</span>';
-                                                } else {
-                                                    echo '<span class="actividad-completa">Actividad completa</span>';
-                                                }
-                                            } else {
-                                                echo '<span>Plazas no definidas</span>';
-                                            }
-                                        }
-                                        ?>
+                                        <div class="pa-estado-actividad">
+                                            <?php echo esc_html($estado_actividad); ?>
+                                        </div>
+                                        
+                                        <?php endif; ?>
+
+                                        
                                     </div>
+
 
                                     <div class="pa-precio">
                                         <?php if ($precio) : ?>

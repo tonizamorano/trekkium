@@ -2,18 +2,38 @@
 /*
 Plugin Name: Sección Precio y Reserva Producto
 Description: Muestra la sección de precio y reserva de un producto WooCommerce mediante shortcode. Incluye lista de espera y gestión de estado Cancelado.
-Version: 2.4
+Version: 2.6
 Author: Toni
 */
 
 function seccion_precio_reserva_shortcode() {
     if (!is_singular('product')) return '';
-
+    
     global $product;
     $product_id = $product->get_id();
 
     // --- Detectar estado Cancelado ---
     $is_cancelado = ($product->get_status() === 'wc-cancelado');
+    
+    // --- Verificar roles de usuario ---
+    $current_user = wp_get_current_user();
+    $roles_bloqueados = array('administrator', 'guia');
+    $usuario_bloqueado = false;
+    
+    if (is_user_logged_in()) {
+        foreach ($roles_bloqueados as $rol) {
+            if (in_array($rol, $current_user->roles)) {
+                $usuario_bloqueado = true;
+                break;
+            }
+        }
+    }
+    
+    // --- Verificar si usuario ya tiene reserva activa de esta actividad ---
+    $tiene_reserva_activa = false;
+    if (is_user_logged_in() && !$usuario_bloqueado) {
+        $tiene_reserva_activa = verificar_reserva_activa_usuario($current_user->ID, $product_id);
+    }
 
     // Campos meta
     $precio_meta = (float) get_post_meta($product_id, 'precio', true);
@@ -140,15 +160,10 @@ function seccion_precio_reserva_shortcode() {
                             PONME EN LISTA DE ESPERA
                         <?php endif; ?>
                     </button>
+                    
+                    <!-- Mensaje dinámico que aparecerá al hacer clic -->
                     <div class="ps-mensaje-lista-espera" id="ps-mensaje-lista-espera" style="display:none;"></div>
                 </div>
-
-                <?php 
-                // Mostrar condiciones solo si hay stock
-                if ($stock_disponible > 0) {
-                    echo do_shortcode('[seccion_condiciones_reserva]');
-                }
-                ?>
 
             <?php endif; ?>
 
@@ -164,6 +179,8 @@ function seccion_precio_reserva_shortcode() {
         const checkoutUrl = '<?php echo $checkout_url; ?>';
         const stockDisponible = <?php echo (int) $stock_disponible; ?>;
         const isLoggedIn = <?php echo $is_logged_in ? 'true' : 'false'; ?>;
+        const usuarioBloqueado = <?php echo $usuario_bloqueado ? 'true' : 'false'; ?>;
+        const tieneReservaActiva = <?php echo $tiene_reserva_activa ? 'true' : 'false'; ?>;
 
         function cambiarCantidad(cambio) {
             const input = document.getElementById('ps-cantidad-plazas');
@@ -200,11 +217,33 @@ function seccion_precio_reserva_shortcode() {
             if (btnDer) btnDer.disabled = (cantidad >= max);
         }
 
-        function mostrarMensaje(texto) {
+        function mostrarMensaje(texto, tipo = 'info') {
             const mensajeEl = document.getElementById('ps-mensaje-lista-espera');
             if (!mensajeEl) return;
+            
+            // Configurar estilos según el tipo de mensaje
+            if (tipo === 'advertencia') {
+                mensajeEl.style.backgroundColor = '#fff3cd';
+                mensajeEl.style.border = '1px solid #ffeaa7';
+                mensajeEl.style.color = '#856404';
+            } else if (tipo === 'error') {
+                mensajeEl.style.backgroundColor = '#f8d7da';
+                mensajeEl.style.border = '1px solid #f5c6cb';
+                mensajeEl.style.color = '#721c24';
+            } else {
+                mensajeEl.style.backgroundColor = '#d1ecf1';
+                mensajeEl.style.border = '1px solid #bee5eb';
+                mensajeEl.style.color = '#0c5460';
+            }
+            
             mensajeEl.textContent = texto;
             mensajeEl.style.display = 'block';
+            mensajeEl.style.marginTop = '10px';
+            mensajeEl.style.padding = '8px';
+            mensajeEl.style.borderRadius = '4px';
+            mensajeEl.style.textAlign = 'center';
+            mensajeEl.style.fontSize = '14px';
+            
             setTimeout(() => {
                 mensajeEl.style.display = 'none';
                 mensajeEl.textContent = '';
@@ -212,59 +251,69 @@ function seccion_precio_reserva_shortcode() {
         }
 
         function reservarAhora() {
-    const cantidadInput = document.getElementById('ps-cantidad-plazas');
-    const cantidad = cantidadInput ? parseInt(cantidadInput.value) : 1;
-
-    if (!isLoggedIn) {
-        mostrarMensaje('Necesitas acceder con tu cuenta para reservar');
-        return;
-    }
-
-    console.log('Iniciando reserva:', { productoId, cantidad, stockDisponible });
-
-    if (stockDisponible > 0) {
-        // Método más directo - redirección simple
-        const url = `/?add-to-cart=${productoId}&quantity=${cantidad}`;
-        console.log('Redirigiendo a:', url);
-        
-        // Primero agregar al carrito, luego redirigir
-        fetch(url, {
-            method: 'GET',
-            credentials: 'same-origin' // Importante para mantener sesión
-        })
-        .then(response => {
-            console.log('Respuesta recibida, redirigiendo a checkout');
-            // Pequeño delay para asegurar que el item se agregó
-            setTimeout(() => {
-                window.location.href = checkoutUrl + '?debug=' + Date.now();
-            }, 500);
-        })
-        .catch(error => {
-            console.error('Error en fetch:', error);
-            // Fallback: redirección directa
-            window.location.href = url + '&redirect=' + encodeURIComponent(checkoutUrl);
-        });
-    } else {
-        // Código para lista de espera...
-        fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `action=trekkium_lista_espera&producto_id=${productoId}`,
-            credentials: 'same-origin'
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                mostrarMensaje(data.data);
-            } else {
-                mostrarMensaje('Error: ' + (data.data || 'No se pudo procesar la solicitud.'));
+            // Primero verificar si el usuario ya tiene reserva activa
+            if (tieneReservaActiva) {
+                mostrarMensaje('No puedes reservar dos veces la misma actividad', 'advertencia');
+                return;
             }
-        })
-        .catch(() => {
-            mostrarMensaje('Error de conexión');
-        });
-    }
-}
+
+            // Verificar si el usuario está bloqueado
+            if (usuarioBloqueado) {
+                mostrarMensaje('Los usuarios con rol de Administrador o Guía no pueden reservar actividades', 'error');
+                return;
+            }
+
+            if (!isLoggedIn) {
+                mostrarMensaje('Necesitas acceder con tu cuenta para reservar', 'info');
+                return;
+            }
+
+            const cantidadInput = document.getElementById('ps-cantidad-plazas');
+            const cantidad = cantidadInput ? parseInt(cantidadInput.value) : 1;
+
+            console.log('Iniciando reserva:', { productoId, cantidad, stockDisponible });
+
+            if (stockDisponible > 0) {
+                // Método más directo - redirección simple
+                const url = `/?add-to-cart=${productoId}&quantity=${cantidad}`;
+                console.log('Redirigiendo a:', url);
+                
+                // Primero agregar al carrito, luego redirigir
+                fetch(url, {
+                    method: 'GET',
+                    credentials: 'same-origin'
+                })
+                .then(response => {
+                    console.log('Respuesta recibida, redirigiendo a checkout');
+                    setTimeout(() => {
+                        window.location.href = checkoutUrl + '?debug=' + Date.now();
+                    }, 500);
+                })
+                .catch(error => {
+                    console.error('Error en fetch:', error);
+                    window.location.href = url + '&redirect=' + encodeURIComponent(checkoutUrl);
+                });
+            } else {
+                // Código para lista de espera...
+                fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `action=trekkium_lista_espera&producto_id=${productoId}`,
+                    credentials: 'same-origin'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        mostrarMensaje(data.data, 'info');
+                    } else {
+                        mostrarMensaje('Error: ' + (data.data || 'No se pudo procesar la solicitud.'), 'error');
+                    }
+                })
+                .catch(() => {
+                    mostrarMensaje('Error de conexión', 'error');
+                });
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
             const botonReserva = document.getElementById('ps-boton-reservar');
@@ -293,3 +342,34 @@ function seccion_precio_reserva_shortcode() {
     return ob_get_clean();
 }
 add_shortcode('seccion_precio_reserva', 'seccion_precio_reserva_shortcode');
+
+/**
+ * Verifica si un usuario ya tiene una reserva activa para un producto
+ * 
+ * @param int $user_id ID del usuario
+ * @param int $product_id ID del producto
+ * @return bool True si tiene reserva activa, False si no
+ */
+function verificar_reserva_activa_usuario($user_id, $product_id) {
+    // Estados de pedido considerados como "reserva activa"
+    $estados_activos = array('pending', 'processing', 'on-hold', 'completed');
+    
+    // Obtener todos los pedidos del usuario
+    $orders = wc_get_orders(array(
+        'customer_id' => $user_id,
+        'status'      => $estados_activos,
+        'limit'       => -1, // Obtener todos los pedidos
+    ));
+    
+    foreach ($orders as $order) {
+        // Verificar cada item en el pedido
+        foreach ($order->get_items() as $item) {
+            if ($item->get_product_id() == $product_id || 
+                $item->get_variation_id() == $product_id) {
+                return true; // Encontró el producto en un pedido activo
+            }
+        }
+    }
+    
+    return false; // No encontró el producto en pedidos activos
+}

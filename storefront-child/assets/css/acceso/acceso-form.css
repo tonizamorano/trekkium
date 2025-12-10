@@ -181,14 +181,31 @@
     background-color: rgba(0,0,0,0.5);
 }
 
+.acceso-form-modal.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .acceso-form-modal-content {
     background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
+    margin: 0;
+    padding: 15px;
     border-radius: 8px;
     width: 90%;
     max-width: 400px;
     position: relative;
+    text-align: center;
+}
+
+.acceso-form-modal-content h2 {
+    font-size: 22px;
+    margin-bottom: 15px !important;
+}
+
+.acceso-form-modal-content p {
+    font-size: 16px;
+    color: var(--azul1-100);
 }
 
 .acceso-form-close {
@@ -208,14 +225,13 @@
 
 #messageModal .acceso-form-modal-content h2 {
     font-size: 22px;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid currentColor;
+    margin-bottom: 15px !important;
+
 }
 
 #messageModal .acceso-form-modal-content p {
     font-size: 16px;
-    color: #333;
+    color: var(--azul1-100);
 }
 
 /* Asegurar que el modal esté encima de todo */
