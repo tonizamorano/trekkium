@@ -50,9 +50,7 @@ function contenido_detalles_actividad_shortcode() {
 
                 <!-- Estado de la actividad-->
                 <?php echo do_shortcode('[mc_ma_da_estado_actividad id="'.$actividad_id.'"]'); ?>
-
-                <!-- Información adicional-->
-                <?php echo do_shortcode('[mc_ma_da_info_adicional id="'.$actividad_id.'"]'); ?>
+                <?php echo do_shortcode('[mc_ma_da_cambios_actividad id="'.$actividad_id.'"]'); ?>
 
             </div>
 

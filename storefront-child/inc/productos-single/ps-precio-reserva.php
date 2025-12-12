@@ -165,6 +165,56 @@ function seccion_precio_reserva_shortcode() {
                     <div class="ps-mensaje-lista-espera" id="ps-mensaje-lista-espera" style="display:none;"></div>
                 </div>
 
+                <!-- Modal oculto -->
+                <div id="ps-modal-mensaje" style="display:none;">
+                    <div class="ps-modal-contenido">
+                        <span class="ps-modal-cerrar">&times;</span>
+                        <div id="ps-modal-texto"></div>
+                    </div>
+                </div>
+
+                <style>
+                #ps-modal-mensaje {
+                    position: fixed;
+                    z-index: 9999;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0,0,0,0.4);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .ps-modal-contenido {
+                    background-color: #fff;
+                    padding: 20px 30px;
+                    border-radius: 10px;
+                    text-align: center;
+                    position: relative;
+                    max-width: 400px;
+                    width: 90%;
+                }
+                .ps-modal-cerrar {
+                    position: absolute;
+                    top: 10px;
+                    right: 15px;
+                    font-size: 20px;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+                #ps-modal-texto {
+                    color: #0b568b;
+                    font-size: 18px;
+                }
+                @media (max-width: 768px) {
+                    #ps-modal-texto {
+                        font-size: 20px;
+                    }
+                }
+                </style>
+
+
             <?php endif; ?>
 
         </div>
@@ -172,170 +222,145 @@ function seccion_precio_reserva_shortcode() {
 
     <?php if ( ! $is_cancelado ) : ?>
     <script>
-        const precioUnitario = <?php echo $precio_meta; ?>;
-        const reservaUnitaria = <?php echo $precio_reserva; ?>;
-        const restoUnitario = <?php echo $resto_pago; ?>;
-        const productoId = <?php echo (int) $product_id; ?>;
-        const checkoutUrl = '<?php echo $checkout_url; ?>';
-        const stockDisponible = <?php echo (int) $stock_disponible; ?>;
-        const isLoggedIn = <?php echo $is_logged_in ? 'true' : 'false'; ?>;
-        const usuarioBloqueado = <?php echo $usuario_bloqueado ? 'true' : 'false'; ?>;
-        const tieneReservaActiva = <?php echo $tiene_reserva_activa ? 'true' : 'false'; ?>;
+    const precioUnitario = <?php echo $precio_meta; ?>;
+    const reservaUnitaria = <?php echo $precio_reserva; ?>;
+    const restoUnitario = <?php echo $resto_pago; ?>;
+    const productoId = <?php echo (int) $product_id; ?>;
+    const checkoutUrl = '<?php echo $checkout_url; ?>';
+    const stockDisponible = <?php echo (int) $stock_disponible; ?>;
+    const isLoggedIn = <?php echo $is_logged_in ? 'true' : 'false'; ?>;
+    const usuarioBloqueado = <?php echo $usuario_bloqueado ? 'true' : 'false'; ?>;
+    const tieneReservaActiva = <?php echo $tiene_reserva_activa ? 'true' : 'false'; ?>;
 
-        function cambiarCantidad(cambio) {
-            const input = document.getElementById('ps-cantidad-plazas');
-            if (!input || input.readOnly) return;
-            let cantidadActual = parseInt(input.value);
-            const maxCantidad = parseInt(input.max);
-            const minCantidad = parseInt(input.min);
-            let nuevaCantidad = cantidadActual + cambio;
-            if (nuevaCantidad < minCantidad) nuevaCantidad = minCantidad;
-            if (nuevaCantidad > maxCantidad) nuevaCantidad = maxCantidad;
-            input.value = nuevaCantidad;
-            actualizarPrecios(nuevaCantidad);
-            actualizarEstadoBotones(nuevaCantidad, maxCantidad, minCantidad);
+    function cambiarCantidad(cambio) {
+        const input = document.getElementById('ps-cantidad-plazas');
+        if (!input || input.readOnly) return;
+        let cantidadActual = parseInt(input.value);
+        const maxCantidad = parseInt(input.max);
+        const minCantidad = parseInt(input.min);
+        let nuevaCantidad = cantidadActual + cambio;
+        if (nuevaCantidad < minCantidad) nuevaCantidad = minCantidad;
+        if (nuevaCantidad > maxCantidad) nuevaCantidad = maxCantidad;
+        input.value = nuevaCantidad;
+        actualizarPrecios(nuevaCantidad);
+        actualizarEstadoBotones(nuevaCantidad, maxCantidad, minCantidad);
+    }
+
+    function actualizarPrecios(cantidad) {
+        const precioTotal = precioUnitario * cantidad;
+        const reservaTotal = reservaUnitaria * cantidad;
+        const restoTotal = restoUnitario * cantidad;
+        const formatoMoneda = (v) => v.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        
+        document.getElementById('ps-precio-total').textContent = formatoMoneda(precioTotal) + ' €';
+        document.getElementById('ps-reserva-total').textContent = formatoMoneda(reservaTotal) + ' €';
+        document.getElementById('ps-resto-total').textContent = formatoMoneda(restoTotal) + ' €';
+        
+        const precioReservaEl = document.getElementById('ps-precio-reserva');
+        if(precioReservaEl) precioReservaEl.textContent = formatoMoneda(reservaTotal);
+    }
+
+    function actualizarEstadoBotones(cantidad, max, min) {
+        const btnIzq = document.querySelector('.ps-btn-contador-izq');
+        const btnDer = document.querySelector('.ps-btn-contador-der');
+        if (btnIzq) btnIzq.disabled = (cantidad <= min);
+        if (btnDer) btnDer.disabled = (cantidad >= max);
+    }
+
+    // Función para mostrar el modal
+    function mostrarMensajeModal(texto) {
+        let modal = document.getElementById('ps-modal-mensaje');
+        let modalTexto = document.getElementById('ps-modal-texto');
+        const cerrar = modal.querySelector('.ps-modal-cerrar');
+
+        modalTexto.textContent = texto;
+        modal.style.display = 'flex';
+
+        cerrar.onclick = () => { modal.style.display = 'none'; };
+        window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+    }
+
+    function reservarAhora() {
+        // Primero verificar si el usuario ya tiene reserva activa
+        if (tieneReservaActiva) {
+            mostrarMensajeModal('No puedes reservar dos veces la misma actividad');
+            return;
         }
 
-        function actualizarPrecios(cantidad) {
-            const precioTotal = precioUnitario * cantidad;
-            const reservaTotal = reservaUnitaria * cantidad;
-            const restoTotal = restoUnitario * cantidad;
-            const formatoMoneda = (v) => v.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            
-            document.getElementById('ps-precio-total').textContent = formatoMoneda(precioTotal) + ' €';
-            document.getElementById('ps-reserva-total').textContent = formatoMoneda(reservaTotal) + ' €';
-            document.getElementById('ps-resto-total').textContent = formatoMoneda(restoTotal) + ' €';
-            
-            const precioReservaEl = document.getElementById('ps-precio-reserva');
-            if(precioReservaEl) precioReservaEl.textContent = formatoMoneda(reservaTotal);
+        // Verificar si el usuario está bloqueado
+        if (usuarioBloqueado) {
+            mostrarMensajeModal('Los usuarios con rol de Administrador o Guía no pueden reservar actividades');
+            return;
         }
 
-        function actualizarEstadoBotones(cantidad, max, min) {
-            const btnIzq = document.querySelector('.ps-btn-contador-izq');
-            const btnDer = document.querySelector('.ps-btn-contador-der');
-            if (btnIzq) btnIzq.disabled = (cantidad <= min);
-            if (btnDer) btnDer.disabled = (cantidad >= max);
+        if (!isLoggedIn) {
+            mostrarMensajeModal('Necesitas acceder con tu cuenta para reservar');
+            return;
         }
 
-        function mostrarMensaje(texto, tipo = 'info') {
-            const mensajeEl = document.getElementById('ps-mensaje-lista-espera');
-            if (!mensajeEl) return;
-            
-            // Configurar estilos según el tipo de mensaje
-            if (tipo === 'advertencia') {
-                mensajeEl.style.backgroundColor = '#fff3cd';
-                mensajeEl.style.border = '1px solid #ffeaa7';
-                mensajeEl.style.color = '#856404';
-            } else if (tipo === 'error') {
-                mensajeEl.style.backgroundColor = '#f8d7da';
-                mensajeEl.style.border = '1px solid #f5c6cb';
-                mensajeEl.style.color = '#721c24';
-            } else {
-                mensajeEl.style.backgroundColor = '#d1ecf1';
-                mensajeEl.style.border = '1px solid #bee5eb';
-                mensajeEl.style.color = '#0c5460';
-            }
-            
-            mensajeEl.textContent = texto;
-            mensajeEl.style.display = 'block';
-            mensajeEl.style.marginTop = '10px';
-            mensajeEl.style.padding = '8px';
-            mensajeEl.style.borderRadius = '4px';
-            mensajeEl.style.textAlign = 'center';
-            mensajeEl.style.fontSize = '14px';
-            
-            setTimeout(() => {
-                mensajeEl.style.display = 'none';
-                mensajeEl.textContent = '';
-            }, 20000);
+        const cantidadInput = document.getElementById('ps-cantidad-plazas');
+        const cantidad = cantidadInput ? parseInt(cantidadInput.value) : 1;
+
+        console.log('Iniciando reserva:', { productoId, cantidad, stockDisponible });
+
+        if (stockDisponible > 0) {
+            const url = `/?add-to-cart=${productoId}&quantity=${cantidad}`;
+            console.log('Redirigiendo a:', url);
+            fetch(url, { method: 'GET', credentials: 'same-origin' })
+            .then(response => {
+                console.log('Respuesta recibida, redirigiendo a checkout');
+                setTimeout(() => {
+                    window.location.href = checkoutUrl + '?debug=' + Date.now();
+                }, 500);
+            })
+            .catch(error => {
+                console.error('Error en fetch:', error);
+                window.location.href = url + '&redirect=' + encodeURIComponent(checkoutUrl);
+            });
+        } else {
+            fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=trekkium_lista_espera&producto_id=${productoId}`,
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    mostrarMensajeModal(data.data);
+                } else {
+                    mostrarMensajeModal('Error: ' + (data.data || 'No se pudo procesar la solicitud.'));
+                }
+            })
+            .catch(() => {
+                mostrarMensajeModal('Error de conexión');
+            });
         }
+    }
 
-        function reservarAhora() {
-            // Primero verificar si el usuario ya tiene reserva activa
-            if (tieneReservaActiva) {
-                mostrarMensaje('No puedes reservar dos veces la misma actividad', 'advertencia');
-                return;
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+        const botonReserva = document.getElementById('ps-boton-reservar');
+        if (botonReserva) botonReserva.addEventListener('click', reservarAhora);
 
-            // Verificar si el usuario está bloqueado
-            if (usuarioBloqueado) {
-                mostrarMensaje('Los usuarios con rol de Administrador o Guía no pueden reservar actividades', 'error');
-                return;
-            }
-
-            if (!isLoggedIn) {
-                mostrarMensaje('Necesitas acceder con tu cuenta para reservar', 'info');
-                return;
-            }
-
-            const cantidadInput = document.getElementById('ps-cantidad-plazas');
-            const cantidad = cantidadInput ? parseInt(cantidadInput.value) : 1;
-
-            console.log('Iniciando reserva:', { productoId, cantidad, stockDisponible });
-
-            if (stockDisponible > 0) {
-                // Método más directo - redirección simple
-                const url = `/?add-to-cart=${productoId}&quantity=${cantidad}`;
-                console.log('Redirigiendo a:', url);
-                
-                // Primero agregar al carrito, luego redirigir
-                fetch(url, {
-                    method: 'GET',
-                    credentials: 'same-origin'
-                })
-                .then(response => {
-                    console.log('Respuesta recibida, redirigiendo a checkout');
-                    setTimeout(() => {
-                        window.location.href = checkoutUrl + '?debug=' + Date.now();
-                    }, 500);
-                })
-                .catch(error => {
-                    console.error('Error en fetch:', error);
-                    window.location.href = url + '&redirect=' + encodeURIComponent(checkoutUrl);
-                });
-            } else {
-                // Código para lista de espera...
-                fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `action=trekkium_lista_espera&producto_id=${productoId}`,
-                    credentials: 'same-origin'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        mostrarMensaje(data.data, 'info');
-                    } else {
-                        mostrarMensaje('Error: ' + (data.data || 'No se pudo procesar la solicitud.'), 'error');
-                    }
-                })
-                .catch(() => {
-                    mostrarMensaje('Error de conexión', 'error');
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const botonReserva = document.getElementById('ps-boton-reservar');
-            if (botonReserva) botonReserva.addEventListener('click', reservarAhora);
-
-            const input = document.getElementById('ps-cantidad-plazas');
-            if (input) {
-                let cantidad = parseInt(input.value);
-                const max = parseInt(input.max);
-                const min = parseInt(input.min);
+        const input = document.getElementById('ps-cantidad-plazas');
+        if (input) {
+            let cantidad = parseInt(input.value);
+            const max = parseInt(input.max);
+            const min = parseInt(input.min);
+            actualizarEstadoBotones(cantidad, max, min);
+            input.addEventListener('change', function() {
+                let cantidad = parseInt(this.value);
+                if (cantidad < min) cantidad = min;
+                if (cantidad > max) cantidad = max;
+                this.value = cantidad;
+                actualizarPrecios(cantidad);
                 actualizarEstadoBotones(cantidad, max, min);
-                input.addEventListener('change', function() {
-                    let cantidad = parseInt(this.value);
-                    if (cantidad < min) cantidad = min;
-                    if (cantidad > max) cantidad = max;
-                    this.value = cantidad;
-                    actualizarPrecios(cantidad);
-                    actualizarEstadoBotones(cantidad, max, min);
-                });
-            }
-        });
+            });
+        }
+    });
     </script>
+
+
     <?php endif; ?>    
 
     <?php

@@ -1,34 +1,49 @@
 <?php
 /**
- * Shortcode para la sección de imágenes de GALERÍA del formulario de nueva actividad
- * Incluye botones Editar/Eliminar
+ * Shortcode para la sección de imágenes de GALERÍA en el formulario de EDITAR actividad
+ * Incluye botones Editar/Eliminar y carga imágenes existentes
  */
-function mc_ma_na_form_imagenes_shortcode() {
+function mc_ma_ea_form_imagenes_shortcode($atts) {
     ob_start();
-    
+
+    $atts = shortcode_atts([
+        'edit_ids' => '', // IDs existentes separados por coma
+    ], $atts, 'mc_ma_ea_form_imagenes');
+
+    $edit_ids = $atts['edit_ids'] ? explode(',', $atts['edit_ids']) : [];
+
     if ( ! did_action( 'wp_enqueue_media' ) ) {
         wp_enqueue_media();
     }
     ?>
     
     <div class="mc-ma-na-grid-2col-imagenes">
-        <?php for($i=1;$i<=4;$i++): ?>
+        <?php for($i=1;$i<=4;$i++): 
+            $image_id = isset($edit_ids[$i-1]) ? intval($edit_ids[$i-1]) : '';
+        ?>
             <div class="mc-ma-na-grid-1col">
 
                 <label class="edit-form-titular">Imagen de Galería <?php echo $i; ?></label>
 
                 <div class="edit-form-image-box" onclick="abrirMediaUploaderGaleria(this, 'actividad_galeria_<?php echo $i; ?>')">
-                    <span>Haz clic para seleccionar</span>
+                    <?php if ($image_id): ?>
+                        <?php echo wp_get_attachment_image($image_id, 'medium'); ?>
+                        <div class="image-buttons">
+                            <div class="btn edit">Editar</div>
+                            <div class="btn delete">Eliminar</div>
+                        </div>
+                    <?php else: ?>
+                        <span>Haz clic para seleccionar</span>
+                    <?php endif; ?>
                 </div>
 
-                <input type="hidden" name="actividad_galeria_<?php echo $i; ?>" id="actividad_galeria_<?php echo $i; ?>">
+                <input type="hidden" name="actividad_galeria_<?php echo $i; ?>" id="actividad_galeria_<?php echo $i; ?>" value="<?php echo esc_attr($image_id); ?>">
 
             </div>
         <?php endfor; ?>
     </div>
 
     <style>
-    /* Igual estilo que la imagen principal */
     .edit-form-image-box {
         position: relative;
         cursor: pointer;
@@ -106,13 +121,11 @@ function mc_ma_na_form_imagenes_shortcode() {
         var inputElement = document.getElementById(inputId);
         if (inputElement) inputElement.value = attachment.id;
 
-        // Botón Editar
         box.querySelector('.edit').addEventListener('click', function(e){
             e.stopPropagation();
             abrirMediaUploaderGaleria(box, inputId);
         });
 
-        // Botón Eliminar
         box.querySelector('.delete').addEventListener('click', function(e){
             e.stopPropagation();
             box.innerHTML = '<span>Haz clic para seleccionar</span>';
@@ -120,34 +133,9 @@ function mc_ma_na_form_imagenes_shortcode() {
             if (inputElement) inputElement.value = '';
         });
     }
-
-    // Inicializar imágenes precargadas
-    jQuery(document).ready(function($){
-        for(var i=1; i<=4; i++) {
-            var inputId = 'actividad_galeria_' + i;
-            var input = document.getElementById(inputId);
-            var box = input ? input.previousElementSibling : null;
-
-            if (input && input.value && box) {
-                $.ajax({
-                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                    method: 'POST',
-                    data: {
-                        action: 'mc_get_image_url',
-                        image_id: input.value
-                    },
-                    success: function(response) {
-                        if (response.success && response.data.url) {
-                            mostrarImagenGaleriaConBotones(box, inputId, { id: input.value, url: response.data.url });
-                        }
-                    }
-                });
-            }
-        }
-    });
     </script>
 
     <?php
     return ob_get_clean();
 }
-add_shortcode('mc_ma_na_form_imagenes', 'mc_ma_na_form_imagenes_shortcode');
+add_shortcode('mc_ma_ea_form_imagenes', 'mc_ma_ea_form_imagenes_shortcode');

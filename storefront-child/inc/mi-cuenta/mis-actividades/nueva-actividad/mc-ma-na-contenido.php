@@ -11,6 +11,9 @@ function contenido_nueva_actividad_shortcode() {
         wp_enqueue_media();
     }
 
+    // Variable para controlar si se mostró el modal
+    $mostrar_modal_exito = false;
+
     // Guardar nueva actividad al enviar formulario
     if ( isset($_POST['formulario_nueva_actividad_nonce']) && wp_verify_nonce($_POST['formulario_nueva_actividad_nonce'], 'crear_actividad') ) {
 
@@ -49,13 +52,28 @@ function contenido_nueva_actividad_shortcode() {
                     update_post_meta( $new_product_id, '_product_image_gallery', implode(',', $galeria_ids) );
                 }
 
-                // Taxonomías
-                $taxonomias = ['tipo','modalidad','pais','region','provincia','dificultad'];
+                // CORREGIDO: Taxonomías jerárquicas por nombre, no por ID
+                $taxonomias = ['tipo','modalidad','dificultad'];
                 foreach ( $taxonomias as $tax ) {
                     if ( isset($_POST["actividad_{$tax}"]) ) {
                         $term_id = intval($_POST["actividad_{$tax}"]);
                         if ($term_id > 0) {
-                            wp_set_post_terms( $new_product_id, [ $term_id ], $tax, false );
+                            $term = get_term($term_id, $tax);
+                            if ($term && !is_wp_error($term)) {
+                                wp_set_object_terms( $new_product_id, [ $term->name ], $tax, false );
+                            }
+                        }
+                    }
+                }
+
+                // CORREGIDO: Taxonomías jerárquicas (pais, region, provincia) por nombre
+                $ubicaciones_taxonomias = ['pais', 'region', 'provincia'];
+                foreach ( $ubicaciones_taxonomias as $tax ) {
+                    if ( isset($_POST["actividad_{$tax}"]) && !empty($_POST["actividad_{$tax}"]) ) {
+                        $term_name = sanitize_text_field($_POST["actividad_{$tax}"]);
+                        if (!empty($term_name) && $term_name !== '0') {
+                            // Usar el nombre del término, no el ID
+                            wp_set_object_terms( $new_product_id, [ $term_name ], $tax, false );
                         }
                     }
                 }
@@ -121,11 +139,9 @@ function contenido_nueva_actividad_shortcode() {
                     update_post_meta($new_product_id, 'dias', intval($_POST['actividad_dias']));
                 }
 
-                // Redirigir finalmente a mis-actividades
-                wp_safe_redirect( home_url('/mis-actividades/?creado=1') );
-                exit;
+                // Marcar para mostrar el modal
+                $mostrar_modal_exito = true;
 
-                echo '<p style="color:green;font-weight:bold;">✅ Actividad creada correctamente y pendiente de revisión.</p>';
             }
 
         } else {
@@ -133,6 +149,8 @@ function contenido_nueva_actividad_shortcode() {
         }
     }
 
+    // Obtener datos de ubicaciones para inicializar selects
+    $ubicaciones_data = trekkium_get_ubicaciones();
     ?>
 
     <div class="mc-ma-na-titular">
@@ -224,17 +242,11 @@ function contenido_nueva_actividad_shortcode() {
                 <label class="edit-form-titular">País*</label>
                 <select name="actividad_pais" id="actividad_pais" class="edit-form-text" required>
                     <option value="">Selecciona país</option>
-                    <?php
-                    $terms_pais = get_terms(['taxonomy'=>'pais','hide_empty'=>false]);
-                    if (! is_wp_error($terms_pais)) {
-                        // Solo mostrar términos sin padre (nivel superior)
-                        foreach($terms_pais as $term):
-                            if ($term->parent == 0): ?>
-                                <option value="<?php echo esc_attr($term->term_id); ?>"><?php echo esc_html($term->name); ?></option>
-                            <?php endif;
-                        endforeach;
-                    }
-                    ?>
+                    <?php foreach ($ubicaciones_data as $pais => $regiones): ?>
+                        <option value="<?php echo esc_attr($pais); ?>">
+                            <?php echo esc_html($pais); ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
@@ -398,35 +410,189 @@ function contenido_nueva_actividad_shortcode() {
         </div>
     </form>
 
+    <!-- Modal de éxito -->
+    <?php if ($mostrar_modal_exito): ?>
+    <div id="modal-exito-actividad" class="modal-exito-overlay" style="display: flex;">
+        <div class="modal-exito-contenido">
+            <button class="modal-exito-cerrar" onclick="cerrarModalExito()">&times;</button>
+            <div class="modal-exito-mensaje">
+                ✅ Actividad creada correctamente y pendiente de revisión.
+            </div>
+        </div>
+    </div>
+
+    <style>
+    /* Estilos del modal */
+    .modal-exito-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 999999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .modal-exito-contenido {
+        background-color: white;
+        border-radius: 12px;
+        padding: 30px 40px;
+        max-width: 500px;
+        width: 90%;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+    
+    .modal-exito-cerrar {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 28px;
+        color: #666;
+        background: none;
+        border: none;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+    
+    .modal-exito-cerrar:hover {
+        color: #333;
+        background-color: #f0f0f0;
+    }
+    
+    .modal-exito-mensaje {
+        font-size: 18px;
+        color: #2c3e50;
+        font-weight: 500;
+        line-height: 1.5;
+        padding: 10px 0;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .modal-exito-contenido {
+            padding: 25px 30px;
+            width: 95%;
+        }
+        
+        .modal-exito-mensaje {
+            font-size: 16px;
+        }
+        
+        .modal-exito-cerrar {
+            top: 8px;
+            right: 12px;
+            font-size: 24px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .modal-exito-contenido {
+            padding: 20px 25px;
+        }
+        
+        .modal-exito-mensaje {
+            font-size: 15px;
+        }
+    }
+    </style>
+
     <script>
-    // Dependencias país -> región -> provincia
-    jQuery(document).ready(function($){
-        function cargarOpciones(taxonomia, parentId, targetSelect){
-            $.ajax({
-                url: "<?php echo admin_url('admin-ajax.php'); ?>",
-                type: "POST",
-                data: {
-                    action: "cargar_terminos_condicionales",
-                    taxonomia: taxonomia,
-                    parent: parentId
-                },
-                success: function(response){
-                    $(targetSelect).html(response);
+    function cerrarModalExito() {
+        var modal = document.getElementById('modal-exito-actividad');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+    
+    // Cerrar modal al hacer clic fuera del contenido
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = document.getElementById('modal-exito-actividad');
+        if (modal) {
+            modal.addEventListener('click', function(event) {
+                if (event.target === this) {
+                    cerrarModalExito();
                 }
             });
         }
+    });
+    </script>
+    <?php endif; ?>
+
+    <script>
+    // Datos de ubicaciones desde PHP
+    const ubicacionesData = <?php echo wp_json_encode($ubicaciones_data); ?>;
+
+    // Función para actualizar regiones basado en el país seleccionado
+    function actualizarRegiones(paisSeleccionado) {
+        const regionSelect = document.getElementById('actividad_region');
+        const provinciaSelect = document.getElementById('actividad_provincia');
         
-        $("#actividad_pais").change(function(){
-            let paisId = $(this).val();
-            let paisName = $(this).find('option:selected').text();
-            cargarOpciones("region", paisName, "#actividad_region");
-            $("#actividad_provincia").html('<option value="">Selecciona provincia</option>');
+        // Limpiar selects
+        regionSelect.innerHTML = '<option value="">Selecciona región</option>';
+        provinciaSelect.innerHTML = '<option value="">Selecciona provincia</option>';
+        
+        if (paisSeleccionado && ubicacionesData[paisSeleccionado]) {
+            // Agregar opciones de regiones
+            Object.keys(ubicacionesData[paisSeleccionado]).forEach(region => {
+                const option = document.createElement('option');
+                option.value = region;
+                option.textContent = region;
+                regionSelect.appendChild(option);
+            });
+        }
+    }
+
+    // Función para actualizar provincias basado en región seleccionada
+    function actualizarProvincias(paisSeleccionado, regionSeleccionada) {
+        const provinciaSelect = document.getElementById('actividad_provincia');
+        
+        // Limpiar select
+        provinciaSelect.innerHTML = '<option value="">Selecciona provincia</option>';
+        
+        if (paisSeleccionado && regionSeleccionada && ubicacionesData[paisSeleccionado][regionSeleccionada]) {
+            // Agregar opciones de provincias
+            ubicacionesData[paisSeleccionado][regionSeleccionada].forEach(provincia => {
+                const option = document.createElement('option');
+                option.value = provincia;
+                option.textContent = provincia;
+                provinciaSelect.appendChild(option);
+            });
+        }
+    }
+
+    // Inicializar eventos cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+        const paisSelect = document.getElementById('actividad_pais');
+        const regionSelect = document.getElementById('actividad_region');
+        
+        // Evento para cambiar país
+        paisSelect.addEventListener('change', function() {
+            actualizarRegiones(this.value);
         });
         
-        $("#actividad_region").change(function(){
-            let regionId = $(this).val();
-            cargarOpciones("provincia", regionId, "#actividad_provincia");
+        // Evento para cambiar región
+        regionSelect.addEventListener('change', function() {
+            const pais = document.getElementById('actividad_pais').value;
+            actualizarProvincias(pais, this.value);
         });
+        
+        // Inicializar con el primer país si existe
+        if (paisSelect.options.length > 1) {
+            actualizarRegiones(paisSelect.value);
+        }
     });
 
     // Lógica para Tipo = Actividad/Viaje

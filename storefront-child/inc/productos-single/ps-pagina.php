@@ -55,7 +55,6 @@ function pagina_single_productos_shortcode() {
             <?php echo do_shortcode('[seccion_planificacion]'); ?>
             <?php echo do_shortcode('[seccion_material_necesario]'); ?>   
             <?php echo do_shortcode('[seccion_incluye]'); ?>
-            <?php echo do_shortcode('[seccion_informacion_adicional]'); ?>
             <?php echo do_shortcode('[seccion_precio_reserva]'); ?> 
              
             <!-- <?php echo do_shortcode('[ps_entradas_relacionadas]'); ?> -->          

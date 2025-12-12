@@ -1,34 +1,44 @@
 <?php
 /**
- * Shortcode para la sección de imágenes de GALERÍA del formulario de nueva actividad
- * Incluye botones Editar/Eliminar
+ * Shortcode para la IMAGEN PRINCIPAL del formulario de EDITAR PRODUCTO con botones Editar/Eliminar
+ * Acepta atributo: edit_id (ID de la imagen principal)
  */
-function mc_ma_na_form_imagenes_shortcode() {
+function mc_ma_ea_form_imagen_principal_shortcode($atts) {
     ob_start();
-    
-    if ( ! did_action( 'wp_enqueue_media' ) ) {
+
+    // Encolar media uploader si no está
+    if (!did_action('wp_enqueue_media')) {
         wp_enqueue_media();
     }
+
+    // Obtener ID de la imagen principal si se pasa por shortcode
+    $atts = shortcode_atts([
+        'edit_id' => 0,
+    ], $atts, 'mc_ma_ea_form_imagen_principal');
+
+    $imagen_id = intval($atts['edit_id']);
+    $imagen_url = $imagen_id ? wp_get_attachment_url($imagen_id) : '';
+
     ?>
-    
-    <div class="mc-ma-na-grid-2col-imagenes">
-        <?php for($i=1;$i<=4;$i++): ?>
-            <div class="mc-ma-na-grid-1col">
+    <div class="mc-ma-na-grid-1col">
+        <label class="edit-form-titular">Imagen Principal*</label>
 
-                <label class="edit-form-titular">Imagen de Galería <?php echo $i; ?></label>
-
-                <div class="edit-form-image-box" onclick="abrirMediaUploaderGaleria(this, 'actividad_galeria_<?php echo $i; ?>')">
-                    <span>Haz clic para seleccionar</span>
+        <div class="edit-form-image-box" onclick="abrirMediaUploaderEA(this, 'actividad_imagen_1')">
+            <?php if ($imagen_url): ?>
+                <img src="<?php echo esc_url($imagen_url); ?>" alt="Imagen principal">
+                <div class="image-buttons">
+                    <div class="btn edit">Editar</div>
+                    <div class="btn delete">Eliminar</div>
                 </div>
+            <?php else: ?>
+                <span>Haz clic para seleccionar la imagen principal</span>
+            <?php endif; ?>
+        </div>
 
-                <input type="hidden" name="actividad_galeria_<?php echo $i; ?>" id="actividad_galeria_<?php echo $i; ?>">
-
-            </div>
-        <?php endfor; ?>
+        <input type="hidden" name="actividad_imagen_1" id="actividad_imagen_1" required value="<?php echo esc_attr($imagen_id); ?>">
     </div>
 
     <style>
-    /* Igual estilo que la imagen principal */
     .edit-form-image-box {
         position: relative;
         cursor: pointer;
@@ -71,7 +81,7 @@ function mc_ma_na_form_imagenes_shortcode() {
     </style>
 
     <script>
-    function abrirMediaUploaderGaleria(box, inputId){
+    function abrirMediaUploaderEA(box, inputId){
         if (typeof wp === 'undefined' || typeof wp.media === 'undefined') {
             console.error('WordPress media library no está disponible');
             alert('Error: La biblioteca de medios no está disponible. Recarga la página.');
@@ -79,70 +89,55 @@ function mc_ma_na_form_imagenes_shortcode() {
         }
 
         var frame = wp.media({
-            title: 'Seleccionar imagen para galería',
-            button: { text: 'Usar esta imagen en galería' },
+            title: 'Seleccionar imagen principal',
+            button: { text: 'Usar como imagen principal' },
             multiple: false,
             library: { type: 'image' }
         });
 
         frame.on('select', function(){
             var attachment = frame.state().get('selection').first().toJSON();
-            mostrarImagenGaleriaConBotones(box, inputId, attachment);
+            mostrarImagenConBotonesEA(box, inputId, attachment);
         });
 
         frame.open();
     }
 
-    function mostrarImagenGaleriaConBotones(box, inputId, attachment) {
+    function mostrarImagenConBotonesEA(box, inputId, attachment) {
         box.innerHTML = `
-            <img src="${attachment.url}" alt="Imagen de galería">
+            <img src="${attachment.url}" alt="Imagen principal">
             <div class="image-buttons">
                 <div class="btn edit">Editar</div>
                 <div class="btn delete">Eliminar</div>
             </div>
         `;
         box.style.border = '2px solid #0073aa';
-
         var inputElement = document.getElementById(inputId);
         if (inputElement) inputElement.value = attachment.id;
 
         // Botón Editar
         box.querySelector('.edit').addEventListener('click', function(e){
             e.stopPropagation();
-            abrirMediaUploaderGaleria(box, inputId);
+            abrirMediaUploaderEA(box, inputId);
         });
 
         // Botón Eliminar
         box.querySelector('.delete').addEventListener('click', function(e){
             e.stopPropagation();
-            box.innerHTML = '<span>Haz clic para seleccionar</span>';
+            box.innerHTML = '<span>Haz clic para seleccionar la imagen principal</span>';
             box.style.border = '2px dashed #ccc';
             if (inputElement) inputElement.value = '';
         });
     }
 
-    // Inicializar imágenes precargadas
+    // Inicializar la imagen existente al cargar la página
     jQuery(document).ready(function($){
-        for(var i=1; i<=4; i++) {
-            var inputId = 'actividad_galeria_' + i;
-            var input = document.getElementById(inputId);
-            var box = input ? input.previousElementSibling : null;
+        var input = document.getElementById('actividad_imagen_1');
+        var box = input ? input.previousElementSibling : null;
 
-            if (input && input.value && box) {
-                $.ajax({
-                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                    method: 'POST',
-                    data: {
-                        action: 'mc_get_image_url',
-                        image_id: input.value
-                    },
-                    success: function(response) {
-                        if (response.success && response.data.url) {
-                            mostrarImagenGaleriaConBotones(box, inputId, { id: input.value, url: response.data.url });
-                        }
-                    }
-                });
-            }
+        if (input && input.value && box) {
+            var attachment = { id: input.value, url: '<?php echo esc_url($imagen_url); ?>' };
+            mostrarImagenConBotonesEA(box, 'actividad_imagen_1', attachment);
         }
     });
     </script>
@@ -150,4 +145,4 @@ function mc_ma_na_form_imagenes_shortcode() {
     <?php
     return ob_get_clean();
 }
-add_shortcode('mc_ma_na_form_imagenes', 'mc_ma_na_form_imagenes_shortcode');
+add_shortcode('mc_ma_ea_form_imagen_principal', 'mc_ma_ea_form_imagen_principal_shortcode');

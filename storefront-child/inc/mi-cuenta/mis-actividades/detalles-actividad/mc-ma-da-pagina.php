@@ -22,6 +22,7 @@ function pagina_detalles_actividad_shortcode() {
 
             <!-- Sección Mis actividades -->
             <?php echo do_shortcode('[contenido_detalles_actividad]'); ?>
+            
 
         </div>
 

@@ -194,8 +194,12 @@
 @media (max-width: 768px) {
 
     .mc-mis-actividades-contenedor {
+        padding: 0px 15px;
+        background-color: #fff !important;
+    }
+
+    .mc-mis-actividades-contenido {    
         grid-template-columns: 1fr;
-        margin: 0px 10px;
     }
 
     .mc-mis-actividades-titulo h2 {

@@ -1,0 +1,144 @@
+
+    /* Estilos del modal */
+    .modal-exito-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 999999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .modal-exito-contenido {
+        background-color: white;
+        border-radius: 12px;
+        padding: 30px 40px;
+        max-width: 500px;
+        width: 90%;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+    
+    .modal-exito-cerrar {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 28px;
+        color: #666;
+        background: none;
+        border: none;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+    
+    .modal-exito-cerrar:hover {
+        color: #333;
+        background-color: #f0f0f0;
+    }
+    
+    .modal-exito-mensaje {
+        font-size: 18px;
+        color: #2c3e50;
+        font-weight: 500;
+        line-height: 1.5;
+        padding: 10px 0;
+    }
+    
+    /* Estilos para campos de solo lectura */
+    /* Estilos adicionales para el formulario de edición */
+    .campo-solo-lectura {
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        color: #333;
+        font-size: 16px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    
+    .campo-solo-lectura-editor {
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        color: #333;
+        font-size: 16px;
+        min-height: 100px;
+        margin-bottom: 5px;
+    }
+    
+    .campo-solo-lectura-editor ul,
+    .campo-solo-lectura-editor ol {
+        margin-left: 20px;
+    }
+    
+    .campo-solo-lectura-editor p {
+        margin-bottom: 10px;
+    }
+  
+    .campo-solo-lectura {
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        color: #333;
+        font-size: 16px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .campo-solo-lectura-editor {
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        color: #333;
+        font-size: 16px;
+        min-height: 100px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .modal-exito-contenido {
+            padding: 25px 30px;
+            width: 95%;
+        }
+        
+        .modal-exito-mensaje {
+            font-size: 16px;
+        }
+        
+        .modal-exito-cerrar {
+            top: 8px;
+            right: 12px;
+            font-size: 24px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .modal-exito-contenido {
+            padding: 20px 25px;
+        }
+        
+        .modal-exito-mensaje {
+            font-size: 15px;
+        }
+    }
+  

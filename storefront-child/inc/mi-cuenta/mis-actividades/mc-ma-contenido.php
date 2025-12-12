@@ -44,15 +44,17 @@ function contenido_mis_actividades_shortcode() {
 
     <div class="mc-mis-actividades-contenedor">
 
+        
+        
+        <div class="mc-mis-actividades-titulo">
+            <h2>Mis actividades</h2>	
+        </div>
+
         <div class="mc-mis-actividades-nueva-actividad">
             <a href="<?php echo esc_url(home_url('/nueva-actividad/')); ?>" class="mc-mis-actividades-boton-nueva-actividad">
                 <?php echo do_shortcode('[icon_mas]'); ?>
                 <span>Nueva actividad</span>
             </a>
-        </div>
-        
-        <div class="mc-mis-actividades-titulo">
-            <h2>Mis actividades</h2>	
         </div>
 
         <div class="mc-mis-actividades-contenido">

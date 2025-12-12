@@ -41,8 +41,8 @@ function crear_taxonomia_tipo() {
 
     // Crear automáticamente los tipos
     $tipos = array(
-        'Actividad',
-        'Viaje'
+        'Actividad'
+        // 'Viaje'
     );
 
     foreach ( $tipos as $tipo ) {

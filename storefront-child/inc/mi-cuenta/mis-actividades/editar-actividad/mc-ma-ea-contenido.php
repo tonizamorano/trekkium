@@ -6,192 +6,144 @@
 function contenido_editar_actividad_shortcode() {
     ob_start();
 
-    // Obtener ID de producto si se pasa por GET (?post_id=...) o por ?product_id=...
-    if ( isset($_GET['post_id']) ) {
-        $product_id = intval($_GET['post_id']);
-    } elseif ( isset($_GET['product_id']) ) {
-        $product_id = intval($_GET['product_id']);
-    } else {
-        $product_id = 0;
+    // Verificar que el usuario está editando una actividad existente
+    if (!isset($_GET['post_id']) || !is_numeric($_GET['post_id'])) {
+        return '<p style="color:red;font-weight:bold;">⚠️ No se ha especificado una actividad para editar.</p>';
     }
 
-    $product = null;
-    if ( $product_id ) {
-        $post_obj = get_post( $product_id );
-        if ( $post_obj && $post_obj->post_type === 'product' ) {
-            $product = wc_get_product( $product_id );
-        }
+    $post_id = intval($_GET['post_id']);
+    $product = wc_get_product($post_id);
+
+    // Verificar que el producto existe y pertenece al usuario actual
+    if (!$product || $product->get_type() !== 'simple') {
+        return '<p style="color:red;font-weight:bold;">⚠️ La actividad no existe o no es válida.</p>';
     }
 
-    if ( ! $product ) {
-        echo '<p>No se encontró el producto a editar.</p>';
-        return ob_get_clean();
+    if ($product->get_post_data()->post_author != get_current_user_id()) {
+        return '<p style="color:red;font-weight:bold;">⚠️ No tienes permisos para editar esta actividad.</p>';
     }
 
     // Encolar scripts para el media uploader
-    if ( ! did_action( 'wp_enqueue_media' ) ) {
+    if (!did_action('wp_enqueue_media')) {
         wp_enqueue_media();
     }
 
+    // Variable para controlar si se mostró el modal
+    $mostrar_modal_exito = false;
+
     // Guardar cambios al enviar formulario
-    if ( isset($_POST['formulario_editar_actividad_nonce']) && wp_verify_nonce($_POST['formulario_editar_actividad_nonce'], 'guardar_actividad') ) {
-        $titulo      = sanitize_text_field( $_POST['actividad_titulo'] );
-        $descripcion = wp_kses_post( $_POST['actividad_descripcion'] );
+    if (isset($_POST['formulario_editar_actividad_nonce']) && wp_verify_nonce($_POST['formulario_editar_actividad_nonce'], 'editar_actividad_' . $post_id)) {
 
-        // Imagen destacada
-        if ( isset($_POST['actividad_imagen_principal']) && intval($_POST['actividad_imagen_principal']) ) {
-            set_post_thumbnail( $product_id, intval($_POST['actividad_imagen_principal']) );
-        }
+        $titulo = sanitize_text_field($_POST['actividad_titulo']);
+        $descripcion = wp_kses_post($_POST['actividad_descripcion']);
 
-        // Galería de producto (imagenes 2, 3, 4)
-        $galeria_ids = [];
-        if ( isset($_POST['actividad_imagen_2']) && intval($_POST['actividad_imagen_2']) ) {
-            $galeria_ids[] = intval($_POST['actividad_imagen_2']);
-        }
-        if ( isset($_POST['actividad_imagen_3']) && intval($_POST['actividad_imagen_3']) ) {
-            $galeria_ids[] = intval($_POST['actividad_imagen_3']);
-        }
-        if ( isset($_POST['actividad_imagen_4']) && intval($_POST['actividad_imagen_4']) ) {
-            $galeria_ids[] = intval($_POST['actividad_imagen_4']);
-        }
+        if (!empty($titulo) && !empty($descripcion)) {
 
-        // Guardar en la metabox de WooCommerce
-        update_post_meta( $product_id, '_product_image_gallery', implode(',', $galeria_ids) );
-
-        // Guardar términos de taxonomías
-        if ( isset($_POST['actividad_tipo']) ) {
-            wp_set_post_terms( $product_id, array(intval($_POST['actividad_tipo'])), 'tipo', false );
-        }
-        if ( isset($_POST['actividad_modalidad']) ) {
-            wp_set_post_terms( $product_id, array(intval($_POST['actividad_modalidad'])), 'modalidad', false );
-        }
-
-        // Guardar País, Región y Provincia
-        if ( isset($_POST['actividad_pais']) ) {
-            wp_set_post_terms( $product_id, array(intval($_POST['actividad_pais'])), 'pais', false );
-        }
-        if ( isset($_POST['actividad_region']) ) {
-            wp_set_post_terms( $product_id, array(intval($_POST['actividad_region'])), 'region', false );
-        }
-        if ( isset($_POST['actividad_provincia']) ) {
-            wp_set_post_terms( $product_id, array(intval($_POST['actividad_provincia'])), 'provincia', false );
-        }
-
-
-        // Guardar otros campos personalizados
-        if ( isset($_POST['actividad_distancia']) ) {
-            update_post_meta($product_id, 'distancia', sanitize_text_field($_POST['actividad_distancia']));
-        }
-        if ( isset($_POST['actividad_duracion']) ) {
-            update_post_meta($product_id, 'duracion', sanitize_text_field($_POST['actividad_duracion']));
-        }
-        if ( isset($_POST['actividad_desnivel_positivo']) ) {
-            update_post_meta($product_id, 'desnivel_positivo', sanitize_text_field($_POST['actividad_desnivel_positivo']));
-        }
-        if ( isset($_POST['actividad_desnivel_negativo']) ) {
-            update_post_meta($product_id, 'desnivel_negativo', sanitize_text_field($_POST['actividad_desnivel_negativo']));
-        }
-
-        if ( isset($_POST['actividad_encuentro']) ) {
-            update_post_meta($product_id, 'encuentro', sanitize_textarea_field($_POST['actividad_encuentro']));
-        }
-
-        if ( isset($_POST['actividad_google_maps']) ) {
-            update_post_meta($product_id, 'google_maps', esc_url_raw($_POST['actividad_google_maps']));
-        }
-
-        if ( isset($_POST['actividad_dificultad']) ) {
-            wp_set_post_terms( $product_id, array(intval($_POST['actividad_dificultad'])), 'dificultad', false );
-        }
-
-        if ( isset($_POST['actividad_dificultad_tecnica']) ) {
-            update_post_meta($product_id, 'dificultad_tecnica', wp_kses_post($_POST['actividad_dificultad_tecnica']));
-        }
-        if ( isset($_POST['actividad_planificacion']) ) {
-            update_post_meta($product_id, 'planificacion', wp_kses_post($_POST['actividad_planificacion']));
-        }
-        if ( isset($_POST['actividad_material']) ) {
-            update_post_meta($product_id, 'material', wp_kses_post($_POST['actividad_material']));
-        }
-        if ( isset($_POST['actividad_incluye']) ) {
-            update_post_meta($product_id, 'incluye', wp_kses_post($_POST['actividad_incluye']));
-        }
-
-
-        // Guardar fecha y hora
-        if ( isset($_POST['actividad_fecha']) ) {
-            $fecha_input = sanitize_text_field($_POST['actividad_fecha']);
-            // Normalizar a Y-m-d
-            $fecha_obj = DateTime::createFromFormat('Y-m-d', $fecha_input);
-            if ($fecha_obj) {
-                $fecha_guardar = $fecha_obj->format('Y-m-d');
-                update_post_meta($product_id, 'fecha', $fecha_guardar);
-            }
-        }
-
-        if ( isset($_POST['actividad_hora']) ) {
-            update_post_meta($product_id, 'hora', sanitize_text_field($_POST['actividad_hora']));
-        }
-
-        if ( ! empty($titulo) && ! empty($descripcion) ) {
-            wp_update_post( [
-                'ID'           => $product_id,
-                'post_title'   => $titulo,
+            // Actualizar el producto
+            wp_update_post([
+                'ID' => $post_id,
+                'post_title' => $titulo,
                 'post_content' => $descripcion,
-            ] );
-            echo '<p style="color:green;font-weight:bold;">✅ Actividad actualizada correctamente.</p>';
-            $product = wc_get_product( $product_id );
+                'post_status' => 'publish', // Mantener publicado
+            ]);
+
+            // IMÁGENES - procesar desde el formulario de imágenes
+            if (isset($_POST['actividad_imagen_1']) && intval($_POST['actividad_imagen_1'])) {
+                set_post_thumbnail($post_id, intval($_POST['actividad_imagen_1']));
+            }
+
+            // Galería
+            $galeria_ids = [];
+            for ($i = 1; $i <= 4; $i++) {
+                if (isset($_POST['actividad_galeria_' . $i]) && intval($_POST['actividad_galeria_' . $i])) {
+                    $galeria_ids[] = intval($_POST['actividad_galeria_' . $i]);
+                }
+            }
+            if (!empty($galeria_ids)) {
+                update_post_meta($post_id, '_product_image_gallery', implode(',', $galeria_ids));
+            }
+
+            // Campos editables (los que NO están en la lista de solo lectura)
+            $campos_editables = [
+                'distancia', 'duracion', 'desnivel_positivo', 'desnivel_negativo',
+                'encuentro', 'google_maps', 'dificultad_tecnica', 'planificacion',
+                'material', 'hora', 'espacio_natural', 'enlace_whatsapp',
+                'experiencia_requisitos', 'incluye'
+            ];
+
+            foreach ($campos_editables as $campo) {
+                if (isset($_POST["actividad_{$campo}"])) {
+
+                    if ($campo === 'distancia') {
+                        $valor = number_format(floatval($_POST["actividad_distancia"]), 2, '.', '');
+                    } elseif ($campo === 'duracion') {
+                        $valor = number_format(floatval($_POST["actividad_duracion"]), 2, '.', '');
+                    } elseif (in_array($campo, ['desnivel_positivo', 'desnivel_negativo'])) {
+                        $valor = intval($_POST["actividad_{$campo}"]);
+                    } elseif ($campo === 'google_maps' || $campo === 'enlace_whatsapp') {
+                        $valor = esc_url_raw($_POST["actividad_{$campo}"]);
+                    } elseif ($campo === 'espacio_natural') {
+                        $valor = sanitize_text_field($_POST["actividad_{$campo}"]);
+                    } else {
+                        $valor = wp_kses_post($_POST["actividad_{$campo}"]);
+                    }
+
+                    update_post_meta($post_id, $campo, $valor);
+                }
+            }
+
+            // Marcar para mostrar el modal
+            $mostrar_modal_exito = true;
+
         } else {
-            echo '<p style="color:red;font-weight:bold;">⚠️ Todos los campos son obligatorios.</p>';
+            echo '<p style="color:red;font-weight:bold;">⚠️ El título y la descripción son obligatorios.</p>';
         }
     }
 
-    // Valores actuales
-    $thumbnail_id   = get_post_thumbnail_id( $product_id );
-    $thumbnail_url  = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'medium' ) : '';
+    // Obtener valores actuales para los campos
+    $titulo = get_the_title($post_id);
+    $descripcion = get_post_field('post_content', $post_id);
+    $imagen_principal = get_post_thumbnail_id($post_id);
 
-    // Galería de imágenes WooCommerce
-    $galeria_ids = $product->get_gallery_image_ids();
-    $imagen2_id  = $galeria_ids[0] ?? 0;
-    $imagen3_id  = $galeria_ids[1] ?? 0;
-    $imagen4_id  = $galeria_ids[2] ?? 0;
+    // Obtener términos actuales
+    $tipo_actual = wp_get_post_terms($post_id, 'tipo', ['fields' => 'ids']);
+    $modalidad_actual = wp_get_post_terms($post_id, 'modalidad', ['fields' => 'ids']);
+    $pais_actual = wp_get_post_terms($post_id, 'pais', ['fields' => 'ids']);
+    $region_actual = wp_get_post_terms($post_id, 'region', ['fields' => 'ids']);
+    $provincia_actual = wp_get_post_terms($post_id, 'provincia', ['fields' => 'ids']);
+    $dificultad_actual = wp_get_post_terms($post_id, 'dificultad', ['fields' => 'ids']);
 
-    $imagen2_url = $imagen2_id ? wp_get_attachment_image_url($imagen2_id, 'medium') : '';
-    $imagen3_url = $imagen3_id ? wp_get_attachment_image_url($imagen3_id, 'medium') : '';
-    $imagen4_url = $imagen4_id ? wp_get_attachment_image_url($imagen4_id, 'medium') : '';
-    
-    // Obtener valores actuales de Fecha y Hora
-    $fecha_actual = get_post_meta( $product_id, 'fecha', true );
-    $hora_actual  = get_post_meta( $product_id, 'hora', true );
+    // Obtener valores de meta
+    $valores_meta = [];
+    $campos_meta = [
+        'distancia', 'duracion', 'desnivel_positivo', 'desnivel_negativo',
+        'encuentro', 'google_maps', 'dificultad_tecnica', 'planificacion',
+        'material', 'incluye', 'hora', 'espacio_natural', 'dias', 'fecha_fin',
+        'plazas_totales', 'plazas_minimas', 'edad_minima', 'precio_guia',
+        'enlace_whatsapp', 'experiencia_requisitos', 'fecha'
+    ];
 
-    // Normalizar la hora a formato HH:MM
-    if ( ! empty( $hora_actual ) ) {
-        $hora_obj = DateTime::createFromFormat('H:i', $hora_actual);
-        if ( ! $hora_obj ) {
-            $hora_obj = DateTime::createFromFormat('H:i:s', $hora_actual);
-        }
-        if ( $hora_obj ) {
-            $hora_actual = $hora_obj->format('H:i');
-        }
+    foreach ($campos_meta as $campo) {
+        $valores_meta[$campo] = get_post_meta($post_id, $campo, true);
     }
+
+    // Obtener galería
+    $galeria_string = get_post_meta($post_id, '_product_image_gallery', true);
+    $galeria_ids = $galeria_string ? explode(',', $galeria_string) : [];
     ?>
 
-    <!-- Titular de sección -->
-
     <div class="mc-ma-na-titular">
-        <h2>Editar actividad</h2>  
+        <h2>Editar actividad</h2>
     </div>
-
-    <!-- Formulario de Editar Actividad -->
 
     <form method="post" class="mc-ma-na-form-contenedor">
 
-        <?php wp_nonce_field('guardar_actividad', 'formulario_editar_actividad_nonce'); ?>
+        <?php wp_nonce_field('editar_actividad_' . $post_id, 'formulario_editar_actividad_nonce'); ?>
 
         <!-- Título -->
         <div class="mc-ma-na-grid-1col">
             <label class="edit-form-titular">Título de la actividad*</label>
-            <input type="text" name="actividad_titulo" class="edit-form-text" value="<?php echo esc_attr( $product->get_name() ); ?>" required>
+            <input type="text" name="actividad_titulo" class="edit-form-text" value="<?php echo esc_attr($titulo); ?>" required>
         </div>
 
         <!-- Descripción -->
@@ -199,529 +151,335 @@ function contenido_editar_actividad_shortcode() {
             <label class="edit-form-titular">Descripción*</label>
             <?php
             wp_editor(
-                $product->get_description(),
+                $descripcion,
                 'actividad_descripcion',
                 [
                     'textarea_name' => 'actividad_descripcion',
                     'textarea_rows' => 12,
                     'media_buttons' => false,
-                    'teeny'         => false,
-                    'quicktags'     => false,
-                    'tinymce'       => [
-                        'toolbar1' => 'formatselect bold italic underline strikethrough bullist numlist blockquote alignleft aligncenter alignright link unlink wp_more fullscreen',
-                        'toolbar2' => 'undo redo forecolor backcolor pastetext removeformat charmap outdent indent table',
-                        'toolbar4' => '',
-                        'plugins'  => 'charmap colorpicker hr lists paste tabfocus textcolor wordpress wpeditimage wpemoji wplink wpdialogs wpview',
+                    'teeny' => false,
+                    'quicktags' => false,
+                    'tinymce' => [
+                        'toolbar1' => 'formatselect bold italic underline bullist numlist alignleft aligncenter alignright link unlink fullscreen',
+                        'toolbar2' => 'undo redo removeformat charmap outdent indent table',
+                        'plugins' => 'lists link paste wordpress'
                     ],
                 ]
             );
             ?>
         </div>
 
-        <!-- Imagenes 1 y 2 -->
-        <div class="mc-ma-na-grid-2col">
-            <!-- Imagen principal -->
-            <div class="mc-ma-na-grid-1col">
-                <label class="edit-form-titular">Imagen principal*</label>
-                <div class="edit-form-image-box" onclick="abrirMediaUploader(this, 'actividad_imagen_principal')">
-                    <?php if ( $thumbnail_url ) : ?>
-                        <img src="<?php echo esc_url($thumbnail_url); ?>" alt="">
-                    <?php else : ?>
-                        <span>Haz clic para seleccionar</span>
-                    <?php endif; ?>
-                </div>
-                <input type="hidden" name="actividad_imagen_principal" id="actividad_imagen_principal" value="<?php echo esc_attr($thumbnail_id); ?>">
-            </div>
-
-            <!-- Imagen 2 -->
-            <div class="mc-ma-na-grid-1col">
-                <label class="edit-form-titular">Imagen 2*</label>
-                <div class="edit-form-image-box" onclick="abrirMediaUploader(this, 'actividad_imagen_2')">
-                    <?php if ( $imagen2_url ) : ?>
-                        <img src="<?php echo esc_url($imagen2_url); ?>" alt="">
-                    <?php else : ?>
-                        <span>Haz clic para seleccionar</span>
-                    <?php endif; ?>
-                </div>
-                <input type="hidden" name="actividad_imagen_2" id="actividad_imagen_2" value="<?php echo esc_attr($imagen2_id); ?>">
-            </div>
+        <!-- IMÁGENES - REEMPLAZADO POR SHORTCODE (pero con valores actuales) -->
+        <div id="imagen-principal-container">
+            <?php echo do_shortcode('[mc_ma_ea_form_imagen_principal edit_id="' . $imagen_principal . '"]'); ?>
+        </div>
+        <div id="galeria-container">
+            <?php 
+            $galeria_shortcode = '[mc_ma_ea_form_imagenes';
+            if (!empty($galeria_ids)) {
+                $galeria_shortcode .= ' edit_ids="' . implode(',', $galeria_ids) . '"';
+            }
+            $galeria_shortcode .= ']';
+            echo do_shortcode($galeria_shortcode);
+            ?>
         </div>
 
-        <!-- Imagenes 3 y 4 -->
+        <!-- Tipo (Solo lectura) -->
         <div class="mc-ma-na-grid-2col">
-            <!-- Imagen 3 -->
-            <div class="mc-ma-na-grid-1col">
-                <label class="edit-form-titular">Imagen 3*</label>
-                <div class="edit-form-image-box" onclick="abrirMediaUploader(this, 'actividad_imagen_3')">
-                    <?php if ( $imagen3_url ) : ?>
-                        <img src="<?php echo esc_url($imagen3_url); ?>" alt="">
-                    <?php else : ?>
-                        <span>Haz clic para seleccionar</span>
-                    <?php endif; ?>
-                </div>
-                <input type="hidden" name="actividad_imagen_3" id="actividad_imagen_3" value="<?php echo esc_attr($imagen3_id); ?>">
-            </div>
-
-            <!-- Imagen 4 -->
-            <div class="mc-ma-na-grid-1col">
-                <label class="edit-form-titular">Imagen 4*</label>
-                <div class="edit-form-image-box" onclick="abrirMediaUploader(this, 'actividad_imagen_4')">
-                    <?php if ( $imagen4_url ) : ?>
-                        <img src="<?php echo esc_url($imagen4_url); ?>" alt="">
-                    <?php else : ?>
-                        <span>Haz clic para seleccionar</span>
-                    <?php endif; ?>
-                </div>
-                <input type="hidden" name="actividad_imagen_4" id="actividad_imagen_4" value="<?php echo esc_attr($imagen4_id); ?>">
-            </div>
-        </div>
-
-        <!-- Tipo y Modalidad -->
-        <div class="mc-ma-na-grid-2col">
-            <!-- Tipo -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Tipo*</label>
-                <?php
-                $terms_tipo = get_terms(['taxonomy'=>'tipo','hide_empty'=>false]);
-                $selected_tipo = wp_get_post_terms($product_id,'tipo',['fields'=>'ids']);
-                ?>
-                <select name="actividad_tipo" class="edit-form-text" required>
-                    <option value="">Selecciona tipo</option>
-                    <?php foreach($terms_tipo as $term): ?>
-                        <option value="<?php echo esc_attr($term->term_id); ?>" <?php echo in_array($term->term_id,$selected_tipo)?'selected':''; ?>>
-                            <?php echo esc_html($term->name); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <div class="campo-solo-lectura">
+                    <?php
+                    if (!empty($tipo_actual) && !is_wp_error($tipo_actual)) {
+                        $tipo_term = get_term($tipo_actual[0], 'tipo');
+                        echo esc_html($tipo_term ? $tipo_term->name : 'No especificado');
+                    } else {
+                        echo 'No especificado';
+                    }
+                    ?>
+                </div>
+                <input type="hidden" name="actividad_tipo" value="<?php echo !empty($tipo_actual[0]) ? esc_attr($tipo_actual[0]) : ''; ?>">
             </div>
 
-            <!-- Modalidad -->
+            <!-- Modalidad (Solo lectura) -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Modalidad*</label>
-                <?php
-                $terms_modalidad = get_terms(['taxonomy'=>'modalidad','hide_empty'=>false]);
-                $selected_modalidad = wp_get_post_terms($product_id,'modalidad',['fields'=>'ids']);
-                ?>
-                <select name="actividad_modalidad" class="edit-form-text" required>
-                    <option value="">Selecciona modalidad</option>
-                    <?php foreach($terms_modalidad as $term): ?>
-                        <option value="<?php echo esc_attr($term->term_id); ?>" <?php echo in_array($term->term_id,$selected_modalidad)?'selected':''; ?>>
-                            <?php echo esc_html($term->name); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <div class="campo-solo-lectura">
+                    <?php
+                    if (!empty($modalidad_actual) && !is_wp_error($modalidad_actual)) {
+                        $modalidad_term = get_term($modalidad_actual[0], 'modalidad');
+                        echo esc_html($modalidad_term ? $modalidad_term->name : 'No especificado');
+                    } else {
+                        echo 'No especificado';
+                    }
+                    ?>
+                </div>
+                <input type="hidden" name="actividad_modalidad" value="<?php echo !empty($modalidad_actual[0]) ? esc_attr($modalidad_actual[0]) : ''; ?>">
             </div>
         </div>
 
+        <!-- País / Región / Provincia / Dificultad (Solo lectura) -->
+        <div class="mc-ma-na-grid-2col-imagenes">
 
-
-        <!-- País y Región -->
-        <div class="mc-ma-na-grid-2col">
-            <!-- País -->
+            <!-- País (Solo lectura) -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">País*</label>
-                <?php
-                $terms_pais = get_terms(['taxonomy'=>'pais','hide_empty'=>false]);
-                $selected_pais = wp_get_post_terms($product_id,'pais',['fields'=>'ids']);
-                ?>
-                <select name="actividad_pais" id="actividad_pais" class="edit-form-text" required>
-                    <option value="">Selecciona país</option>
-                    <?php foreach($terms_pais as $term): ?>
-                        <option value="<?php echo esc_attr($term->term_id); ?>" <?php echo in_array($term->term_id,$selected_pais)?'selected':''; ?>>
-                            <?php echo esc_html($term->name); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <div class="campo-solo-lectura">
+                    <?php
+                    if (!empty($pais_actual) && !is_wp_error($pais_actual)) {
+                        $pais_term = get_term($pais_actual[0], 'pais');
+                        echo esc_html($pais_term ? $pais_term->name : 'No especificado');
+                    } else {
+                        echo 'No especificado';
+                    }
+                    ?>
+                </div>
+                <input type="hidden" name="actividad_pais" id="actividad_pais" value="<?php echo !empty($pais_actual[0]) ? esc_attr($pais_actual[0]) : ''; ?>">
             </div>
 
-            <!-- Región -->
+            <!-- Región (Solo lectura) -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Región*</label>
-                <?php
-                $terms_region = get_terms(['taxonomy'=>'region','hide_empty'=>false]);
-                $selected_region = wp_get_post_terms($product_id,'region',['fields'=>'ids']);
-                ?>
-                <select name="actividad_region" id="actividad_region" class="edit-form-text" required>
-                    <option value="">Selecciona región</option>
-                    <?php foreach($terms_region as $term): ?>
-                        <option value="<?php echo esc_attr($term->term_id); ?>" <?php echo in_array($term->term_id,$selected_region)?'selected':''; ?>>
-                            <?php echo esc_html($term->name); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <div class="campo-solo-lectura">
+                    <?php
+                    if (!empty($region_actual) && !is_wp_error($region_actual)) {
+                        $region_term = get_term($region_actual[0], 'region');
+                        echo esc_html($region_term ? $region_term->name : 'No especificado');
+                    } else {
+                        echo 'No especificado';
+                    }
+                    ?>
+                </div>
+                <input type="hidden" name="actividad_region" id="actividad_region" value="<?php echo !empty($region_actual[0]) ? esc_attr($region_actual[0]) : ''; ?>">
             </div>
-        </div>
 
-        <!-- Provincia -->
-        <div class="mc-ma-na-grid-2col">
-            <!-- Provincia -->
+            <!-- Provincia (Solo lectura) -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Provincia*</label>
-                <?php
-                $terms_provincia = get_terms(['taxonomy'=>'provincia','hide_empty'=>false]);
-                $selected_provincia = wp_get_post_terms($product_id,'provincia',['fields'=>'ids']);
-                ?>
-                <select name="actividad_provincia" id="actividad_provincia" class="edit-form-text" required>
-                    <option value="">Selecciona provincia</option>
-                    <?php foreach($terms_provincia as $term): ?>
-                        <option value="<?php echo esc_attr($term->term_id); ?>" <?php echo in_array($term->term_id,$selected_provincia)?'selected':''; ?>>
-                            <?php echo esc_html($term->name); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <!-- Columna vacía -->
-            <div class="mc-ma-na-grid-1col">
-                <!-- Espacio vacío -->
-            </div>
-        </div>
-
-
-        <!-- Fecha y Hora -->
-        <div class="mc-ma-na-grid-2col">
-            <!-- Fecha -->
-            <div class="mc-ma-na-grid-1col">
-                <label class="edit-form-titular">Fecha*</label>
-                <input type="date" name="actividad_fecha" class="edit-form-text" value="<?php echo esc_attr($fecha_actual); ?>" required>
-            </div>
-
-            <!-- Hora -->
-            <div class="mc-ma-na-grid-1col">
-                <label class="edit-form-titular">Hora*</label>
-                <input type="time" name="actividad_hora" class="edit-form-text" value="<?php echo esc_attr($hora_actual); ?>" required>
-            </div>
-        </div>
-
-        <!-- Punto de encuentro -->
-        <div class="mc-ma-na-grid-1col">
-            <label class="edit-form-titular">Punto de encuentro*</label>
-            <textarea name="actividad_encuentro" class="edit-form-text" rows="3" required><?php echo esc_textarea( get_post_meta($product_id, 'encuentro', true) ); ?></textarea>
-        </div>
-
-        <!-- Enlace a Google Maps -->
-        <div class="mc-ma-na-grid-1col">
-            <label class="edit-form-titular">Enlace a GoogleMaps*</label>
-            <textarea name="actividad_google_maps" class="edit-form-text" rows="3" required><?php echo esc_textarea( get_post_meta($product_id, 'google_maps', true) ); ?></textarea>
-        </div>
-
-        <!-- Distancia y Duración -->
-        <div class="mc-ma-na-grid-2col">
-            <!-- Distancia (Km) -->
-            <div class="mc-ma-na-grid-1col">
-                <label class="edit-form-titular">Distancia*</label>
-                <div class="input-with-suffix">
-                    <input type="number" name="actividad_distancia" class="edit-form-text" 
-                        value="<?php echo esc_attr( get_post_meta($product_id, 'distancia', true) ); ?>" 
-                        step="any" required>
-                    <span class="input-suffix">Km</span>
+                <div class="campo-solo-lectura">
+                    <?php
+                    if (!empty($provincia_actual) && !is_wp_error($provincia_actual)) {
+                        $provincia_term = get_term($provincia_actual[0], 'provincia');
+                        echo esc_html($provincia_term ? $provincia_term->name : 'No especificado');
+                    } else {
+                        echo 'No especificado';
+                    }
+                    ?>
                 </div>
+                <input type="hidden" name="actividad_provincia" id="actividad_provincia" value="<?php echo !empty($provincia_actual[0]) ? esc_attr($provincia_actual[0]) : ''; ?>">
             </div>
 
-            <!-- Duración (h) -->
-
-            <div class="mc-ma-na-grid-1col">
-                <label class="edit-form-titular">Duración*</label>
-                <div class="input-with-suffix">
-                    <input type="number" name="actividad_duracion" class="edit-form-text" 
-                        value="<?php echo esc_attr( get_post_meta($product_id, 'duracion', true) ); ?>" required>
-                    <span class="input-suffix">h</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Desnivel positivo y negativo -->
-
-        <div class="mc-ma-na-grid-2col">
-
-            <!-- Desnivel positivo (m) -->
-
-            <div class="mc-ma-na-grid-1col">
-
-                <label class="edit-form-titular">Desnivel positivo*</label>
-
-                <div class="input-with-suffix">
-                    <input type="number" name="actividad_desnivel_positivo" class="edit-form-text" 
-                        value="<?php echo esc_attr( get_post_meta($product_id, 'desnivel_positivo', true) ); ?>" required>
-                    <span class="input-suffix">m</span>
-                </div>
-
-            </div>
-
-            <!-- Desnivel negativo (m) -->
-
-            <div class="mc-ma-na-grid-1col">
-
-                <label class="edit-form-titular">Desnivel negativo*</label>
-
-                <div class="input-with-suffix">
-                    <input type="number" name="actividad_desnivel_negativo" class="edit-form-text" 
-                        value="<?php echo esc_attr( get_post_meta($product_id, 'desnivel_negativo', true) ); ?>" required>
-                    <span class="input-suffix">m</span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Dificultad física -->
-
-        <div class="mc-ma-na-grid-2col">
-
-            <!-- Columna 1: selector de dificultad -->
-
+            <!-- Dificultad (Solo lectura) -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Dificultad física*</label>
-                <?php
-                $terms_dificultad = get_terms([
-                    'taxonomy'   => 'dificultad',
-                    'hide_empty' => false
-                ]);
-                $selected_dificultad = wp_get_post_terms($product_id, 'dificultad', ['fields' => 'ids']);
-                ?>
-                <select name="actividad_dificultad" class="edit-form-text" required>
-                    <option value="">Selecciona dificultad</option>
-                    <?php foreach ($terms_dificultad as $term): ?>
-                        <option value="<?php echo esc_attr($term->term_id); ?>" <?php echo in_array($term->term_id, $selected_dificultad) ? 'selected' : ''; ?>>
-                            <?php echo esc_html($term->name); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <div class="campo-solo-lectura">
+                    <?php
+                    if (!empty($dificultad_actual) && !is_wp_error($dificultad_actual)) {
+                        $dificultad_term = get_term($dificultad_actual[0], 'dificultad');
+                        echo esc_html($dificultad_term ? $dificultad_term->name : 'No especificado');
+                    } else {
+                        echo 'No especificado';
+                    }
+                    ?>
+                </div>
+                <input type="hidden" name="actividad_dificultad" value="<?php echo !empty($dificultad_actual[0]) ? esc_attr($dificultad_actual[0]) : ''; ?>">
             </div>
 
-            <!-- Columna 2: vacía -->
+        </div>
 
+        <!-- Espacio natural (Editable) -->
+        <div class="mc-ma-na-grid-1col">
+            <label class="edit-form-titular">Espacio natural*</label>
+            <input type="text" name="actividad_espacio_natural" class="edit-form-text" value="<?php echo esc_attr($valores_meta['espacio_natural']); ?>" required>
+        </div>
+
+        <!-- Días (Solo lectura) -->
+        <div class="mc-ma-na-grid-2col">
             <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Días*</label>
+                <div class="campo-solo-lectura">
+                    <?php echo esc_html($valores_meta['dias'] ? $valores_meta['dias'] : 'No especificado'); ?>
+                </div>
+                <input type="hidden" name="actividad_dias" id="actividad_dias" value="<?php echo esc_attr($valores_meta['dias']); ?>">
+            </div>
 
-                <!-- Espacio vacío -->
-
+            <!-- Fecha (Solo lectura) -->
+            <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Fecha*</label>
+                <div class="campo-solo-lectura">
+                    <?php echo esc_html($valores_meta['fecha'] ? date('d/m/Y', strtotime($valores_meta['fecha'])) : 'No especificada'); ?>
+                </div>
+                <input type="hidden" name="actividad_fecha" id="actividad_fecha" value="<?php echo esc_attr($valores_meta['fecha']); ?>">
             </div>
         </div>
 
-    <?php
+        <!-- Fecha fin (Solo lectura) + Hora (Editable) -->
+        <div class="mc-ma-na-grid-2col">
+            <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Fecha fin*</label>
+                <div class="campo-solo-lectura">
+                    <?php echo esc_html($valores_meta['fecha_fin'] ? date('d/m/Y', strtotime($valores_meta['fecha_fin'])) : 'No especificada'); ?>
+                </div>
+                <input type="hidden" name="actividad_fecha_fin" id="actividad_fecha_fin" value="<?php echo esc_attr($valores_meta['fecha_fin']); ?>">
+            </div>
 
-    // Dificultad técnica
+            <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Hora*</label>
+                <input type="time" name="actividad_hora" class="edit-form-text" value="<?php echo esc_attr($valores_meta['hora']); ?>" required>
+            </div>
+        </div>
 
-    $dificultad_tecnica = get_post_meta($product_id, 'dificultad_tecnica', true);
-    ?>
-    <div class="mc-ma-na-grid-1col">
-        <label class="edit-form-titular">Dificultad técnica*</label>
+        <!-- Encuentro + Maps + WhatsApp (Editables) -->
+        <div class="mc-ma-na-grid-1col">
+            <label class="edit-form-titular">Punto de encuentro*</label>
+            <input type="text" name="actividad_encuentro" class="edit-form-text" value="<?php echo esc_attr($valores_meta['encuentro']); ?>" required>
+        </div>
+
+        <div class="mc-ma-na-grid-1col">
+            <label class="edit-form-titular">Enlace a Google Maps*</label>
+            <input type="url" name="actividad_google_maps" class="edit-form-text" value="<?php echo esc_url($valores_meta['google_maps']); ?>" required>
+        </div>
+
+        <div class="mc-ma-na-grid-1col">
+            <label class="edit-form-titular">Enlace al grupo de Whatsapp*</label>
+            <input type="url" name="actividad_enlace_whatsapp" class="edit-form-text" value="<?php echo esc_url($valores_meta['enlace_whatsapp']); ?>" required>
+        </div>
+
+        <!-- Distancia y Duración (Editables) -->
+        <div class="mc-ma-na-grid-2col">
+            <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Distancia (Km)*</label>
+                <input type="number" name="actividad_distancia" class="edit-form-text" value="<?php echo esc_attr($valores_meta['distancia']); ?>" required step="0.01">
+            </div>
+
+            <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Duración (h)*</label>
+                <input type="number" name="actividad_duracion" class="edit-form-text" value="<?php echo esc_attr($valores_meta['duracion']); ?>" required step="0.01">
+            </div>
+        </div>
+
+        <!-- Desnivel ± (Editables) -->
+        <div class="mc-ma-na-grid-2col">
+            <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Desnivel positivo (m)*</label>
+                <input type="number" name="actividad_desnivel_positivo" class="edit-form-text" value="<?php echo esc_attr($valores_meta['desnivel_positivo']); ?>" required>
+            </div>
+
+            <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Desnivel negativo (m)*</label>
+                <input type="number" name="actividad_desnivel_negativo" class="edit-form-text" value="<?php echo esc_attr($valores_meta['desnivel_negativo']); ?>" required>
+            </div>
+        </div>
+
+        <!-- Ratios (Solo lectura) -->
+        <div class="mc-ma-na-grid-2col">
+            <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Ratio máximo*</label>
+                <div class="campo-solo-lectura">
+                    <?php echo esc_html($valores_meta['plazas_totales'] ? $valores_meta['plazas_totales'] : 'No especificado'); ?>
+                </div>
+                <input type="hidden" name="actividad_plazas_totales" value="<?php echo esc_attr($valores_meta['plazas_totales']); ?>">
+            </div>
+
+            <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Ratio mínimo*</label>
+                <div class="campo-solo-lectura">
+                    <?php echo esc_html($valores_meta['plazas_minimas'] ? $valores_meta['plazas_minimas'] : 'No especificado'); ?>
+                </div>
+                <input type="hidden" name="actividad_plazas_minimas" value="<?php echo esc_attr($valores_meta['plazas_minimas']); ?>">
+            </div>
+        </div>
+
+        <!-- Edad mínima (Solo lectura) + Precio guía (Solo lectura) -->
+        <div class="mc-ma-na-grid-2col">
+            <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Edad mínima*</label>
+                <div class="campo-solo-lectura">
+                    <?php echo esc_html($valores_meta['edad_minima'] ? $valores_meta['edad_minima'] : 'No especificado'); ?>
+                </div>
+                <input type="hidden" name="actividad_edad_minima" value="<?php echo esc_attr($valores_meta['edad_minima']); ?>">
+            </div>
+
+            <div class="mc-ma-na-grid-1col">
+                <label class="edit-form-titular">Precio del guía*</label>
+                <div class="campo-solo-lectura">
+                    <?php echo esc_html($valores_meta['precio_guia'] ? number_format(floatval($valores_meta['precio_guia']), 2, ',', '') . ' €' : 'No especificado'); ?>
+                </div>
+                <input type="hidden" name="actividad_precio_guia" value="<?php echo esc_attr($valores_meta['precio_guia']); ?>">
+            </div>
+        </div>
+
+        <!-- Campos editor (Editables) -->
         <?php
-        wp_editor(
-            $dificultad_tecnica,
-            'actividad_dificultad_tecnica',
-            [
-                'textarea_name' => 'actividad_dificultad_tecnica',
-                'textarea_rows' => 10,
-                'media_buttons' => false, // sin subir medios
-                'teeny'         => false, // editor completo
-                'quicktags'     => false,  // Oculta la pestaña "Texto"
-                'tinymce'       => [
-                    'toolbar1' => 'formatselect bold italic underline strikethrough bullist numlist blockquote alignleft aligncenter alignright link unlink wp_more fullscreen',
-                    'toolbar2' => 'undo redo forecolor backcolor pastetext removeformat charmap outdent indent table hr code',
-                    'plugins'  => 'lists link paste wordpress'
-                ],
-            ]
-        );
+        // Necesitarás modificar el shortcode [mc_ma_na_form_edit_text] para aceptar valores
+        echo do_shortcode('[mc_ma_ea_form_edit_text post_id="' . $post_id . '"]');
         ?>
-    </div>
 
-    <?php
-    // Planificación
-    $planificacion = get_post_meta($product_id, 'planificacion', true);
-    ?>
-    <div class="mc-ma-na-grid-1col">
-        <label class="edit-form-titular">Planificación*</label>
-        <?php
-        wp_editor(
-            $planificacion,
-            'actividad_planificacion',
-            [
-                'textarea_name' => 'actividad_planificacion',
-                'textarea_rows' => 10,
-                'media_buttons' => false,
-                'teeny'         => false,
-                'quicktags'     => false,
-                'tinymce'       => [
-                    'toolbar1' => 'formatselect bold italic underline strikethrough bullist numlist blockquote alignleft aligncenter alignright link unlink wp_more fullscreen',
-                    'toolbar2' => 'undo redo forecolor backcolor pastetext removeformat charmap outdent indent table hr code',
-                    'plugins'  => 'lists link paste wordpress'
-                ],
-            ]
-        );
-        ?>
-    </div>
-
-    <?php
-    // Material necesario
-    $material = get_post_meta($product_id, 'material', true);
-    ?>
-    <div class="mc-ma-na-grid-1col">
-        <label class="edit-form-titular">Material necesario*</label>
-        <?php
-        wp_editor(
-            $material,
-            'actividad_material',
-            [
-                'textarea_name' => 'actividad_material',
-                'textarea_rows' => 10,
-                'media_buttons' => false,
-                'teeny'         => false,
-                'quicktags'     => false,
-                'tinymce'       => [
-                    'toolbar1' => 'formatselect bold italic underline strikethrough bullist numlist blockquote alignleft aligncenter alignright link unlink wp_more fullscreen',
-                    'toolbar2' => 'undo redo forecolor backcolor pastetext removeformat charmap outdent indent table hr code',
-                    'plugins'  => 'lists link paste wordpress'
-                ],
-            ]
-        );
-        ?>
-    </div>
-
-    <?php
-    // Incluído en la actividad
-    $incluye = get_post_meta($product_id, 'incluye', true);
-    ?>
-    <div class="mc-ma-na-grid-1col">
-        <label class="edit-form-titular">Incluído en la actividad*</label>
-        <?php
-        wp_editor(
-            $incluye,
-            'actividad_incluye',
-            [
-                'textarea_name' => 'actividad_incluye',
-                'textarea_rows' => 10,
-                'media_buttons' => false,
-                'teeny'         => false,
-                'quicktags'     => false,
-                'tinymce'       => [
-                    'toolbar1' => 'formatselect bold italic underline strikethrough bullist numlist blockquote alignleft aligncenter alignright link unlink wp_more fullscreen',
-                    'toolbar2' => 'undo redo forecolor backcolor pastetext removeformat charmap outdent indent table hr code',
-                    'plugins'  => 'lists link paste wordpress'
-                ],
-            ]
-        );
-        ?>
-    </div>
-
-    <!-- Botón Guardar -->
-
-        <button class="mis-actividades-boton-guardar-cambios" type="submit">Guardar cambios</button>
-        
+        <div class="mc-ma-na-botones-contenedor">
+            <button class="mis-actividades-boton-guardar-cambios" type="submit">Guardar cambios</button>
+            <button type="button" class="mis-actividades-boton-cancelar" onclick="window.location.href='<?php echo esc_url(home_url('/mis-actividades/')); ?>'">Cancelar</button>
+        </div>
     </form>
 
-
-
-
-
+    <!-- Modal de éxito -->
+    <?php if ($mostrar_modal_exito): ?>
+    <div id="modal-exito-actividad" class="modal-exito-overlay" style="display: flex;">
+        <div class="modal-exito-contenido">
+            <button class="modal-exito-cerrar" onclick="cerrarModalExito()">&times;</button>
+            <div class="modal-exito-mensaje">
+                ✅ Tus cambios se han actualizado correctamente en el anuncio de tu actividad.
+            </div>
+        </div>
+    </div>
 
     <script>
-    function abrirMediaUploader(box, inputId){
-        var frame = wp.media({
-            title: 'Seleccionar imagen',
-            button: { text: 'Usar esta imagen' },
-            multiple: false
-        });
-        frame.on('select', function(){
-            var attachment = frame.state().get('selection').first().toJSON();
-            box.innerHTML = '<img src="'+attachment.url+'" alt="">';
-            document.getElementById(inputId).value = attachment.id;
-        });
-        frame.open();
+    function cerrarModalExito() {
+        var modal = document.getElementById('modal-exito-actividad');
+        if (modal) {
+            modal.style.display = 'none';
+        }
     }
-    </script>
     
-
-
-    <!-- jQuery para cargar regiones y provincias según país seleccionado -->
-    <script>
-    jQuery(document).ready(function($){
-        function cargarOpciones(taxonomia, parentId, targetSelect, parentName){
-            $.ajax({
-                url: "<?php echo admin_url('admin-ajax.php'); ?>",
-                type: "POST",
-                data: {
-                    action: "cargar_terminos_condicionales",
-                    taxonomia: taxonomia,
-                    parent: parentName // Pasamos el nombre, no el ID
-                },
-                success: function(response){
-                    $(targetSelect).html(response);
+    // Cerrar modal al hacer clic fuera del contenido
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = document.getElementById('modal-exito-actividad');
+        if (modal) {
+            modal.addEventListener('click', function(event) {
+                if (event.target === this) {
+                    cerrarModalExito();
                 }
             });
         }
+    });
+    </script>
+    <?php endif; ?>
 
-        $("#actividad_pais").change(function(){
-            let paisId = $(this).val();
-            let paisName = $(this).find('option:selected').text();
-            cargarOpciones("region", paisId, "#actividad_region", paisName);
-            $("#actividad_provincia").html('<option value="">Selecciona provincia</option>');
-        });
+    
 
-        $("#actividad_region").change(function(){
-            let regionId = $(this).val();
-            cargarOpciones("provincia", regionId, "#actividad_provincia", regionId);
+    <script>
+    // Deshabilitar la lógica de dependencias para el formulario de edición
+    jQuery(document).ready(function($){
+        // No necesitamos las dependencias AJAX ya que los campos son de solo lectura
+        
+        // Mostrar mensaje informativo sobre campos no editables
+        $('.campo-solo-lectura, .campo-solo-lectura-editor').each(function() {
+            var $this = $(this);
+            var originalText = $this.text();
+            
+            // Agregar tooltip informativo
+            $this.attr('title', 'Este campo no se puede editar');
+            
+            // Si está vacío, mostrar "No especificado"
+            if (!originalText.trim()) {
+                $this.text('No especificado');
+                $this.css('color', '#999');
+                $this.css('font-style', 'italic');
+            }
         });
     });
     </script>
 
     <?php
-
-
-
     return ob_get_clean();
 }
-
 add_shortcode('contenido_editar_actividad', 'contenido_editar_actividad_shortcode');
-
-
-// AJAX para cargar términos condicionales (país -> región -> provincia)
-
-add_action('wp_ajax_cargar_terminos_condicionales', 'cargar_terminos_condicionales');
-add_action('wp_ajax_nopriv_cargar_terminos_condicionales', 'cargar_terminos_condicionales');
-
-function cargar_terminos_condicionales(){
-    $taxonomia = sanitize_text_field($_POST['taxonomia']);
-    $parent = sanitize_text_field($_POST['parent']); // Ahora es texto, no ID
-    
-    $ubicaciones = trekkium_get_ubicaciones();
-    
-    echo '<option value="">Selecciona '.$taxonomia.'</option>';
-    
-    if ($taxonomia === 'region' && !empty($parent)) {
-        // Cargar regiones del país seleccionado
-        if (isset($ubicaciones[$parent])) {
-            foreach ($ubicaciones[$parent] as $region => $provincias) {
-                // Buscar el término por nombre para obtener el ID
-                $term = get_term_by('name', $region, 'region');
-                if ($term) {
-                    echo '<option value="'.$term->term_id.'">'.$term->name.'</option>';
-                }
-            }
-        }
-    } 
-    elseif ($taxonomia === 'provincia' && !empty($parent)) {
-        // Cargar provincias de la región seleccionada
-        // Necesitamos encontrar a qué país pertenece esta región
-        $region_term = get_term_by('term_id', intval($parent), 'region');
-        if ($region_term) {
-            $region_name = $region_term->name;
-            
-            // Buscar en qué país está esta región
-            foreach ($ubicaciones as $pais => $regiones) {
-                if (isset($regiones[$region_name])) {
-                    // Encontramos el país, ahora mostrar las provincias
-                    foreach ($regiones[$region_name] as $provincia) {
-                        $term = get_term_by('name', $provincia, 'provincia');
-                        if ($term) {
-                            echo '<option value="'.$term->term_id.'">'.$term->name.'</option>';
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-    }
-    
-    wp_die();
-}
