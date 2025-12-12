@@ -13,9 +13,11 @@ function trekkium_pagina_inicio_shortcode() {
     // Sección Próximas Actividades
     echo do_shortcode('[in_proximas_actividades]');
 
-    // Sección Próximas Actividades
+    // Sección Últimas Entradas
     echo do_shortcode('[in_ultimas_entradas]');
 
+    // Sección Ventajas Trekkium
+    echo do_shortcode('[in_ventajas_trekkium]');
     
     
 

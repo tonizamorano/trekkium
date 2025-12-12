@@ -27,11 +27,11 @@ function trekkium_in_buscador_actividades() {
 
         <div class="in-buscador-contenedor">
 
-            <div class="buscador-formulario-titulo">
+            <!-- <div class="buscador-formulario-titulo"> -->
 
-                <h2>Encuentra tu próxima aventura</h2>
+                <!-- <h2>Encuentra tu próxima aventura</h2> -->
 
-            </div>
+            <!-- </div> -->
 
             <div class="buscador-formulario">
 

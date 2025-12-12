@@ -8,7 +8,7 @@
 .in-buscador-contenedor {
     width: 900px;
     margin: 0 auto;
-    padding: 10px 0 30px 0;
+    padding: 20px 0 30px 0;
     background-color: var(--azul1-100);
     display: flex;
     flex-direction: column;
