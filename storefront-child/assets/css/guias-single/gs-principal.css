@@ -85,29 +85,36 @@
 }
 
 .gs-idiomas img {
-    width:30px; 
-    height:30px; 
+    width:40px; 
+    height:40px; 
     border-radius:50%; 
     object-fit:cover;"
 }
 
+.gs-titulaciones {
+    margin: 10px 0 !important;
+}
 
+.gs-titulaciones .gs-titulacion-item {
+        font-size: 18px;
+    }
 
 .gs-modalidades {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
-    margin-top: 10px;
-    margin-left: 15px;
+    margin: 10px 15px 0 15px;
+
 }
 
 .gs-modalidad-item {
-    background-color: #E67E22;
+    background-color: var(--naranja1-100);
     color: #fff;
     padding: 5px 10px;
     border-radius: 50px;
     font-size: 14px;
     line-height: 1;
+    font-weight: 500;
 }
 
 
@@ -141,9 +148,13 @@
         width: 150px;
         height: 150px;
     }
+
+    .gs-titulaciones .gs-titulacion-item {
+        font-size: 20px;
+    }
     
     .gs-sobremi-contenido {
-        font-size: 20px;
+        font-size: 20px !important;
     }
 
     .gs-guia-nombre {
@@ -155,7 +166,7 @@
     }
 
     .gs-modalidad-item {
-        font-size: 16px;
+        font-size: 18px;
     }
 }
 

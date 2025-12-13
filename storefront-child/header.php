@@ -123,7 +123,18 @@
     elseif ( is_checkout() ) {
         $titulo = 'Finalizar reserva';
         $color_fondo = 'var(--azul1-100)';
+
+        // 8.1️⃣ Página de pedido recibido
+        if ( function_exists('is_order_received_page') && is_order_received_page() ) {
+            $titulo = 'RESERVA FINALIZADA';
+        }
     }
+
+
+
+
+
+
 
   // Mostrar solo si hay título
   if ( !empty($titulo) ) :

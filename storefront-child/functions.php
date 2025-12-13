@@ -305,4 +305,25 @@ add_action('wp_head', function() {
     echo '<meta name="format-detection" content="telephone=no,email=no">';
 });
 
+/**
+ * Remove WooCommerce default Thank You page content completely.
+ */
+add_action( 'wp', function() {
+    // Solo en la página de "order-received"
+    if ( is_wc_endpoint_url( 'order-received' ) ) {
+
+        // Elimina los detalles del pedido
+        remove_action( 'woocommerce_thankyou', 'woocommerce_order_details_table', 10 );
+        remove_action( 'woocommerce_view_order', 'woocommerce_order_details_table', 10 );
+
+        // Elimina dirección de facturación y envío
+        remove_action( 'woocommerce_order_details_after_order_table', 'woocommerce_order_details_customer_details', 10 );
+
+        // Elimina notas del pedido
+        remove_action( 'woocommerce_order_details_after_order_table', 'woocommerce_order_again_button', 20 );
+
+        // En algunos casos Stripe u otros plugins añaden contenido aquí
+        remove_all_actions( 'woocommerce_thankyou' );
+    }
+});
 

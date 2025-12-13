@@ -280,6 +280,31 @@ function trekkium_save_custom_account_fields($user_id) {
             wp_update_user(['ID' => $user_id, 'user_email' => $new_email]);
         }
     }
+
+    // ===============================
+    // IMAGEN BANNER GUÍA
+    // ===============================
+    if (current_user_can('edit_user', $user_id)) {
+
+        // ELIMINAR banner
+        if (!empty($_POST['imagen_banner_delete']) && $_POST['imagen_banner_delete'] === '1') {
+            delete_user_meta($user_id, 'imagen_banner');
+            delete_user_meta($user_id, 'imagen_banner_guia'); // legacy
+        }
+
+        // GUARDAR / ACTUALIZAR banner
+        if (isset($_POST['imagen_banner']) && is_numeric($_POST['imagen_banner'])) {
+            update_user_meta($user_id, 'imagen_banner', intval($_POST['imagen_banner']));
+            delete_user_meta($user_id, 'imagen_banner_guia'); // limpia legacy
+        }
+    }
+
+
+
+
+
+
+
 }
 
 // Ajax para obtener estados/provincias
@@ -379,4 +404,5 @@ function trekkium_validate_duplicate_email($errors, $user) {
         $errors->add('account_email_duplicate_error', __('El correo electrónico ya está registrado por otra cuenta.', 'woocommerce'));
     }
 }
+
 ?>

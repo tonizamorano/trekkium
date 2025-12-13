@@ -8,13 +8,24 @@
 
 .ga-query-item {
     background: #fff;
-    padding: 0 0 10px 0;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
     border-radius: 10px;
     overflow: hidden;
     
+}
+
+.ga-query-item-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.ga-query-item-link:hover {
+    text-decoration: none;
+    color: inherit;
 }
 
 /* === IMÁGENES === */
@@ -42,8 +53,8 @@
 
 /* === AVATAR === */
 .guia-avatar {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 50%;
     display: block;
@@ -52,10 +63,9 @@
 /* === AVATAR SUPERPUESTO CENTRADO Y SOBRE TODO === */
 .ga-avatar-overlay {
     position: absolute;
-    left: 50%;
-    bottom: -25px; /* sobresale 25px por debajo del banner */
-    transform: translateX(-50%);
-    z-index: 10; /* ⬅️ asegura que está encima de todos los demás elementos */
+    right: 10px;
+    bottom: -15px;
+    z-index: 10; 
 }
 
 .ga-avatar-overlay .guia-avatar {
@@ -64,21 +74,21 @@
     background-color: #fff; /* opcional, mejora contraste si el borde toca fondo oscuro */
 }
 
+.ga-query-contenido {
+    padding: 10px;
+}
+
 
 /* === NOMBRE Y UBICACIÓN === */
 .ga-nombre-ubicacion {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-top: 30px;
+    flex-direction: column;   
 }
 
 .ga-nombre {
     font-size: 22px;
     font-weight: 600;
     color: var(--azul1-100);
-    margin-top: 10px;
     line-height: 1.2;
 }
 
@@ -89,30 +99,10 @@
     margin-top: 0;
 }
 
-/* === MODALIDADES === */
-.guia-modalidades {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 5px;
-    margin-top: 5px;
-    padding: 0 10px;
-}
-
-.guia-modalidad-item {
-    padding: 3px 10px;
-    border-radius: 50px;
-    background-color: var(--naranja1-100);
-    color: #fff;
-    font-size: 14px;
-    line-height: 1;
-}
-
 /* === VALORACIÓN === */
 .guia-rating {
-    margin-top: 0px;
+    margin-bottom: 5px;
     display: flex;
-    justify-content: center;
 }
 
 /* === ENLACES === */
@@ -120,6 +110,26 @@
     text-decoration: none;
     color: inherit;
 }
+
+/* === MODALIDADES === */
+.guia-query-modalidades {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.guia-query-modalidades .guia-query-modalidad-item {
+    padding: 3px 10px;
+    border-radius: 50px;
+    background-color: var(--naranja1-80);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 500;
+}
+
+
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
@@ -134,15 +144,23 @@
         height: 150px;
     }
 
+    .ga-query-contenido {
+        padding: 15px;
+    }
+
     .ga-nombre {
-        font-size: 24px;
+        font-size: 28px;
     }
 
     .ga-ubicacion {
-        font-size: 20px;
+        font-size: 22px;
     }
 
-    .guia-modalidad-item {
-        font-size: 17px;
+    .guia-query-modalidades .guia-query-modalidad-item {
+        font-size: 18px;
+    }
+
+    .ga-avatar-overlay {
+        right: 15px;
     }
 }

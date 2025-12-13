@@ -18,7 +18,7 @@ add_shortcode('menu_principal', function () {
            class="<?php echo (is_page('guias') || is_singular('guia') || is_author()) ? 'active' : ''; ?>" 
            title="Guías">
 
-            <?php echo do_shortcode('[icon_guias1]'); ?> 
+            <?php echo do_shortcode('[icon_guias2]'); ?> 
 
         </a>
 

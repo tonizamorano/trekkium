@@ -21,8 +21,9 @@ function trekkium_seccion_proximas_actividades() {
     $actividades = new WP_Query($args);
 
     if (!$actividades->have_posts()) {
-        return '<p>Este guía no tiene próximas actividades publicadas.</p>';
+        return ''; // No mostrar nada si no hay próximas actividades
     }
+
 
     ob_start(); ?>
 

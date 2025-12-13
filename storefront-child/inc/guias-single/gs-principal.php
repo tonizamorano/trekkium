@@ -35,11 +35,21 @@ function gs_seccion_principal($atts) {
 
     // Mapeo de titulaciones
     $mapa_titulaciones = [
-        'TD2 Media Montaña' => 'Técnico Deportivo en Media Montaña',
+        'TD2 Media montaña' => 'Técnico Deportivo en Media Montaña',
         'TD2 Barrancos' => 'Técnico Deportivo en Barrancos',
         'TD2 Escalada' => 'Técnico Deportivo en Escalada',
         'TD3 Escalada' => 'Técnico Deportivo Superior en Escalada',
         'TD3 Alta montaña' => 'Técnico Deportivo Superior en Alta Montaña'
+    ];
+
+    // Mapeo de acreditaciones
+    $mapa_acreditaciones = [
+        'AEGM' => 'aegm.png',
+        'AEGM - Alta montaña' => 'aegm_altamontana.png',
+        'AEGM - Barrancos' => 'aegm_barrancos.png',
+        'AEGM - Escalada' => 'aegm_escalada.png',
+        'UIMLA' => 'uimla.png',
+        'UIAGM' => 'uiagm.png'
     ];
 
     ob_start();
@@ -80,21 +90,12 @@ function gs_seccion_principal($atts) {
 
             <!-- Titulaciones -->
             <?php
-            // Obtener términos con el mismo método que el otro shortcode, para evitar conflictos
             $titulaciones = wp_get_object_terms($author_id, 'titulacion');
 
             if (!empty($titulaciones) && !is_wp_error($titulaciones)) :
             ?>
                 <div class="gs-titulaciones">
                     <?php
-                    $mapa_titulaciones = [
-                        'TD2 Media montaña' => 'Técnico Deportivo en Media Montaña',
-                        'TD2 Barrancos' => 'Técnico Deportivo en Barrancos',
-                        'TD2 Escalada' => 'Técnico Deportivo en Escalada',
-                        'TD3 Escalada' => 'Técnico Deportivo Superior en Escalada',
-                        'TD3 Alta montaña' => 'Técnico Deportivo Superior en Alta Montaña'
-                    ];
-
                     foreach ($titulaciones as $titulacion) {
                         $nombre = $titulacion->name;
                         if (isset($mapa_titulaciones[$nombre])) {
@@ -112,7 +113,6 @@ function gs_seccion_principal($atts) {
             $idiomas = wp_get_object_terms($author_id, 'idiomas');
 
             if (!empty($idiomas) && !is_wp_error($idiomas)) :
-                // Mapeo de idioma a archivo de icono
                 $mapa_idiomas = [
                     'Español'  => 'espanol.png',
                     'Català'   => 'catala.png',
@@ -135,10 +135,7 @@ function gs_seccion_principal($atts) {
                                 alt="<?php echo esc_attr($idioma->name); ?>">
                     <?php endif; endforeach; ?>
                 </div>
-            <?php endif; ?>
-
-
-            
+            <?php endif; ?>           
 
         </div>
 
@@ -151,12 +148,46 @@ function gs_seccion_principal($atts) {
             </div>
         <?php endif; ?>
 
+        <!-- Acreditaciones -->
+        <?php
+        $acreditaciones = get_user_meta($author_id, 'acreditaciones', true);
+        if (!empty($acreditaciones)) :
+            $acreditaciones_array = is_array($acreditaciones) ? $acreditaciones : explode(',', $acreditaciones);
+            ?>
+            <div class="gs-acreditaciones">
+                <?php 
+                $img_url_base = trekkium_asset_url('img/credits');
+                foreach ($acreditaciones_array as $acred) :
+                    $acred = trim($acred);
+                    if (isset($mapa_acreditaciones[$acred])) :
+                        ?>
+                        <div class="gs-acreditacion-item">
+                            <img src="<?php echo esc_url($img_url_base . $mapa_acreditaciones[$acred]); ?>" alt="<?php echo esc_attr($acred); ?>">
+                        </div>
+                    <?php endif;
+                endforeach; ?>
+            </div>
+        <?php endif; ?>
+
         <!-- Descripción de la bio -->
         <div class="gs-sobremi-contenido">
             <?php echo wp_kses_post($sobremi); ?>
         </div>
 
     </div>
+
+    <style>
+        .gs-acreditaciones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 15px 15px 0 15px;
+        }
+        .gs-acreditacion-item img {
+            max-height: 80px;
+            display: block;
+        }
+    </style>
 
     <?php
     return ob_get_clean();

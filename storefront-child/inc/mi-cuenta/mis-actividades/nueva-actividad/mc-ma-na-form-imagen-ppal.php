@@ -14,7 +14,7 @@ function mc_ma_na_form_imagen_principal_shortcode() {
     <div class="mc-ma-na-grid-1col">
         <label class="edit-form-titular">Imagen Principal*</label>
         
-        <div class="edit-form-image-box" onclick="abrirMediaUploaderPrincipal(this, 'actividad_imagen_1')">
+        <div class="mc-ma-na-image-box" onclick="abrirMediaUploaderPrincipal(this, 'actividad_imagen_1')">
             <span>Haz clic para seleccionar la imagen principal</span>
         </div>
         
@@ -22,31 +22,40 @@ function mc_ma_na_form_imagen_principal_shortcode() {
     </div>
     
     <style>
-    .edit-form-image-box {
+
+    .mc-ma-na-image-box {
         position: relative;
         cursor: pointer;
         text-align: center;
         min-height: 100px;
+        aspect-ratio: 16/9;
         border: 2px dashed #ccc;
         display: flex;
         justify-content: center;
         align-items: center;
+        border-radius: 5px;
     }
-    .edit-form-image-box img {
-        max-width: 100%;
-        height: auto;
+
+    .mc-ma-na-image-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
     }
-    .image-buttons {
+
+    .mc-ma-na-image-buttons {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%);
+        inset: 0;                 /* ocupa todo el contenedor */
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        justify-content: center;  /* CENTRADO VERTICAL PERFECTO */
+        align-items: center;      /* CENTRADO HORIZONTAL */
+        gap: 6px;
         z-index: 10;
+        pointer-events: none;     /* importante */
     }
-    .image-buttons .btn {
+
+    .mc-ma-na-image-buttons .btn {
         display: inline-block;
         background-color: var(--azul2-100);
         color: #fff;
@@ -57,10 +66,13 @@ function mc_ma_na_form_imagen_principal_shortcode() {
         font-weight: 500;
         text-align: center;
         user-select: none;
+        pointer-events: auto;
     }
-    .image-buttons .btn.delete {
+
+    .mc-ma-na-image-buttons .btn.delete {
         background-color: var(--naranja1-100);
     }
+
     </style>
     
     <script>
@@ -89,12 +101,12 @@ function mc_ma_na_form_imagen_principal_shortcode() {
     function mostrarImagenConBotones(box, inputId, attachment) {
         box.innerHTML = `
             <img src="${attachment.url}" alt="Imagen principal">
-            <div class="image-buttons">
+            <div class="mc-ma-na-image-buttons">
                 <div class="btn edit">Editar</div>
                 <div class="btn delete">Eliminar</div>
             </div>
         `;
-        box.style.border = '2px solid #0073aa';
+        box.style.border = '0 solid #0073aa';
         var inputElement = document.getElementById(inputId);
         if (inputElement) inputElement.value = attachment.id;
 
