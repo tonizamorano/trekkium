@@ -238,6 +238,8 @@
     transform: scale(1.4);
 }
 
+.in-header .in-arrow { display: none; }
+
 
 @media (max-width: 768px) {
     

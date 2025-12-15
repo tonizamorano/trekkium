@@ -38,3 +38,23 @@ function custom_define_roles_simplified() {
     // Administrador ya existe por defecto
 }
 add_action('init', 'custom_define_roles_simplified');
+
+
+/**
+ * Permitir subida de archivos a customers y subscribers
+ */
+add_action('init', function() {
+    $roles = ['customer', 'subscriber'];
+    foreach ($roles as $role_name) {
+        $role = get_role($role_name);
+        if ($role) {
+            if (!$role->has_cap('upload_files')) {
+                $role->add_cap('upload_files');
+            }
+            if (!$role->has_cap('edit_posts')) {
+                $role->add_cap('edit_posts'); // NECESARIO para que wp.media() funcione en front-end
+            }
+        }
+    }
+});
+

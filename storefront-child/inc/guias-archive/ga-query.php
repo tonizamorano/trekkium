@@ -74,7 +74,7 @@ function trekkium_prepare_user_data($user) {
 }
 
 function trekkium_get_banner_url($user_id) {
-    $banner_meta = get_user_meta($user_id, 'imagen_banner_guia', true);
+    $banner_meta = get_user_meta($user_id, 'imagen_banner', true);
     
     if ($banner_meta && is_numeric($banner_meta)) {
         return wp_get_attachment_image_url($banner_meta, 'full');

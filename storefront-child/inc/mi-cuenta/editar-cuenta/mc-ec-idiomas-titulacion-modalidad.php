@@ -12,7 +12,7 @@ function mc_ec_idiomas_modalidades_etiquetas_shortcode() {
     ob_start();
     ?>
     
-    <div class="mc-idiomas-modalidades-etiquetas-container">
+    <div style="margin-bottom: 15px;" class="mc-idiomas-modalidades-etiquetas-container">
         <?php
         // Sección de preferencias para clientes PUROS (no para guías)
         if (in_array('customer', $current_user->roles) && !in_array('guia', $current_user->roles)):

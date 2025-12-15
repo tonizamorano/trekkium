@@ -247,6 +247,8 @@ function trekkium_in_proximas_actividades() {
             updateDots();
         });
     });
+
+    
     </script>
 
 

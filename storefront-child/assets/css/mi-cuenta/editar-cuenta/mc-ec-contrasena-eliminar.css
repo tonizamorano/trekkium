@@ -4,23 +4,26 @@
     gap: 15px;
     padding: 15px;
     background-color: #fff;
+    justify-content: center;
 }
 
 .mc-ec-ce-seccion {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    align-content: centers;
+    align-content: center;
+    
 }
 
 .mc-ec-ce-boton {
-    display: flex;
+    display: inline-flex;
     justify-content: start;
     background-color: var(--azul2-100);
     padding: 7px 15px;
     color: #fff;
     border-radius: 50px;
     font-weight: 500;
+    justify-content: center;
 }
 
 

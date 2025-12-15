@@ -158,9 +158,13 @@ function trekkium_custom_edit_account_fields() {
         ?>
             
         <?php
+        // **AGREGAR SHORTCODE PARA IMAGEN AVATAR (ANTES DEL BANNER)**
+        echo do_shortcode('[mc_ec_dp_imagen_avatar]');
+
         // **AGREGAR SHORTCODE PARA IMAGEN DEL BANNER**
         echo do_shortcode('[mc_ec_dp_imagen_banner]');
         ?>
+
 
     </div> 
     <div class="mc-editar-cuenta-boton-section">
@@ -282,6 +286,23 @@ function trekkium_save_custom_account_fields($user_id) {
     }
 
     // ===============================
+    // AVATAR DEL USUARIO
+    // ===============================
+    if (current_user_can('edit_user', $user_id)) {
+
+        // ELIMINAR avatar
+        if (!empty($_POST['avatar_del_usuario_delete']) && $_POST['avatar_del_usuario_delete'] === '1') {
+            delete_user_meta($user_id, 'avatar_del_usuario');
+        }
+
+        // GUARDAR / ACTUALIZAR avatar
+        if (isset($_POST['avatar_del_usuario']) && is_numeric($_POST['avatar_del_usuario'])) {
+            update_user_meta($user_id, 'avatar_del_usuario', intval($_POST['avatar_del_usuario']));
+        }
+    }
+
+
+    // ===============================
     // IMAGEN BANNER GUÍA
     // ===============================
     if (current_user_can('edit_user', $user_id)) {
@@ -289,21 +310,28 @@ function trekkium_save_custom_account_fields($user_id) {
         // ELIMINAR banner
         if (!empty($_POST['imagen_banner_delete']) && $_POST['imagen_banner_delete'] === '1') {
             delete_user_meta($user_id, 'imagen_banner');
-            delete_user_meta($user_id, 'imagen_banner_guia'); // legacy
+            delete_user_meta($user_id, 'imagen_banner'); // legacy
         }
 
         // GUARDAR / ACTUALIZAR banner
         if (isset($_POST['imagen_banner']) && is_numeric($_POST['imagen_banner'])) {
-            update_user_meta($user_id, 'imagen_banner', intval($_POST['imagen_banner']));
-            delete_user_meta($user_id, 'imagen_banner_guia'); // limpia legacy
+
+            $attachment_id = intval($_POST['imagen_banner']);
+            update_user_meta($user_id, 'imagen_banner', $attachment_id);
+
+            $image_path = get_attached_file($attachment_id);
+            $editor = wp_get_image_editor($image_path);
+
+            if (!is_wp_error($editor)) {
+                $editor->resize(1600, 700, true);
+                $editor->set_quality(80);
+                $editor->save($image_path);
+            }
         }
+
     }
 
-
-
-
-
-
+    
 
 }
 
