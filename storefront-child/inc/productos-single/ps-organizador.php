@@ -50,37 +50,40 @@ function seccion_organizador_shortcode() {
         </div>
 
         <div class="ps-contenido" style="align-content: top;">
-            <div class="organizador-info">
+            <div class="ps-organizador-info">
 
                 <?php if ($avatar_url): ?>
-                    <a href="<?php echo esc_url($author_url); ?>" class="organizador-avatar-enlace">
-                        <img src="<?php echo esc_url($avatar_url); ?>" alt="Avatar de <?php echo esc_attr($nombre); ?>" class="avatar-del-usuario">
+                    <a href="<?php echo esc_url($author_url); ?>" class="ps-organizador-avatar-enlace">
+                        <img src="<?php echo esc_url($avatar_url); ?>" alt="Avatar de <?php echo esc_attr($nombre); ?>" class="ps-avatar-del-usuario">
                     </a>
                 <?php endif; ?>
 
-                <div class="organizador-detalles">
+                <div class="ps-organizador-detalles">
 
-                    <span class="organizador-nombre"><?php echo esc_html($nombre); ?></span>
+                    <span class="ps-organizador-nombre"><?php echo esc_html($nombre); ?></span>
 
                     <?php if ($provincia || $comunidad): ?>
-                        <span class="organizador-comunidad">
+                        <span class="ps-organizador-comunidad">
                             <?php echo esc_html($provincia); ?>
                             <?php if ($provincia && $comunidad) echo ' '; ?>
                             <?php if ($comunidad) echo '(' . esc_html($comunidad) . ')'; ?>
-                    </span>
+                        </span>
                     <?php endif; ?>
 
+                    <!--
                     <div class="autor-valoracion-media" style="display:flex; justify-content:flex-start;">
                         <?php echo $valoracion_shortcode; ?>
-                    </div>  
+                    </div>
+                    -->
 
-                </div>    
+                </div>
 
-            </div>             
+            </div>
 
         </div>
 
     </div>
+
 
     <?php
     return ob_get_clean();

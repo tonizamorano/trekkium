@@ -165,6 +165,53 @@ function seccion_precio_reserva_shortcode() {
                     <div class="ps-mensaje-lista-espera" id="ps-mensaje-lista-espera" style="display:none;"></div>
                 </div>
 
+
+                <!-- Cancelacion gratis -->                
+
+                                <!-- Cancelacion gratis -->
+                
+                <?php 
+                // Obtener la fecha límite de cancelación del meta field
+                $limite_cancelacion = get_post_meta($product_id, 'limite_cancelacion', true);
+                $mostrar_cancelacion = false;
+                $fecha_formateada = '';
+                
+                // Verificar si la fecha límite existe y es válida
+                if ($limite_cancelacion && $limite_cancelacion !== 'Error en cálculo') {
+                    // Convertir de formato d/m/Y H:i a DateTime
+                    $fecha_limite = DateTime::createFromFormat('d/m/Y H:i', $limite_cancelacion);
+                    $fecha_actual = new DateTime();
+                    
+                    if ($fecha_limite && $fecha_actual <= $fecha_limite) {
+                        $mostrar_cancelacion = true;
+                        // Extraer solo la fecha (d/m/Y) para mostrar
+                        $fecha_formateada = $fecha_limite->format('d/m/Y');
+                    }
+                }
+                
+                if ($mostrar_cancelacion) : ?>
+                <div class="ps-cancelacion-gratis" style="
+                    
+                    border: 2px solid #0b568b;
+                    border-radius: 5px;
+                    padding: 10px;
+                    margin-top: 15px;
+                    
+                ">
+                    <div style="
+                        color: #0b568b;
+                        font-size: 16px;
+                        
+                    ">
+                        Puedes cancelar tu reserva gratis hasta el <?php echo $fecha_limite->format('d/m/y'); ?> a las <?php echo $fecha_limite->format('H:i'); ?> h.
+                    </div>
+                </div>
+                <?php endif; ?>
+
+
+
+
+
                 <!-- Modal oculto -->
                 <div id="ps-modal-mensaje" style="display:none;">
                     <div class="ps-modal-contenido">

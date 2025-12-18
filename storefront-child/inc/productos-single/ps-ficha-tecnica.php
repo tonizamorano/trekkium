@@ -27,6 +27,7 @@ function seccion_fichatecnica_shortcode() {
     $desnivel_positivo = get_post_meta($product_id, 'desnivel_positivo', true);
     $desnivel_negativo = get_post_meta($product_id, 'desnivel_negativo', true);
     $duracion = get_post_meta($product_id, 'duracion', true);
+    $edad_minima = get_post_meta($product_id, 'edad_minima', true); // Nueva línea añadida
 
     // Obtener taxonomía dificultad
     $dificultad_terms = get_the_terms($product_id, 'dificultad');
@@ -44,23 +45,19 @@ function seccion_fichatecnica_shortcode() {
 
         <!-- TITULAR -->
         <div class="ps-titular">
-            <h5>Características técnicas</h5>
+            <h5>Características</h5>
         </div>
 
         <!-- CONTENIDO -->
         <div class="ps-contenido-momento">
 
-
             <!-- Distancia -->
-
             <div class="ps-contenido-fila">
 
                 <div class="ps-fila-col1">
-
                     <span class="ps-icono">
                         <?php echo do_shortcode('[icon_distancia1]'); ?>
                     </span>
-
                     <span>Distancia total:</span>
                 </div>
 
@@ -70,9 +67,7 @@ function seccion_fichatecnica_shortcode() {
 
             </div>
 
-
             <!-- Desnivel positivo -->
-
             <div class="ps-contenido-fila">
 
                 <div class="ps-fila-col1">
@@ -88,9 +83,7 @@ function seccion_fichatecnica_shortcode() {
 
             </div>
 
-
             <!-- Desnivel negativo -->
-
             <div class="ps-contenido-fila">
 
                 <div class="ps-fila-col1">
@@ -107,7 +100,6 @@ function seccion_fichatecnica_shortcode() {
             </div>
 
             <!-- Duración -->
-
             <div class="ps-contenido-fila">
 
                 <div class="ps-fila-col1">
@@ -124,7 +116,6 @@ function seccion_fichatecnica_shortcode() {
             </div>
 
             <!-- Dificultad -->
-
             <div class="ps-contenido-fila">
 
                 <div class="ps-fila-col1">
@@ -136,6 +127,22 @@ function seccion_fichatecnica_shortcode() {
 
                 <div class="ps-fila-col2">
                     <?php echo esc_html($dificultad); ?>
+                </div>
+
+            </div>
+
+            <!-- Edad mínima - AÑADIDA DESPUÉS DE LA ÚLTIMA FILA -->
+            <div class="ps-contenido-fila">
+
+                <div class="ps-fila-col1">
+                    <span class="ps-icono">
+                        <?php echo do_shortcode('[icon_edad]'); ?>
+                    </span>
+                    <span>Edad mínima:</span>
+                </div>
+
+                <div class="ps-fila-col2">
+                    <?php echo esc_html($edad_minima); ?> años
                 </div>
 
             </div>

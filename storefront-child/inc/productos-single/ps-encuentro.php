@@ -28,7 +28,9 @@ add_shortcode('seccion_fecha_hora_encuentro', function() {
         <!-- CONTENIDO NUEVO -->
         <div class="ps-contenido-momento">  
 
-            <!-- Fecha -->
+            
+
+            <!-- Nueva Fecha -->
 
             <div class="ps-contenido-fila">
 
@@ -36,17 +38,17 @@ add_shortcode('seccion_fecha_hora_encuentro', function() {
                     <span class="ps-icono">
                         <?php echo do_shortcode('[icon_fecha1]'); ?>
                     </span>
-                    <span>Fecha:</span>
+                    <span><?php echo esc_html($fecha_formateada); ?></span>
                 </div>
 
-                <div class="ps-fila-col2">
-                    <?php echo esc_html($fecha_formateada); ?>
+                <div class="ps-fila-col2">                    
                 </div>
 
             </div>
 
 
-            <!-- Hora -->
+
+            <!-- Nueva Hora -->
 
             <div class="ps-contenido-fila">
 
@@ -54,14 +56,16 @@ add_shortcode('seccion_fecha_hora_encuentro', function() {
                     <span class="ps-icono">
                         <?php echo do_shortcode('[icon_hora]'); ?>
                     </span>
-                    <span>Hora:</span>
+                    <span><?php echo esc_html($hora_formateada); ?></span>
                 </div>
 
-                <div class="ps-fila-col2">
-                    <?php echo esc_html($hora_formateada); ?>
+                <div class="ps-fila-col2">                    
                 </div>
 
             </div>
+
+
+
 
             <!-- Lugar -->
 
@@ -71,7 +75,7 @@ add_shortcode('seccion_fecha_hora_encuentro', function() {
                     <span class="ps-icono">
                         <?php echo do_shortcode('[icon_lugar]'); ?>
                     </span>
-                    <span>Lugar:</span>
+                    <span><?php echo esc_html($lugar_encuentro); ?></span>
                 </div>
 
                 <div class="ps-fila-col2">                    
@@ -79,11 +83,7 @@ add_shortcode('seccion_fecha_hora_encuentro', function() {
 
             </div>
 
-            <div class="ps-contenido-fila-direccion">
-
-                <?php echo esc_html($lugar_encuentro); ?>
-
-            </div>
+            
 
             <div class="ps-contenido-fila">
 

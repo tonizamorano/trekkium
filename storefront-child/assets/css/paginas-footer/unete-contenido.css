@@ -24,16 +24,16 @@
 }
 
 .ut-titular h2 {
-    font-size: 26px;
+    font-size: 24px;
     color: var(--azul1-100);
-    margin-bottom: 15px;
+    margin-bottom: 15px !important;
     font-weight: 600;
 }
 
 
 
 .ut-subtitle {
-    font-size: 22px;
+    font-size: 18px;
     color: var(--azul1-100);
     margin-bottom: 15px;
     font-weight: 600;
@@ -67,18 +67,13 @@
     font-weight: 500;
 }
 
-.ut-column-contenido {
-    background: var(--azul2-20);
-    padding: 15px 10px 5px 10px;
-}
-
-.ut-column ul {
+.ut-column-contenido ul {
     list-style: none;
     padding-left: 0;
     margin: 0;
 }
 
-.ut-column ul li {
+.ut-column-contenido ul li {
     padding-left: 20px;
     position: relative;
     margin-bottom: 10px;
@@ -86,7 +81,7 @@
     font-size: 18px;
 }
 
-.ut-column ul li::before {
+.ut-column-contenido ul li::before {
     content: "✓";
     color: var(--azul1-100);
     font-size: 18px;
@@ -110,19 +105,19 @@
     }
 
     .ut-subtitle {
-        font-size: 24px;
+        font-size: 20px;
     }
 
     .ut-description {
         font-size: 20px;
     }
 
-    .ut-column-titulo h3 {
+    .ut-column-contenido {
         font-size: 20px;
     }
 
-    .ut-column ul li,
-    .ut-column ul li::before {
+    .ut-column-contenido ul li,
+    .ut-column-contenido ul li::before {
         font-size: 20px;
     }
 }

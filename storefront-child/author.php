@@ -18,7 +18,9 @@ $author_id = $author->ID;
     <!-- Columna derecha -->
     <div class="pagina-columna33" style="display:flex; flex-direction:column; gap: 15px;">
         <?php echo do_shortcode('[seccion_proximas_actividades]'); ?>
-        <?php echo do_shortcode('[seccion_valoraciones]'); ?>
+        <?php 
+        // echo do_shortcode('[seccion_valoraciones]'); 
+        ?>
         <?php 
         // echo do_shortcode('[valoraciones-guias-form]'); 
         ?>

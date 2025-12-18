@@ -200,6 +200,16 @@
     padding: 5px;
 }
 
+.ps-contenido-destacado {
+    background-color: #fff;
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px solid var(--azul1-100);
+    border-radius: 5px;
+}
+
+
+
 @media (max-width: 768px) {
     
     .ps-tabla-precio th,

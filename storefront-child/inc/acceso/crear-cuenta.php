@@ -36,11 +36,20 @@ function trekkium_pagina_crear_cuenta() {
             <div id="acceso-cc-modal" class="acceso-cc-modal">
                 <div class="acceso-cc-modal-content <?php echo $mensaje_error ? 'error' : 'success'; ?>">
                     <span class="acceso-cc-modal-close">&times;</span>
-                    <h2>Error de registro</h2>
+                    <h2>
+                        <?php 
+                            if ($mensaje_error) {
+                                echo 'Error de registro';
+                            } else {
+                                echo 'Nueva cuenta de usuario';
+                            }
+                        ?>
+                    </h2>
                     <p><?php echo esc_html($mensaje_error ?: $mensaje_exito); ?></p>
                 </div>
             </div>
         <?php endif; ?>
+
 
         <div class="crear-cuenta-titulo-seccion">
             <h2>Nueva cuenta de usuario</h2>
@@ -154,12 +163,7 @@ function trekkium_pagina_crear_cuenta() {
                 <div class="crear-cuenta-seccion-requisitos">
                     <label>
                         <input type="checkbox" name="terminos" <?php echo isset($_POST['terminos']) ? 'checked' : ''; ?> required>
-                        He leído y acepto los <a href="/aviso-legal/" target="_blank">Términos y Condiciones Legales</a>.
-                    </label>
-                    <br>
-                    <label>
-                        <input type="checkbox" name="privacidad" <?php echo isset($_POST['privacidad']) ? 'checked' : ''; ?> required>
-                        Acepto la <a href="/politica-privacidad/" target="_blank">Política de Privacidad</a>.
+                        He leído y acepto los <a href="/terminos-y-condiciones/" target="_blank"><strong>Términos y Condiciones Legales</strong></a>.
                     </label>
                 </div>
 

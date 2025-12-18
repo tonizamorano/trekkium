@@ -3,6 +3,7 @@ function ut_form_shortcode() {
     ob_start();
 
     $mensaje = ''; // Variable para almacenar mensajes
+    $tipo_mensaje = ''; // 'error' o 'success'
 
     // Procesar formulario al enviar
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ut_form_nonce']) && wp_verify_nonce($_POST['ut_form_nonce'], 'ut_form_action')) {
@@ -52,23 +53,41 @@ function ut_form_shortcode() {
                 update_post_meta($post_id, 'titulacion_array', [$titulacion]);
                 update_post_meta($post_id, 'titulacion', $titulacion);
 
+                // --- ENVÍO DE CORREO AL ADMIN ---
+                $admin_email = get_option('admin_email'); // Email del administrador
+                $subject = 'NUEVA SOLICITUD DE CANDIDATO A GUÍA';
+                $message = "
+                    Has recibido una nueva solicitud de candidato a guía:
+
+                    Nombre: $nombre
+                    Apellidos: $apellidos
+                    Teléfono: $telefono
+                    Correo electrónico: $email
+                    Provincia: $provincia
+                    Titulación: $titulacion
+
+                    Ver candidato en el admin: " . admin_url("post.php?post=$post_id&action=edit") . "
+                ";
+                wp_mail($admin_email, $subject, $message);
+
                 // Redirigir a la misma página con flag de éxito
                 $redirect_url = add_query_arg('ut_form_success', '1', get_permalink());
                 wp_redirect($redirect_url);
                 exit;
-            } else {
-                $errores[] = 'Ha ocurrido un error. Por favor, inténtalo de nuevo.';
             }
+
         }
 
         if (!empty($errores)) {
-            $mensaje = '<div class="ut-form-error">' . implode('<br>', $errores) . '</div>';
+            $mensaje = implode('<br>', $errores);
+            $tipo_mensaje = 'error';
         }
     }
 
     // Mensaje de éxito desde URL
     if (isset($_GET['ut_form_success']) && $_GET['ut_form_success'] == '1') {
-        $mensaje = '<div class="ut-form-success">Tu solicitud se ha enviado correctamente. Nos pondremos en contacto contigo pronto.</div>';
+        $mensaje = 'Tu solicitud se ha enviado correctamente. Nos pondremos en contacto contigo pronto.';
+        $tipo_mensaje = 'success';
     }
 
     // Obtener datos para selects
@@ -139,10 +158,85 @@ function ut_form_shortcode() {
         </div>
     </div>
 
-    <?php
-    // Mostrar mensaje debajo del contenedor
-    echo $mensaje;
+    <!-- MODAL -->
+    <div id="ut-form-modal" class="ut-form-modal">
+        <div class="ut-form-modal-content <?php echo esc_attr($tipo_mensaje); ?>">
+            <span id="ut-form-modal-close" class="ut-form-modal-close">&times;</span>
+            <?php echo $mensaje; ?>
+        </div>
+    </div>
 
+    <style>
+    .ut-form-modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.5);
+    }
+
+    .ut-form-modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .ut-form-modal-content.success {
+        border-left: 5px solid #0b568b;
+    }
+
+    .ut-form-modal-content.error {
+        border-left: 5px solid #E67E22;
+    }
+
+    .ut-form-modal-close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        color: #aaa;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .ut-form-modal-close:hover {
+        color: #000;
+    }
+    </style>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = document.getElementById('ut-form-modal');
+        var closeBtn = document.getElementById('ut-form-modal-close');
+
+        <?php if (!empty($mensaje)) : ?>
+            modal.style.display = 'block';
+        <?php endif; ?>
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    });
+    </script>
+
+    <?php
     return ob_get_clean();
 }
 add_shortcode('ut_form', 'ut_form_shortcode');

@@ -182,9 +182,27 @@ function trekkium_render_guia_item($data) {
                 <?php endif; ?>
             </div>
 
+        
             <div class="guia-rating">
-                <?php echo do_shortcode('[valoracion-media-guia id="' . $data['user_id'] . '"]'); ?>
+                <?php
+                /*
+                <div class="guia-rating">
+                    <?php echo do_shortcode('[valoracion-media-guia id="' . $data['user_id'] . '"]'); ?>
+                </div>
+                */
+                ?>
             </div>
+
+            <?php
+            $titulaciones = wp_get_object_terms($data['user_id'], 'titulacion');
+            if (!is_wp_error($titulaciones) && !empty($titulaciones)) : ?>
+                <div class="guia-titulaciones" style="font-weight: 500;">
+                    <?php foreach ($titulaciones as $t) : ?>
+                        <div class="guia-titulacion-item"><?php echo esc_html($t->name); ?></div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
 
             <?php echo $data['modalidades_html']; ?>
 

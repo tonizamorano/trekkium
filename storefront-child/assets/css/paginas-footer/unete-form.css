@@ -20,16 +20,20 @@
     background: var(--azul1-20);
 }
 
+.ut-form-seccion-contenido form {
+    margin-bottom: 0 !important;
+}
+
 .ut-form-group {
     margin-bottom: 10px;
 }
 
 .ut-form-group label {
     display: block;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 2px;
     color: var(--azul1-100);
-    
+    font-size: 18px;
 }
 
 .ut-form-group input,
@@ -38,17 +42,17 @@
     padding: 5px 10px !important;
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 16px;
     box-sizing: border-box;
 }
 
 .ut-form-checkbox-label {
-    font-weight: 500;
+    font-weight: 500 !important;
     display: flex;
     align-items: center;
     gap: 8px;
     color: var(--azul1-100);
-    font-size: 16px;
+    font-size: 16px !important;
     cursor: pointer;
     font-family: inherit;
 }
@@ -76,7 +80,7 @@
     background: var(--naranja1-100);
     color: #fff;
     padding: 5px 15px;
-    border-radius: 10px;
+    border-radius: 50px;
     border: none;
     font-weight: 600;
     font-size: 16px;
@@ -86,6 +90,7 @@
 
 .ut-btn-enviar:hover {
     background: var(--naranja1-40);
+    color: #fff;
 }
 
 .ut-form-success, .ut-form-error {
@@ -116,5 +121,13 @@
 
     .ut-form-group label {
         font-size: 20px;
+    }
+
+    .ut-form-checkbox-label {
+        font-size: 18px !important;
+    }
+
+    .ut-btn-enviar {
+        font-size: 18px;
     }
 }

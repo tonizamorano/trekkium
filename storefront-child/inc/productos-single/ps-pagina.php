@@ -47,14 +47,14 @@ function pagina_single_productos_shortcode() {
 
         <div class="ps-pagina-columna33">
             <?php echo do_shortcode('[seccion_organizador]'); ?>
-            <?php echo do_shortcode('[seccion_fichatecnica]'); ?> 
-            <?php echo do_shortcode('[seccion_fecha_hora_encuentro]'); ?>            
-            <?php echo do_shortcode('[seccion_plazas]'); ?>  
+            <?php echo do_shortcode('[seccion_fecha_hora_encuentro]'); ?>  
+            <?php echo do_shortcode('[seccion_fichatecnica]'); ?>             
             <?php echo do_shortcode('[seccion_dificultad_tecnica]'); ?>
             <?php echo do_shortcode('[seccion_experiencia_requisitos]'); ?>
             <?php echo do_shortcode('[seccion_planificacion]'); ?>
             <?php echo do_shortcode('[seccion_material_necesario]'); ?>   
             <?php echo do_shortcode('[seccion_incluye]'); ?>
+            <?php echo do_shortcode('[ps_estado_actividad]'); ?> 
             <?php echo do_shortcode('[seccion_precio_reserva]'); ?> 
              
             <!-- <?php echo do_shortcode('[ps_entradas_relacionadas]'); ?> -->          

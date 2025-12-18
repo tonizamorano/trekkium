@@ -76,35 +76,17 @@ function mc_vr_cancelacion_callback($atts) {
             <?php endif; ?>
 
             <?php if ( ! $pedido_cancelado && ! $cancelacion_vencida ) : ?>
-                <div class="mc-mr-vr-boton-wrapper">
-                    <a href="#" 
-                    class="mc-mr-vr-boton" 
-                    id="boton-cancelar-reserva"
-                    data-order="<?php echo esc_attr( $order_id ); ?>">
-                        Cancelar reserva
-                    </a>
-                </div>
-            <?php endif; ?>
-
+    <div class="mc-mr-vr-boton-wrapper">
+        <a href="<?php echo esc_url(add_query_arg(['cancelar-reserva' => $order_id], wc_get_account_endpoint_url('ver-reservas'))); ?>" 
+        class="mc-mr-vr-boton" 
+        onclick="return confirm('¿Estás seguro de que quieres cancelar tu reserva? Esta acción no se puede deshacer.');">
+            Cancelar reserva
+        </a>
+    </div>
+<?php endif; ?>
 
         </div>
     </div>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const boton = document.getElementById("boton-cancelar-reserva");
-        if (!boton) return;
-
-        boton.addEventListener("click", function () {
-            const id = this.getAttribute("data-order");
-            if (confirm("¿Estás seguro de que quieres cancelar tu reserva? Esta acción no se puede deshacer.")) {
-                window.location.href = "<?php echo esc_url(
-                    add_query_arg(['cancelar-reserva' => 'ORDER_ID'], wc_get_account_endpoint_url('ver-reservas'))
-                ); ?>".replace("ORDER_ID", id);
-            }
-        });
-    });
-    </script>
 
     <?php
     return ob_get_clean();

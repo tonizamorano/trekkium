@@ -84,7 +84,7 @@ function contenido_nueva_actividad_shortcode() {
                     'encuentro','google_maps','dificultad_tecnica','planificacion',
                     'material','incluye','hora','espacio_natural','dias','fecha_fin',
                     'plazas_totales','plazas_minimas','edad_minima','precio_guia',
-                    'enlace_whatsapp','experiencia_requisitos'
+                    'grupo_whatsapp','experiencia_requisitos'
                 ];
 
                 foreach ( $campos_meta as $campo ) {
@@ -102,7 +102,7 @@ function contenido_nueva_actividad_shortcode() {
                         elseif ($campo === 'precio_guia') {
                             $valor = number_format(floatval($_POST["actividad_{$campo}"]), 2, '.', '');
                         }
-                        elseif ($campo === 'google_maps' || $campo === 'enlace_whatsapp') {
+                        elseif ($campo === 'google_maps' || $campo === 'grupo_whatsapp') {
                             $valor = esc_url_raw($_POST["actividad_{$campo}"]);
                         }
                         elseif ($campo === 'espacio_natural') {
@@ -325,7 +325,7 @@ function contenido_nueva_actividad_shortcode() {
         $campos = [
             'encuentro'       => ['text','Punto de encuentro*'],
             'google_maps'     => ['url','Enlace a Google Maps*'],
-            'enlace_whatsapp' => ['url','Enlace al grupo de Whatsapp*']
+            'grupo_whatsapp' => ['url','Enlace al grupo de Whatsapp*']
         ];
 
         foreach ($campos as $slug => $data):

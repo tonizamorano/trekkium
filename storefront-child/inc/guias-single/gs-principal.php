@@ -15,7 +15,9 @@ function gs_seccion_principal($atts) {
 
     // Obtener campos del usuario
     $sobremi = get_user_meta($author_id, 'sobre_mi', true);
-    $banner = get_user_meta($author_id, 'imagen_banner_guia', true);
+    $banner_id = get_user_meta($author_id, 'imagen_banner', true);
+    $banner    = $banner_id ? wp_get_attachment_image_url($banner_id, 'full') : '';
+
     $avatar = get_avatar_url($author_id, ['size' => 300]);
 
     // Datos adicionales del guía
@@ -84,9 +86,13 @@ function gs_seccion_principal($atts) {
             <?php endif; ?>
 
             <!-- Valoracion de estrella -->
+            <?php
+            /*
             <div class="gs-guia-valoracion-media">
                 <?php echo do_shortcode('[valoracion-media-guia]'); ?>
             </div>
+            */
+            ?>
 
             <!-- Titulaciones -->
             <?php
@@ -108,34 +114,7 @@ function gs_seccion_principal($atts) {
                 </div>
             <?php endif; ?>
 
-            <!-- Idiomas -->
-            <?php
-            $idiomas = wp_get_object_terms($author_id, 'idiomas');
-
-            if (!empty($idiomas) && !is_wp_error($idiomas)) :
-                $mapa_idiomas = [
-                    'Español'  => 'espanol.png',
-                    'Català'   => 'catala.png',
-                    'Euskera'  => 'euskera.png',
-                    'Galego'   => 'galego.png',
-                    'Inglés'   => 'ingles.png',
-                    'Francés'  => 'frances.png',
-                    'Italiano' => 'italiano.png',
-                    'Portugués'=> 'portugues.png',
-                    'Alemán'   => 'aleman.png',
-                ];
-
-                $iconos_url = trekkium_asset_url('img/idiomas');
-                ?>
-                <div class="gs-idiomas">
-                    <?php foreach ($idiomas as $idioma): 
-                        $archivo = $mapa_idiomas[$idioma->name] ?? '';
-                        if ($archivo): ?>
-                            <img src="<?php echo esc_url($iconos_url . $archivo); ?>" 
-                                alt="<?php echo esc_attr($idioma->name); ?>">
-                    <?php endif; endforeach; ?>
-                </div>
-            <?php endif; ?>           
+                  
 
         </div>
 

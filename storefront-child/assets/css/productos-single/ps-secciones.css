@@ -75,6 +75,8 @@
     fill: var(--azul1-100);
 }
 
+
+
 @media (max-width: 768px) {
     
     .pastillas-item-dificultad,

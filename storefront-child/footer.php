@@ -30,8 +30,11 @@
             <a href="/unete-a-trekkium/">Únete a Trekkium</a>
         </div>
 
-        <!-- Patrocinadores -->
-        <?php echo do_shortcode('[footer_patrocinadores]'); ?>
+        <?php
+        // <!-- Patrocinadores -->
+        // echo do_shortcode('[footer_patrocinadores]');
+        ?>
+
 
         <!-- Diseñado por 
         <div class="footer-copy">

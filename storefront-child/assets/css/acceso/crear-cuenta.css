@@ -65,19 +65,12 @@
     outline: none;
 }
 
-
-
-
-
-
-
-
-
 .crear-cuenta-seccion-requisitos {
     margin-top: 20px;
     padding: 10px;
-    font-size: 14px;
-    color: #333;
+    font-size: 18px;
+    color: var(--azul1-100);
+    font-weight: 500;
 }
 
 .crear-cuenta-seccion-requisitos label {

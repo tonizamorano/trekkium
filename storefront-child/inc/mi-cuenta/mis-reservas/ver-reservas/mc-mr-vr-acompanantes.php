@@ -20,16 +20,21 @@ add_shortcode('mc_vr_acompanantes', function() {
         }
 
         update_post_meta($order_id, '_trekkium_acompanantes', $nuevo);
+        
+        // Recargar los datos actualizados
+        $acompanantes = $nuevo;
+    } else {
+        // Obtener acompañantes normalmente
+        $acompanantes = get_post_meta($order_id, '_trekkium_acompanantes', true);
+    }
+
+    // VERIFICACIÓN PRINCIPAL: Si no hay acompañantes, retornar vacío
+    if (empty($acompanantes) || !is_array($acompanantes)) {
+        return '';
     }
 
     $order = wc_get_order($order_id);
     if (!$order) return '';
-
-    $acompanantes = get_post_meta($order_id, '_trekkium_acompanantes', true);
-
-    if (empty($acompanantes) || !is_array($acompanantes)) {
-        return '<div class="mc-mr-vr-contenedor"><p>No hay acompañantes registrados.</p></div>';
-    }
 
     ob_start();
     ?>
