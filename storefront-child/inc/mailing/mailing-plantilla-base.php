@@ -19,112 +19,18 @@ if ( empty( $email_content ) || empty( $email_title ) ) {
 <head>
 <meta charset="UTF-8">
 <title><?php echo esc_html($email_title); ?></title>
+
 <style>
-
-    body { 
-        font-family: inherit; 
-        margin:0; 
-        padding:0; 
-        background: #f5f5f5; 
-    }
-
-    .mail-container { 
-        max-width:600px; 
-        margin:0 auto; 
-        background: #cedde8; /* Azul tema 20% */
-    }
-
-    .mail-header { 
-        background: #0b568b; /* Azul tema 100% */
-        padding:20px; 
-        text-align:center; 
-    }
-
-    .mail-header img { 
-        max-width:200px; 
-    }
-
-    .mail-content { 
-        padding:20px; 
-        color:#333; 
-    }
-
-    .mail-button { 
-        display:inline-block; 
-        padding:12px 20px; 
-        background:#E67E22; 
-        color:#fff; 
-        text-decoration:none; 
-        border-radius:50px; 
-        margin:10px 0; 
-    }
-
-    .mail-footer { 
-        background: #0b568b;  /* Azul tema 100% */
-        padding: 15px; 
-        font-size: 14px; 
-        color: #fff; 
-        text-align:center; 
-    }
-
-    .mail-footer img { 
-        max-width:150px; 
-    }
-
-    .mail-footer-copy { 
-        color:#fff; 
-    }
-
-    .mail-footer-contacto {
-        color: #fff !important;
-        text-align: center;
-        margin-top: 10px;
-        text-decoration: none;
-       
-    }
-
-    .mail-footer-info {
-        text-align: center;
-        line-height: 1.2;
-        margin-top: 10px;
-    }
-    
-    hr { 
-        border:none; 
-        border-top:1px solid #ddd; 
-        margin:20px 0; 
-    }
-
-    /* Reset enlaces automáticos (iOS, Gmail, etc.) */
-    a {
-        
-        text-decoration: none !important;
-    }
-
-    /* iOS Mail */
-    a[x-apple-data-detectors] {
-        color: inherit !important;
-        text-decoration: none !important;
-        font-size: inherit !important;
-        font-family: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-    }
-
-    /* Gmail */
-    u + #body a {
-        color: inherit !important;
-        text-decoration: none !important;
-    }
-
-    /* Outlook */
-    span.MsoHyperlink {
-        color: inherit !important;
-        text-decoration: none !important;
-    }
-
+<?php
+$styles_path = dirname(__FILE__) . '/mailing-estilos-css.php';
+if ( file_exists( $styles_path ) ) {
+    echo include $styles_path;
+}
+?>
 </style>
+
 </head>
+
 <body>
 
 <div class="mail-container">

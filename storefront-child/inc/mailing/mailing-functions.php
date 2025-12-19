@@ -17,6 +17,7 @@ function trekkium_get_email_html( $email_title, $email_content ) {
         dirname(__FILE__) . '/mailing-plantilla-base.php',
     );
 
+
     $template = '';
     foreach ( $paths as $p ) {
         if ( file_exists( $p ) ) { $template = $p; break; }

@@ -135,7 +135,7 @@ body.home {
 /* Eliminar márgenes de párrafos y titulares */
 
 p {
-    margin: 0 0 10px 0 !important; /* elimina margen inferior de los párrafos */
+    margin: 0 0 10px 0 !important; 
 }
 
 
