@@ -167,8 +167,6 @@ function seccion_precio_reserva_shortcode() {
 
 
                 <!-- Cancelacion gratis -->                
-
-                                <!-- Cancelacion gratis -->
                 
                 <?php 
                 // Obtener la fecha límite de cancelación del meta field

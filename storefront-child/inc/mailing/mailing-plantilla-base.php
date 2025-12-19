@@ -20,36 +20,36 @@ if ( empty( $email_content ) || empty( $email_title ) ) {
 <meta charset="UTF-8">
 <title><?php echo esc_html($email_title); ?></title>
 <style>
-    
+
     body { 
         font-family: inherit; 
         margin:0; 
         padding:0; 
-        background:#f5f5f5; 
+        background: #f5f5f5; 
     }
 
-    .container { 
+    .mail-container { 
         max-width:600px; 
         margin:0 auto; 
-        background:var(--azul1-20); 
+        background: #cedde8; /* Azul tema 20% */
     }
 
-    .header { 
-        background:var(--azul1-100);
+    .mail-header { 
+        background: #0b568b; /* Azul tema 100% */
         padding:20px; 
         text-align:center; 
     }
 
-    .header img { 
+    .mail-header img { 
         max-width:200px; 
     }
 
-    .content { 
+    .mail-content { 
         padding:20px; 
         color:#333; 
     }
 
-    .button { 
+    .mail-button { 
         display:inline-block; 
         padding:12px 20px; 
         background:#E67E22; 
@@ -59,12 +59,34 @@ if ( empty( $email_content ) || empty( $email_title ) ) {
         margin:10px 0; 
     }
 
-    .footer { 
-        background: var(--azul1-100); 
-        padding:15px; 
-        font-size:12px; 
-        color:#666; 
+    .mail-footer { 
+        background: #0b568b;  /* Azul tema 100% */
+        padding: 15px; 
+        font-size: 14px; 
+        color: #fff; 
         text-align:center; 
+    }
+
+    .mail-footer img { 
+        max-width:150px; 
+    }
+
+    .mail-footer-copy { 
+        color:#fff; 
+    }
+
+    .mail-footer-contacto {
+        color: #fff !important;
+        text-align: center;
+        margin-top: 10px;
+        text-decoration: none;
+       
+    }
+
+    .mail-footer-info {
+        text-align: center;
+        line-height: 1.2;
+        margin-top: 10px;
     }
     
     hr { 
@@ -73,27 +95,72 @@ if ( empty( $email_content ) || empty( $email_title ) ) {
         margin:20px 0; 
     }
 
+    /* Reset enlaces automáticos (iOS, Gmail, etc.) */
+    a {
+        
+        text-decoration: none !important;
+    }
+
+    /* iOS Mail */
+    a[x-apple-data-detectors] {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+    }
+
+    /* Gmail */
+    u + #body a {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
+
+    /* Outlook */
+    span.MsoHyperlink {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
+
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="mail-container">
 
     <!-- CABECERA FIJA -->
-    <div class="header">
+    <div class="mail-header">
         <img src="https://staging2.trekkium.com/wp-content/uploads/2025/09/trekkium_logowhite.png" alt="Trekkium">
     </div>
 
     <!-- CONTENIDO VARIABLE -->
-    <div class="content">
+    <div class="mail-content">
         <?php echo wp_kses_post( $email_content ); ?>
     </div>
 
     <!-- PIE DE PÁGINA FIJO -->
-    <div class="footer">
-        Trekkium · Actividades guiadas de montaña<br>
-        🌐 www.trekkium.com · ✉️ hola@trekkium.com<br>
-        Has recibido este correo porque has realizado una acción en Trekkium. Este email es informativo, por favor no respondas.
+    <div class="mail-footer">
+
+        <!-- Logo encima del menú -->
+        <div class="mail-footer-logo">
+            <img src="https://trekkium.com/wp-content/uploads/2025/09/trekkium_logowhite.png" alt="Trekkium logo" />
+        </div>
+
+        <!-- Línea de copyright -->
+        <div class="mail-footer-copy">
+            &copy; <?php echo date('Y'); ?> Trekkium. Todos los derechos reservados.
+        </div>
+
+        <div class="mail-footer-contacto">
+           <span style="display:inline-block;margin-right:10px;">www.trekkium.com</span> 
+           <span style="display:inline-block;">hola@trekkium.com</span>
+        </div>
+
+        <div class="mail-footer-info">
+            <span>Has recibido este correo porque has realizado una acción en Trekkium. <br>
+            Este email es informativo, por favor no respondas.</span>
+        </div>
     </div>
 
 </div>

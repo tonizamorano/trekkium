@@ -9,7 +9,7 @@
 }
 
 .ps-contenido-precioreserva {
-    padding: 10px 15px;
+    padding: 15px;
     display: block; 
     background-color: white;   
 }
@@ -155,20 +155,22 @@
 .ps-boton-reserva-contenedor {
     width: 100%;
     text-align: center;
+    padding:10px 0;
 }
 
 .ps-boton-reserva {
     width: 100%;
-    padding: 5px 10px;
+    padding: 10px 15px;
     background-color: var(--naranja1-100);
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
+    line-height: 1;
 }
 
 .ps-boton-reserva:hover:not(:disabled) {

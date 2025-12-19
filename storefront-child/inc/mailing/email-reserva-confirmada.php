@@ -54,7 +54,7 @@ function trekkium_enviar_email_reserva_confirmada( $order_id ) {
     </p>
 
     <p>Puedes consultar el estado de tu reserva y todos sus detalles desde tu área personal:</p>
-    <a href="'.get_permalink( wc_get_page_id('myaccount') ).'" class="button">Ver mi reserva</a>
+    <a href="'.get_permalink( wc_get_page_id('myaccount') ).'" class="mail-button">Ver mi reserva</a>
 
     <hr>
     <h3>Información importante</h3>
@@ -67,7 +67,7 @@ function trekkium_enviar_email_reserva_confirmada( $order_id ) {
     <hr>
     <h3>Grupo de WhatsApp</h3>
     <p>Accede al grupo de WhatsApp de esta actividad para recibir información actualizada y comunicarte con el guía:</p>
-    <a href="'.esc_url($enlace_whatsapp).'" class="button">Unirme al grupo de WhatsApp</a>
+    <a href="'.esc_url($enlace_whatsapp).'" class="mail-button">Unirme al grupo de WhatsApp</a>
 
     <hr>
     <p>Si tienes cualquier duda antes de la actividad, puedes consultar las condiciones y la información completa desde tu cuenta en Trekkium.</p>
