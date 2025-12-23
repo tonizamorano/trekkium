@@ -4,7 +4,6 @@ function tc_politica_cookies_shortcode() {
     ?>
     <div class="tc-contenedor">
 
-        <!-- Contenido Política de Cookies -->
         <div class="tc-contenido">
 
             <div class="tc-seccion">
@@ -35,9 +34,12 @@ function tc_politica_cookies_shortcode() {
                 <div class="tc-respuesta">
                     <p>La base legal para el tratamiento de los datos personales es:</p>
                     <ul class="tc-list">
-                        <li><strong>Cookies técnicas o necesarias:</strong> Permiten el correcto funcionamiento de la web. Incluyen las que usa WooCommerce para gestionar el carrito, las sesiones de usuario y el proceso de pago, así como las de Stripe, PayPal, SiteGround y WordPress. Estas cookies se instalan siempre porque son imprescindibles.</li>
-                        <li><strong>Cookies analíticas o estadísticas:</strong> Nos ayudan a entender cómo utilizan los visitantes nuestro sitio. Utilizamos Google Analytics 4 con datos anónimos. Estas cookies solo se instalan si das tu consentimiento desde el banner de cookies.</li>
-                        <li><strong>Cookies de marketing o publicidad:</strong> Permiten mostrar contenidos o anuncios personalizados según tus intereses. Actualmente Trekkium no utiliza cookies de marketing activas, pero en el futuro podrían incorporarse herramientas como Meta Ads (Facebook Pixel). En ese caso, se solicitará de nuevo tu consentimiento antes de activarlas.</li>
+                        <li><strong>Cookies técnicas o necesarias:</strong> Permiten el correcto funcionamiento de la web. Incluyen cookies de WordPress, WooCommerce y Stripe necesarias para gestionar las reservas, las sesiones de usuario y los pagos seguros.<br>
+                        Estas cookies se instalan siempre porque son imprescindibles.</li>
+                        <li><strong>Cookies analíticas o estadísticas:</strong> Estas cookies nos permiten conocer el origen de las visitas, las páginas visitadas o el tipo de navegador, con el objetivo de mejorar la comunicación y los formularios del sitio.<br>
+                        Actualmente Trekkium utiliza cookies analíticas de primera parte basadas en Sourcebuster JS, que no identifican personalmente al usuario.<br>
+                        Estas cookies solo se instalan si el usuario presta su consentimiento expreso desde el banner de cookies.
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -76,66 +78,6 @@ function tc_politica_cookies_shortcode() {
                 </div>
                 <div class="tc-respuesta">
                     <p>Si tienes cualquier duda o deseas ejercer tus derechos en materia de protección de datos, puedes escribirnos a: <strong>hola@trekkium.com</strong></p>
-                </div>
-            </div>
-
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">7. Seguridad de los datos</span>
-                </div>
-                <div class="tc-respuesta">
-                    <ul class="tc-list">
-                        <li>Conexión segura HTTPS/SSL.</li>
-                        <li>Copias de seguridad cifradas.</li>
-                        <li>Control de acceso al área privada.</li>
-                        <li>Contraseñas seguras y doble autenticación (cuando aplica).</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">8. Datos personales de terceros</span>
-                </div>
-                <div class="tc-respuesta">
-                    <p>El usuario garantiza que los datos personales facilitados a través del sitio web son veraces y se responsabiliza de comunicar cualquier modificación. Si facilita datos de terceros (por ejemplo, acompañantes en una actividad), declara haber obtenido su consentimiento previo.</p>
-                </div>
-            </div>
-
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">9. Tratamiento de datos de guías colaboradores</span>
-                </div>
-                <div class="tc-respuesta">
-                    <ul class="tc-list">
-                        <li>Gestionar la relación contractual y económica.</li>
-                        <li>Publicar su perfil profesional y actividades en la web.</li>
-                        <li>Cumplir con las obligaciones fiscales, laborales o de seguridad.</li>
-                    </ul>
-                    <p>Los datos se conservarán mientras dure la colaboración y durante los plazos exigidos por ley. Los guías pueden ejercer sus derechos de acceso, rectificación, supresión, etc., mediante los mismos canales descritos en el punto 6.</p>
-                </div>
-            </div>
-
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">10. Enlaces a sitios de terceros</span>
-                </div>
-                <div class="tc-respuesta">
-                    <p>El sitio web puede contener enlaces a sitios web de terceros. Trekkium no se hace responsable de las políticas de privacidad de dichos sitios. Se recomienda leer las políticas correspondientes antes de facilitar datos personales.</p>
-                </div>
-            </div>
-
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">11. Modificaciones de la política de privacidad</span>
-                </div>
-                <div class="tc-respuesta">
-                    <p>Trekkium se reserva el derecho de modificar esta política para adaptarla a novedades legislativas o cambios en sus servicios. En caso de cambios sustanciales, se informará a los usuarios mediante aviso en la web o por correo electrónico.</p>
                 </div>
             </div>
 

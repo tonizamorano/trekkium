@@ -1,0 +1,371 @@
+/* Modal de Cookies Trekkium */
+
+/* Overlay oscuro detrás del modal */
+.trekkium-cookies-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9998;
+    animation: trekkiumFadeIn 0.3s ease-out;
+}
+
+/* Contenedor principal del modal */
+.trekkium-cookies-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    max-width: 90%;
+    height: 500px;
+    max-height: 90vh;
+    background-color: #ffffff;
+    border-radius: 10px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    animation: trekkiumSlideIn 0.4s ease-out;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+/* Parte superior con contenido desplazable - SIN SCROLL LATERAL */
+.trekkium-cookies-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden; /* Elimina el scroll horizontal */
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f5f5f5;
+    
+    /* Prevenir desbordamiento horizontal */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Personalizar la barra de scroll VERTICAL SOLO */
+.trekkium-cookies-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.trekkium-cookies-content::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 3px;
+}
+
+.trekkium-cookies-content::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.trekkium-cookies-content::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+/* Eliminar scroll horizontal en todos los navegadores */
+.trekkium-cookies-content {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.trekkium-cookies-content::-webkit-scrollbar-horizontal {
+    display: none; /* Chrome, Safari and Opera */
+}
+
+/* Parte inferior fija */
+.trekkium-cookies-footer {
+    padding: 20px;
+    border-top: 1px solid #eaeaea;
+    background-color: #ffffff;
+    flex-shrink: 0;
+}
+
+/* Contenedor de botones */
+.trekkium-cookies-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Estilos de texto - con prevención de desbordamiento */
+.trekkium-cookies-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: var(--azul1-100);
+    text-align: left;
+    line-height: 1;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    margin-bottom: 10px !important;
+}
+
+.trekkium-cookies-description {
+    margin-bottom: 15px;
+    color: var(--azul1-100);
+    line-height: 1.2;
+    font-size: 16px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.trekkium-cookies-link {
+    margin-bottom: 20px;
+    color: var(--azul1-100);
+    font-size: 16px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.trekkium-cookies-link a {
+    color: var(--azul1-100);
+    text-decoration: none;
+    font-weight: 600;
+    word-break: break-all;
+}
+
+.trekkium-cookies-link a:hover {
+    text-decoration: underline;
+}
+
+.trekkium-cookies-separator {
+    margin: 20px 0;
+    border: none;
+    height: 1px;
+    color: var(--azul1-100);
+    width: 100%;
+}
+
+.trekkium-cookies-subtitle {
+    margin-top: 0;
+    margin-bottom: 10px !important;
+    font-size: 18px;
+    color: var(--azul1-100);
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.trekkium-cookies-text {
+    margin-bottom: 15px;
+    color: var(--azul1-100);
+    line-height: 1.2;
+    font-size: 16px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* Sección de cookies */
+.trekkium-cookies-section {
+    margin-bottom: 25px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Toggle para cookies analíticas */
+.trekkium-cookies-toggle {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    flex-wrap: wrap; /* Permite que se ajusten en pantallas pequeñas */
+}
+
+.trekkium-cookies-toggle-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--azul1-100);
+    flex-shrink: 0;
+}
+
+.trekkium-cookies-radio {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--azul1-40);
+    border-radius: 50%;
+    margin-right: 5px;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    flex-shrink: 0;
+}
+
+.trekkium-cookies-radio:checked {
+    border-color: var(--azul1-100);
+}
+
+.trekkium-cookies-radio:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: var(--azul1-100);
+    border-radius: 50%;
+}
+
+.trekkium-cookies-toggle-text {
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Botón para confirmar preferencias */
+.trekkium-cookies-confirm-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.trekkium-cookies-confirm-btn {
+    background-color: var(--azul2-100);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1;
+}
+
+.trekkium-cookies-confirm-btn:hover {
+    background-color: var(--azul2-40);
+    color: #fff !important;
+}
+
+.trekkium-cookies-confirm-btn:active {
+    transform: translateY(0);
+}
+
+/* Botones principales */
+.trekkium-cookies-btn {
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;    
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1;
+}
+
+.trekkium-cookies-reject {
+    background-color: var(--rojo-100);
+    color: #fff;
+    border-color: var(--rojo-100);
+}
+
+.trekkium-cookies-reject:hover {
+    background-color: var(--rojo-40);
+    color: #fff;
+}
+
+.trekkium-cookies-accept {
+    background-color: var(--naranja1-100);
+    color: white;
+    border-color: var(--naranja1-100);
+}
+
+.trekkium-cookies-accept:hover {
+    background-color:  var(--naranja1-40);
+    color: #fff;
+
+/* Asegurar que el contenido no se desborde horizontalmente */
+.trekkium-cookies-content > * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Animaciones */
+@keyframes trekkiumFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes trekkiumSlideIn {
+    from { 
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to { 
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .trekkium-cookies-container {
+        height: 80vh;
+        width: 90%;
+    }
+    
+    .trekkium-cookies-title {
+        font-size: 1.5rem;
+    }
+    
+    .trekkium-cookies-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .trekkium-cookies-btn {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .trekkium-cookies-toggle {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    /* Ajustes adicionales para móviles */
+    .trekkium-cookies-content {
+        padding: 15px;
+    }
+    
+    .trekkium-cookies-footer {
+        padding: 15px;
+    }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .trekkium-cookies-title {
+        font-size: 1.3rem;
+    }
+    
+    .trekkium-cookies-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .trekkium-cookies-btn {
+        min-width: 120px;
+        padding: 10px 15px;
+    }
+    
+    .trekkium-cookies-confirm-btn {
+        padding: 10px 15px;
+    }
+}

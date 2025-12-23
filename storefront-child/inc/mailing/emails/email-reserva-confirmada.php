@@ -136,7 +136,7 @@ function trekkium_enviar_email_reserva_confirmada( $order_id ) {
             Importe de la reserva: '.number_format($precio_reserva, 2, ',', '.').' €<br>
             Plazas reservadas: '.$plazas.'<br>
             <strong>Total reserva:</strong> '.number_format($total_reserva, 2, ',', '.').' €<br>
-            <strong>Importe pendiente de pago:</strong> '.number_format($total_pendiente, 2, ',', '.').' €
+            <strong>Importe pendiente:</strong> '.number_format($total_pendiente, 2, ',', '.').' €
             </p>
 
             <p style="margin-top:10px !important;">Puedes consultar el estado de tu reserva y todos sus detalles desde tu área personal:</p>
@@ -148,10 +148,8 @@ function trekkium_enviar_email_reserva_confirmada( $order_id ) {
        
             <h4>Información importante</h4>
             
-            <p style="margin-bottom:5px !important;">Puedes cancelar tu reserva gratuitamente hasta 24 horas antes de la actividad.</p>
             <p style="margin-bottom:5px !important;">El importe de la reserva se cargará automáticamente en tu tarjeta una vez finalice el plazo de cancelación gratuita.</p>
-            <p>El día de la actividad deberás abonar directamente al guía el importe pendiente.</p>
-            
+            <p>El día de la actividad deberás abonar directamente al guía el importe pendiente.</p>           
 
         </div>
 
@@ -175,7 +173,7 @@ function trekkium_enviar_email_reserva_confirmada( $order_id ) {
     ';
 
     // --- 4️⃣ Título del email ---
-    $email_title = 'Reserva confirmada';
+    $email_title = 'RESERVA CONFIRMADA';
 
     // --- 5️⃣ Generar el HTML final de la plantilla de email (sin imprimir) ---
     $helpers_path = dirname(__FILE__) . '/mailing-functions.php';

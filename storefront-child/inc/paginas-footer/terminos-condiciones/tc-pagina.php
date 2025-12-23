@@ -10,12 +10,12 @@ function pagina_terminos_condiciones_shortcode() {
         <!-- Columna izquierda -->
         <aside class="pagina-columna33-sticky">
             <nav class="tc-menu-container">
-                <div class="tc-menu-item" data-shortcode="[tc_aviso_legal]">Aviso legal</div>
-                <div class="tc-menu-item" data-shortcode="[tc_politica_privacidad]">Política de privacidad</div>
-                <div class="tc-menu-item" data-shortcode="[tc_politica_cookies]">Política de cookies</div>
-                <div class="tc-menu-item" data-shortcode="[tc_condiciones_uso]">Condiciones de uso</div>
-                <div class="tc-menu-item" data-shortcode="[tc_condiciones_contratacion]">Condiciones de contratación</div> 
-                <div class="tc-menu-item" data-shortcode="[tc_descarga_responsabilidad]">Descarga de responsabilidad</div>                           
+                <div class="tc-menu-item" data-shortcode="[tc_aviso_legal]" data-slug="aviso-legal">Aviso legal</div>
+                <div class="tc-menu-item" data-shortcode="[tc_politica_privacidad]" data-slug="politica-privacidad">Política de privacidad</div>
+                <div class="tc-menu-item" data-shortcode="[tc_politica_cookies]" data-slug="politica-cookies">Política de cookies</div>
+                <div class="tc-menu-item" data-shortcode="[tc_condiciones_uso]" data-slug="condiciones-uso">Condiciones de uso</div>
+                <div class="tc-menu-item" data-shortcode="[tc_condiciones_contratacion]" data-slug="condiciones-contratacion">Condiciones de contratación</div> 
+                <div class="tc-menu-item" data-shortcode="[tc_descarga_responsabilidad]" data-slug="descarga-responsabilidad">Descarga de responsabilidad</div>                           
             </nav>
         </aside>
 
@@ -33,19 +33,20 @@ function pagina_terminos_condiciones_shortcode() {
         const menuItems = document.querySelectorAll('.tc-menu-item');
         const contenido = document.getElementById('tc-contenido');
 
-        // Detectar el shortcode inicial cargado
-        const shortcodeInicial = '[tc_aviso_legal]'; // puedes cambiarlo si otra sección es la inicial
+        // Shortcode inicial
+        const shortcodeInicial = '[tc_aviso_legal]';
 
-        // Función para actualizar la clase activa
+        // Función para actualizar clase activa
         function marcarActivo(shortcode) {
             menuItems.forEach(item => {
                 item.classList.toggle('active', item.getAttribute('data-shortcode') === shortcode);
             });
         }
 
-        // Marcar el item activo al cargar la página
+        // Marcar activo al cargar
         marcarActivo(shortcodeInicial);
 
+        // Clic en menú
         menuItems.forEach(item => {
             item.addEventListener('click', function() {
                 const shortcode = item.getAttribute('data-shortcode');
@@ -53,7 +54,7 @@ function pagina_terminos_condiciones_shortcode() {
                 // Actualizar menú
                 marcarActivo(shortcode);
 
-                // Cargar el contenido vía AJAX
+                // Cargar contenido vía AJAX
                 fetch('<?php echo admin_url("admin-ajax.php"); ?>?action=tc_shortcode&shortcode=' + encodeURIComponent(shortcode))
                     .then(response => response.json())
                     .then(data => {
@@ -71,7 +72,7 @@ function pagina_terminos_condiciones_shortcode() {
             secciones.forEach(seccion => {
                 const pregunta = seccion.querySelector('.tc-pregunta');
                 const respuesta = seccion.querySelector('.tc-respuesta');
-                respuesta.style.display = 'none'; // ocultar por defecto
+                respuesta.style.display = 'none';
 
                 pregunta.addEventListener('click', () => {
                     const abierto = respuesta.style.display === 'block';
@@ -81,11 +82,22 @@ function pagina_terminos_condiciones_shortcode() {
             });
         }
 
-        // Inicializar al cargar la página
         inicializartc();
+
+        // --- Cargar sección desde URL ---
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const seccionSlug = getQueryParam('seccion');
+        if(seccionSlug) {
+            const item = Array.from(menuItems).find(i => i.getAttribute('data-slug') === seccionSlug);
+            if(item) item.click();
+        }
+
     });
     </script>
-
 
     <?php
     return ob_get_clean();
@@ -98,10 +110,9 @@ add_action('wp_ajax_nopriv_tc_shortcode', 'tc_shortcode_ajax');
 function tc_shortcode_ajax() {
     if(isset($_GET['shortcode'])) {
         $shortcode = urldecode($_GET['shortcode']);
-        // Buffer de salida para asegurarnos que todo el HTML se capture
         ob_start();
         echo do_shortcode($shortcode);
-        wp_send_json_success(ob_get_clean()); // Devolvemos JSON
+        wp_send_json_success(ob_get_clean());
     } else {
         wp_send_json_error('No se recibió shortcode');
     }
