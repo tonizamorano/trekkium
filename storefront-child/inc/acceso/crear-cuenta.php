@@ -144,13 +144,25 @@ function trekkium_pagina_crear_cuenta() {
 
                     <div class="crear-cuenta-form-grid-col">
                         <label for="account_password">Contraseña*</label>
-                        <input type="password" id="account_password" name="account_password" required minlength="8" autocomplete="new-password">
+                        <div class="mc-ec-ce-input-container">
+                            <input type="password" id="account_password" name="account_password" required minlength="8" autocomplete="new-password">
+                            <a href="#" class="mc-ec-ce-toggle" data-target="account_password">
+                                <span class="eye-icon eye-open"><?php echo do_shortcode('[icon_ojo1]'); ?></span>
+                                <span class="eye-icon eye-closed" style="display:none;"><?php echo do_shortcode('[icon_ojo2]'); ?></span>
+                            </a>
+                        </div>
                         <small class="password-hint">Mínimo 8 caracteres, usa letras, números y símbolos.</small>
                     </div>
 
                     <div class="crear-cuenta-form-grid-col">
                         <label for="account_password_repeat">Repetir contraseña*</label>
-                        <input type="password" id="account_password_repeat" name="account_password_repeat" required minlength="8" autocomplete="new-password">
+                        <div class="mc-ec-ce-input-container">
+                            <input type="password" id="account_password_repeat" name="account_password_repeat" required minlength="8" autocomplete="new-password">
+                            <a href="#" class="mc-ec-ce-toggle" data-target="account_password_repeat">
+                                <span class="eye-icon eye-open"><?php echo do_shortcode('[icon_ojo1]'); ?></span>
+                                <span class="eye-icon eye-closed" style="display:none;"><?php echo do_shortcode('[icon_ojo2]'); ?></span>
+                            </a>
+                        </div>
                     </div>
                     
                 </div>
@@ -334,6 +346,32 @@ function trekkium_pagina_crear_cuenta() {
     });
     </script>
 
+    <script>
+    // Toggle mostrar/ocultar contraseña (sin jQuery)
+    document.addEventListener('DOMContentLoaded', function(){
+        document.querySelectorAll('.mc-ec-ce-toggle').forEach(function(toggle){
+            toggle.addEventListener('click', function(e){
+                e.preventDefault();
+                var targetId = this.getAttribute('data-target');
+                if (!targetId) return;
+                var input = document.getElementById(targetId);
+                if (!input) return;
+                var openIcon = this.querySelector('.eye-open');
+                var closedIcon = this.querySelector('.eye-closed');
+
+                if (input.getAttribute('type') === 'password') {
+                    input.setAttribute('type', 'text');
+                    if (openIcon) openIcon.style.display = 'none';
+                    if (closedIcon) closedIcon.style.display = '';
+                } else {
+                    input.setAttribute('type', 'password');
+                    if (openIcon) openIcon.style.display = '';
+                    if (closedIcon) closedIcon.style.display = 'none';
+                }
+            });
+        });
+    });
+    </script>
 
     <?php
     return ob_get_clean();

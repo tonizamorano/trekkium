@@ -27,6 +27,44 @@ function trekkium_enviar_email_reserva_cancelada( $order_id ) {
         $cliente_telefono = $order->get_meta( '_billing_phone' );
     }
 
+    // --- 2️⃣ Tomar primer item del pedido (datos de la actividad) ---
+    $items = $order->get_items();
+    if ( ! empty( $items ) ) {
+        $item = array_shift( $items );
+        $product_id = $item->get_product_id();
+        $product = wc_get_product( $product_id );
+
+        $fecha_meta = $product ? $product->get_meta('fecha') : '';
+        $hora = $product ? $product->get_meta('hora') : 'No disponible';
+        $product_url = $product ? get_permalink( $product_id ) : '#';
+
+        // Formatear fecha a "25 de enero de 2026"
+        $fecha_formateada = 'No disponible';
+        if ( $fecha_meta ) {
+            $timestamp = strtotime( $fecha_meta );
+            if ( $timestamp !== false ) {
+                $meses = array(
+                    1 => 'enero', 2 => 'febrero', 3 => 'marzo', 4 => 'abril',
+                    5 => 'mayo', 6 => 'junio', 7 => 'julio', 8 => 'agosto',
+                    9 => 'septiembre', 10 => 'octubre', 11 => 'noviembre', 12 => 'diciembre'
+                );
+
+                $dia = date('j', $timestamp);
+                $mes_num = date('n', $timestamp);
+                $ano = date('Y', $timestamp);
+
+                $fecha_formateada = $dia . ' de ' . $meses[$mes_num] . ' de ' . $ano;
+            }
+        }
+
+        $actividad_nombre = $item->get_name();
+    } else {
+        $fecha_formateada = 'No disponible';
+        $hora = 'No disponible';
+        $actividad_nombre = '';
+        $product_url = '#';
+    }
+
     // --- 2️⃣ Contenido del email ---
     $email_content = '
 
@@ -46,6 +84,15 @@ function trekkium_enviar_email_reserva_cancelada( $order_id ) {
             <p>' . ( $cliente_telefono ?: 'No proporcionado' ) . '</p>
             <p>' . esc_html( $cliente_email ) . '</p>
         
+        </div>
+
+        <div class="mail-content-seccion">
+
+            <h4>Actividad</h4>
+            <p style="font-weight:600;">' . esc_html( $actividad_nombre ) . '</p>
+            <p>' . esc_html( $fecha_formateada ) . ' a las ' . esc_html( $hora ) . ' h</p>
+            <a href="' . esc_url( $product_url ) . '" class="mail-button" target="_blank">Ver actividad</a>
+
         </div>
 
         <div class="mail-content-seccion">

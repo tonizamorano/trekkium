@@ -161,7 +161,13 @@ add_shortcode('acceso-form', function () {
 
                         <div class="acceso-form-group">
                             <label for="password">Contraseña<span class="required">*</span></label>
-                            <input type="password" name="password" id="password" class="acceso-form-input" required autocomplete="current-password">
+                            <div class="mc-ec-ce-input-container">
+                                <input type="password" name="password" id="password" class="acceso-form-input" required autocomplete="current-password">
+                                <a href="#" class="mc-ec-ce-toggle" data-target="password">
+                                    <span class="eye-icon eye-open"><?php echo do_shortcode('[icon_ojo1]'); ?></span>
+                                    <span class="eye-icon eye-closed" style="display:none;"><?php echo do_shortcode('[icon_ojo2]'); ?></span>
+                                </a>
+                            </div>
                         </div>
 
                         <div class="acceso-form-group-button">
@@ -274,6 +280,29 @@ add_shortcode('acceso-form', function () {
         <?php if ($show_modal && !$is_error): ?>
         setTimeout(() => { messageModal.classList.remove('show'); }, 5000);
         <?php endif; ?>
+
+        // Toggle mostrar/ocultar contraseña (reutiliza mismo markup de iconos)
+        document.querySelectorAll('.mc-ec-ce-toggle').forEach(function(toggle){
+            toggle.addEventListener('click', function(e){
+                e.preventDefault();
+                var targetId = this.getAttribute('data-target');
+                if (!targetId) return;
+                var input = document.getElementById(targetId);
+                if (!input) return;
+                var openIcon = this.querySelector('.eye-open');
+                var closedIcon = this.querySelector('.eye-closed');
+
+                if (input.getAttribute('type') === 'password') {
+                    input.setAttribute('type', 'text');
+                    if (openIcon) openIcon.style.display = 'none';
+                    if (closedIcon) closedIcon.style.display = '';
+                } else {
+                    input.setAttribute('type', 'password');
+                    if (openIcon) openIcon.style.display = '';
+                    if (closedIcon) closedIcon.style.display = 'none';
+                }
+            });
+        });
 
     });
     </script>

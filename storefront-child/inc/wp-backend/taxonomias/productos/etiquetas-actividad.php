@@ -23,6 +23,10 @@ function trekkium_register_etiquetas_actividad() {
         'rewrite'           => array('slug' => 'etiqueta-actividad'),
         'show_in_rest'      => true,
         'public'            => true,
+
+        // 👇 CLAVE
+        'meta_box_cb'       => 'post_categories_meta_box',
+
         'capabilities' => array(
             'manage_terms' => 'edit_users',
             'edit_terms'   => 'edit_users',
@@ -30,6 +34,7 @@ function trekkium_register_etiquetas_actividad() {
             'assign_terms' => 'edit_users',
         ),
     );
+
 
     register_taxonomy( 'etiquetas_actividad', array( 'product', 'user' ), $args );
 }

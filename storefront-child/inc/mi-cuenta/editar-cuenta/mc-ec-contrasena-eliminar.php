@@ -10,6 +10,23 @@ function trekkium_password_delete_account_shortcode() {
 
     ob_start();
     $user = wp_get_current_user();
+
+    // -------------------------
+    // Comprobar si el usuario tiene pedidos pendientes o en proceso
+    $has_pending_orders = false;
+
+    if (class_exists('WooCommerce')) {
+        $orders = wc_get_orders([
+            'customer_id' => $user->ID,
+            'status'      => ['pending', 'processing'],
+            'limit'       => 1,
+            'return'      => 'ids',
+        ]);
+
+        if (!empty($orders)) {
+            $has_pending_orders = true;
+        }
+    }
     ?>
 
 <div class="mc-ec-ce-contenedor">
@@ -98,16 +115,28 @@ function trekkium_password_delete_account_shortcode() {
             
             <div id="delete-account-content">
                 <div class="woocommerce-billing-fields__field-wrapper trekkium-extra-fields">
-                    <p class="texto-eliminar-cuenta">
-                        Al eliminar tu cuenta se borrarán todos tus datos.  
-                        Esta acción es irreversible.
-                    </p>
 
-                    <div class="micuenta-contrasena-eliminar-buton-section">
-                        <a href="#" class="micuenta-contrasena-eliminar-trigger" id="confirm-delete-account">
-                            Eliminar cuenta
-                        </a>
-                    </div>
+                    <?php if ($has_pending_orders) : ?>
+
+                        <p class="texto-eliminar-cuenta">
+                            En este momento no puedes eliminar tu cuenta porque tienes reservas pendientes.
+                        </p>
+
+                    <?php else : ?>
+
+                        <p class="texto-eliminar-cuenta">
+                            Al eliminar tu cuenta se borrarán todos tus datos.  
+                            Esta acción es irreversible.
+                        </p>
+
+                        <div class="micuenta-contrasena-eliminar-buton-section">
+                            <a href="#" class="micuenta-contrasena-eliminar-trigger" id="confirm-delete-account">
+                                Eliminar cuenta
+                            </a>
+                        </div>
+
+                    <?php endif; ?>
+
                 </div>
             </div>
         </div>
@@ -123,10 +152,7 @@ jQuery(function($){
         e.preventDefault();
         var modalId = $(this).data('modal');
         
-        // Resetear mensajes cuando se abre cualquier modal
         $('#password-change-message, #delete-account-message').hide().empty();
-        
-        // Mostrar el formulario/contenido principal
         $('#password-form-container, #delete-account-content').show();
         
         $('#' + modalId).fadeIn(300);
@@ -169,7 +195,6 @@ jQuery(function($){
             .html('Procesando...')
             .show();
         
-        // Ocultar formulario temporalmente
         $('#password-form-container').hide();
 
         $.post('<?php echo admin_url('admin-ajax.php'); ?>', data, function(response){
@@ -177,10 +202,7 @@ jQuery(function($){
                 $('#password-change-message')
                     .css({'color': '#2e7d32', 'background-color': '#edf7ed', 'border': '1px solid #c8e6c9'})
                     .html(response.data.message);
-                
-                // No mostrar más el formulario si fue exitoso
-                $('#password-form-container').hide();
-                
+
                 setTimeout(()=>{ 
                     $('#change-password-modal').fadeOut(300);
                     $('body').css('overflow','auto');
@@ -191,13 +213,12 @@ jQuery(function($){
                     .css({'color': '#ff6b6b', 'background-color': '#fff5f5', 'border': '1px solid #ffcccc'})
                     .html(response.data.message);
                 
-                // Volver a mostrar formulario para corregir errores
                 $('#password-form-container').show();
             }
         });
     });
 
-    // Eliminar cuenta
+    // Eliminar cuenta (solo si existe el botón)
     $('#confirm-delete-account').on('click', function(e){
         e.preventDefault();
         if(!confirm('¿Confirmas que quieres eliminar tu cuenta?')) return;
@@ -207,7 +228,6 @@ jQuery(function($){
             .html('Procesando...')
             .show();
         
-        // Ocultar contenido principal
         $('#delete-account-content').hide();
 
         $.post('<?php echo admin_url('admin-ajax.php'); ?>', {
@@ -218,10 +238,7 @@ jQuery(function($){
                 $('#delete-account-message')
                     .css({'color': '#2e7d32', 'background-color': '#edf7ed', 'border': '1px solid #c8e6c9'})
                     .html(response.data.message);
-                
-                // No mostrar más el contenido principal
-                $('#delete-account-content').hide();
-                
+
                 setTimeout(()=>{ 
                     $('#delete-account-modal').fadeOut(300);
                     $('body').css('overflow','auto');
@@ -232,7 +249,6 @@ jQuery(function($){
                     .css({'color': '#ff6b6b', 'background-color': '#fff5f5', 'border': '1px solid #ffcccc'})
                     .html(response.data.message);
                 
-                // Volver a mostrar contenido principal
                 $('#delete-account-content').show();
             }
         });
