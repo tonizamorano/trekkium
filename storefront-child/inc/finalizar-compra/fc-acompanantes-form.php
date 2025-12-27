@@ -24,46 +24,54 @@ function trekkium_checkout_datos_acompanantes_shortcode() {
 	};
 
 	ob_start(); ?>
-	<div class="fc-facturacion-contenedor">
-		<div class="fc-facturacion-titulo">
-			<span class="fc-facturacion-titulo-texto">Datos de acompañantes</span>
+	<div class="fc-contenedor">
+		<div class="fc-titulo">
+			<span class="fc-titulo-texto">Datos de acompañantes</span>
 		</div>
 
-		<div class="fc-facturacion-contenido">
+		<div class="fc-contenido">
 			<?php for ($i = 0; $i < $companions_needed; $i++): ?>
-				<div class="acompanante-item">
 
-					<div class="acompanante-header">
-						<div class="acompanante-title">Acompañante <?php echo ($i + 1); ?></div>
-					</div>
+				<div class="acompanante-item">								
 
-					<div class="acompanante-body">
+					<div class="acompanante-title">Acompañante <?php echo ($i + 1); ?></div>
 
-						<div class="acompanante-grid-2">
-							<div class="acompanante-columna">
-								<label>Nombre completo *</label>
-								<input type="text" name="trekkium_acompanantes[<?php echo $i; ?>][nombre]" required
-									value="<?php echo esc_attr($get_value($i, 'nombre')); ?>">
-							</div>
-							<div class="acompanante-columna">
-								<label>Edad *</label>
-								<input type="number" min="0" required
-									name="trekkium_acompanantes[<?php echo $i; ?>][edad]"
-									value="<?php echo esc_attr($get_value($i, 'edad')); ?>">
-							</div>
+					<div class="acompanante-grid-2">
+						
+						<div class="acompanante-columna">
+							<input
+								type="text"
+								name="trekkium_acompanantes[<?php echo $i; ?>][nombre]"
+								required
+								placeholder="Nombre completo *"
+								value="<?php echo esc_attr($get_value($i, 'nombre')); ?>">
 						</div>
 
-						<div class="acompanante-grid-2">
-							<div class="acompanante-columna">
-								<label>Teléfono móvil *</label>
-								<input type="text" name="trekkium_acompanantes[<?php echo $i; ?>][telefono]" required
-									value="<?php echo esc_attr($get_value($i, 'telefono')); ?>">
-							</div>
+						<div class="acompanante-columna">
+							<input
+								type="number"
+								min="0"
+								name="trekkium_acompanantes[<?php echo $i; ?>][edad]"
+								required
+								placeholder="Edad *"
+								value="<?php echo esc_attr($get_value($i, 'edad')); ?>">
 						</div>
 
 					</div>
+
+					<div class="acompanante-grid-2">
+						<div class="acompanante-columna">
+							<input
+								type="text"
+								name="trekkium_acompanantes[<?php echo $i; ?>][telefono]"
+								required
+								placeholder="Teléfono móvil *"
+								value="<?php echo esc_attr($get_value($i, 'telefono')); ?>">
+						</div>
+					</div>					
 
 				</div>
+
 
 			<?php endfor; ?>
 

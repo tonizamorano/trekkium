@@ -71,8 +71,8 @@ add_shortcode('ps_estado_actividad', function ($atts) {
             </div>
 
             <div class="mc-mr-vr-fila-datos">
-                <span class="etiqueta">Plazas disponibles</span>
-                <span class="valor"><?php echo esc_html($plazas_disponibles !== '' ? $plazas_disponibles : '—'); ?></span>
+                <span class="etiqueta">Plazas reservadas</span>
+                <span class="valor"><?php echo esc_html($plazas_reservadas !== '' ? $plazas_reservadas : '—'); ?></span>
             </div>
 
             <!-- Estado -->

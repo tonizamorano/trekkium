@@ -1,0 +1,33 @@
+.fc-ia-campo {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid var(--azul1-40);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 18px;
+    line-height: 1.2;
+    min-height: 100px;
+    resize: vertical;
+    box-sizing: border-box;
+    font-family: inherit;
+    background-color: transparent !important;
+}
+
+.fc-ia-campo:focus {
+    outline: none;
+    border-color: var(--azul1-40);
+    
+}
+
+.fc-ia-campo::placeholder {
+    background-color: none !important;
+    color: var(--azul1-40);
+}
+
+@media (max-width: 768px) {
+
+    .fc-ia-campo {
+        font-size: 20px;
+    }
+
+}

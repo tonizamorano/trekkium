@@ -1,0 +1,34 @@
+.fc-contenedor {
+    background: #fff;
+    padding: 0px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.fc-titulo {
+    background: var(--azul1-100);
+    display: flex;
+    align-items: center;
+    padding: 7px 15px;
+    gap: 5px;
+}
+
+.fc-titulo-texto {
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+    text-align: center;
+}
+
+.fc-contenido {
+    background: #fff; 
+    padding: 15px;
+}
+
+@media (max-width: 768px) {
+
+    .fc-titulo-texto {
+        font-size: 20px;
+    }
+    
+}

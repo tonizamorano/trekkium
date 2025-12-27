@@ -1,29 +1,22 @@
 .acompanante-item {
     background: #fff;
     margin-bottom: 15px;
-    border-radius: 0;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    
 }
 
 .acompanante-header {
-    background: var(--azul1-100);
-    padding: 7px 15px;
     display: flex;
     align-items: center;
 }
 
-.acompanante-title {
-    color: #fff;
-    font-weight: 500;
-    font-size: 16px;
-}
 
-.acompanante-body {
-    padding: 15px;
-    background-color: var(--azul1-60);
-    display: flex;
-    flex-direction: column;
-    row-gap: 15px;
+.acompanante-title {
+    color: var(--azul1-100);
+    font-weight: 600;
+    font-size: 18px;
 }
 
 /* Alinear el contenido a la izquierda dentro de la sección de acompañantes */
@@ -36,7 +29,7 @@
 .trekkium-acompanantes-checkout .acompanante-group-title {
     text-align: left;
     font-size: 16px;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 .acompanante-grid-2 {
@@ -82,6 +75,7 @@
     box-sizing: border-box;
     transition: border-color 0.3s ease;
     font-family: inherit;
+    line-height: 1;
 }
 
 .acompanante-input:focus {

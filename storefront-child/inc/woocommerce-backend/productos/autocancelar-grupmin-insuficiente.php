@@ -16,7 +16,7 @@ add_action('cancelar_actividades_automaticamente', function() {
         'meta_query'     => array(
             array(
                 'key'     => 'estado_actividad',
-                'value'   => 'Sin confirmar',
+                'value'   => 'Plazas disponibles',
                 'compare' => '='
             ),
         ),

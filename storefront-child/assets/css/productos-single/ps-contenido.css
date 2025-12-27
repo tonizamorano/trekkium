@@ -45,6 +45,8 @@
     color: var(--azul1-100);
     font-size: 18px;
     margin-top: 10px;
+    text-align: justify;
+
 }
 
 /* Ajustes para móvil */

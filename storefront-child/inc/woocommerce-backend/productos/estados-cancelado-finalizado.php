@@ -89,41 +89,48 @@ function mostrar_estados_personalizados_admin($post_states, $post) {
     return $post_states;
 }
 
-// 5. Cambiar automáticamente a "Finalizado" usando WP-Cron (solo para finalizado)
-if (!wp_next_scheduled('actualizar_productos_finalizados')) {
-    wp_schedule_event(time(), 'hourly', 'actualizar_productos_finalizados');
+// 5. Cambiar automáticamente a "Finalizado" usando WP-Cron (versión optimizada)
+if (!wp_next_scheduled('actualizar_productos_finalizados_24h')) {
+    wp_schedule_event(time(), 'hourly', 'actualizar_productos_finalizados_24h');
 }
 
-add_action('actualizar_productos_finalizados', function(){
-    $args = array(
-        'post_type'   => 'product',
-        'post_status' => 'publish',
-        'posts_per_page' => -1,
-        'meta_query'  => array(
-            'relation' => 'AND',
-            array(
-                'key'     => 'fecha',
-                'value'   => current_time('Y-m-d'),
-                'compare' => '<=',
-                'type'    => 'DATE'
-            ),
-            array(
-                'key'     => 'hora',
-                'value'   => current_time('H:i'),
-                'compare' => '<=',
-                'type'    => 'CHAR'
-            ),
-        ),
-    );
-    $query = new WP_Query($args);
-    foreach($query->posts as $producto){
-        if($producto->post_status !== 'wc-finalizado'){
-            wp_update_post(array(
-                'ID' => $producto->ID,
-                'post_status' => 'wc-finalizado'
-            ));
+add_action('actualizar_productos_finalizados_24h', function(){
+    global $wpdb;
+    
+    $current_time = current_time('mysql');
+    $current_timestamp = current_time('timestamp');
+    
+    // Usar SQL directo para mayor eficiencia
+    $query = $wpdb->prepare("
+        SELECT p.ID, 
+               pm_fecha.meta_value as fecha_producto,
+               pm_hora.meta_value as hora_producto
+        FROM {$wpdb->posts} p
+        INNER JOIN {$wpdb->postmeta} pm_fecha ON (p.ID = pm_fecha.post_id AND pm_fecha.meta_key = 'fecha')
+        INNER JOIN {$wpdb->postmeta} pm_hora ON (p.ID = pm_hora.post_id AND pm_hora.meta_key = 'hora')
+        WHERE p.post_type = 'product'
+        AND p.post_status = 'publish'
+        AND pm_fecha.meta_value IS NOT NULL
+        AND pm_fecha.meta_value != ''
+        AND pm_hora.meta_value IS NOT NULL
+        AND pm_hora.meta_value != ''
+    ");
+    
+    $productos = $wpdb->get_results($query);
+    
+    foreach ($productos as $producto) {
+        if (!empty($producto->fecha_producto) && !empty($producto->hora_producto)) {
+            $fecha_hora_producto = $producto->fecha_producto . ' ' . $producto->hora_producto;
+            $timestamp_producto = strtotime($fecha_hora_producto);
+            
+            if ($timestamp_producto && $current_timestamp >= ($timestamp_producto + (24 * 3600))) {
+                // Actualizar el estado del producto
+                wp_update_post(array(
+                    'ID'          => $producto->ID,
+                    'post_status' => 'wc-finalizado'
+                ));
+            }
         }
     }
-    wp_reset_postdata();
 });
 ?>

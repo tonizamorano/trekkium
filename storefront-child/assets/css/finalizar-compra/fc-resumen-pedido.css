@@ -1,0 +1,56 @@
+
+.fc-rp-imagen img {
+    border-radius: 0 !important;
+    aspect-ratio: 16/9;
+}
+
+.fc-rp-titulo {
+    font-weight: 600;
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+    color:var(--azul1-100);
+    line-height: 1;
+}
+
+.fc-rp-localizacion {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--naranja1-100);
+    margin-top: 0;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.fc-rp-region {
+    font-weight: 600;
+}
+
+.fc-rp-fecha {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--azul1-100);
+    margin-bottom: 10px;
+}
+
+.fc-rp-fila-datos {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.fc-rp-fila-datos .etiqueta {
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+
+    .fc-rp-titulo {
+        font-size: 24px;
+    }
+
+    .fc-rp-fila-datos {    
+        font-size: 20px;		
+    }
+    
+}

@@ -27,10 +27,22 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
       enctype="multipart/form-data"
       aria-label="<?php echo esc_attr__( 'Checkout', 'woocommerce' ); ?>">
 
-    <div class="pagina-grid-6633">
+    <div class="pagina-grid-3366">
 
         <!-- -------------------------
-             COLUMNA IZQUIERDA (66%)
+             COLUMNA IZQUIERDA (33%)
+        -------------------------- -->
+        <div class="pagina-columna33-sticky">
+
+            <?php echo do_shortcode('[checkout_resumen_pedido]'); ?>
+
+           
+            
+        </div>
+
+
+        <!-- -------------------------
+             COLUMNA DERECHA (66%)
         -------------------------- -->
         <div class="pagina-columna66">
 
@@ -43,22 +55,22 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
             </div>
 
             <!-- TUS BLOQUES PERSONALIZADOS -->
-            <?php echo do_shortcode('[checkout_detalles_facturacion]'); ?>
-
+            
             <?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
 
-            <?php echo do_shortcode('[checkout_datos_acompanantes]'); ?>
+            <?php echo do_shortcode('[checkout_titular_reserva]'); ?>
+
+            <?php echo do_shortcode('[checkout_datos_acompanantes]'); ?>            
+
+            <?php echo do_shortcode('[checkout_info_reserva]'); ?>
+            
+            <?php echo do_shortcode('[checkout_info_adicional]'); ?>
 
             <?php echo do_shortcode('[checkout_metodos_pago]'); ?>
 
         </div>
 
-        <!-- -------------------------
-             COLUMNA DERECHA (33%)
-        -------------------------- -->
-        <div class="pagina-columna33-sticky">
-            <?php echo do_shortcode('[checkout_resumen_pedido]'); ?>
-        </div>
+        
 
     </div>
 

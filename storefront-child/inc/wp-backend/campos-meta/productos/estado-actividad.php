@@ -58,7 +58,7 @@ function actualizar_estado_actividad($post_id, $post = null) {
             $estado = 'Plazas disponibles';
             $mensaje = 'Grupo mínimo insuficiente, salida sin confirmar.';
         } else { // stock <= (plazas_totales - plazas_min)
-            $estado = 'Plazas disponibles';
+            $estado = 'Salida confirmada';
             $mensaje = 'Grupo mínimo suficiente, salida confirmada.';
         }
     }

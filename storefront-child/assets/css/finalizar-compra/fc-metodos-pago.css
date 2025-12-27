@@ -1,0 +1,44 @@
+#payment .payment_methods > li:not(.woocommerce-notice)
+Specificity: (1,2,1)
+ {
+    background-color: #fff !important;
+}
+
+#payment .payment_methods > li .payment_box, #payment .place-order {
+    background-color: #fff !important;
+}
+
+
+#payment .payment_methods > li .payment_box, #payment .place-order
+Specificity: (1,2,1)
+ {
+    background-color: #fff !important;
+}
+
+table:not( .has-background ) tbody tr:nth-child(2n) td, fieldset, fieldset legend {
+    background-color: #fff !important;
+}
+
+#payment .payment_methods > li:not(.woocommerce-notice) {
+    background-color: #fff !important;
+}
+
+button.alt, input[type="button"].alt, input[type="reset"].alt, input[type="submit"].alt, .button.alt, .widget-area .widget a.button.alt {
+    background-color: var(--naranja1-100) !important;
+    border-color: #333333;
+    color: #ffffff;
+}
+
+button.alt:hover, input[type="button"].alt:hover, input[type="reset"].alt:hover, input[type="submit"].alt:hover, .button.alt:hover, .widget-area .widget a.button.alt:hover {
+    background-color: var(--naranja1-40) !important;
+    border-color: #1a1a1a;
+    color: #ffffff;
+}
+
+#payment .place-order .button {
+    text-align: center;
+    font-size: 18px;
+    width: auto !important;
+    white-space: pre-wrap;
+    border-radius: 50px;
+}

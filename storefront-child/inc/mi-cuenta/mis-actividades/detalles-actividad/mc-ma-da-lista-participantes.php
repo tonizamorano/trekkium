@@ -16,7 +16,7 @@ function mc_ma_da_lista_participantes_shortcode($atts) {
     ob_start();
     ?>
 
-    <div clas="mc-ma-da-contenedor">
+    <div class="mc-ma-da-contenedor">
 
         <div class="mc-ma-da-titular">
             <h2 style="text-align:center;">Lista de participantes</h2>
@@ -48,6 +48,9 @@ function mc_ma_da_lista_participantes_shortcode($atts) {
                         if (!$order) continue;
 
                         $user_id = $order->get_user_id();
+                        
+                        // Obtener la nota del pedido (customer note)
+                        $nota_pedido = $order->get_customer_note();
 
                         if ($user_id) {
                             $user_info = get_userdata($user_id);
@@ -92,6 +95,12 @@ function mc_ma_da_lista_participantes_shortcode($atts) {
                                     <div class="participante-telefono"><?php echo esc_html($telefono_formateado); ?></div>
                                     <div class="participante-numero-reserva">Reserva Nº <?php echo esc_html($numero_reserva); ?></div>
                                     <div class="participante-estado-reserva"><?php echo esc_html($estado_reserva); ?></div>
+                                    
+                                    <?php if (!empty($nota_pedido)): ?>
+                                        <div class="participante-nota-pedido">
+                                            <strong>Nota:</strong> <?php echo esc_html($nota_pedido); ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
