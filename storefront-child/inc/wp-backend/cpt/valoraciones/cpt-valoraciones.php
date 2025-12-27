@@ -35,3 +35,222 @@ function trekkium_register_cpt_valoraciones() {
     register_post_type( 'valoraciones', $args );
 }
 add_action( 'init', 'trekkium_register_cpt_valoraciones' );
+
+/**
+ * Funciones relacionadas con el CPT "valoraciones".
+ * Estas funciones provienen de valoraciones-functions.php y se han
+ * integrado aquí para poder eliminar ese archivo.
+ */
+
+if ( ! function_exists( 'trekkium_crear_valoracion' ) ) {
+    function trekkium_crear_valoracion( $data ) {
+
+        if ( empty($data['usuario_id']) || empty($data['actividad_id']) || empty($data['pedido_id']) ) {
+            return new WP_Error('missing_data', 'Faltan datos obligatorios');
+        }
+
+        $titulo = sprintf(
+            'Valoración – %s – %s – %s',
+            $data['nombre_cliente'],
+            $data['nombre_actividad'],
+            date('d/m/Y', strtotime($data['fecha_actividad']))
+        );
+
+        $post_id = wp_insert_post(array(
+            'post_type' => 'valoraciones',
+            'post_title' => $titulo,
+            'post_status' => 'publish',
+        ));
+
+        if ( is_wp_error($post_id) ) return $post_id;
+
+        foreach ( $data as $key => $value ) {
+            add_post_meta( $post_id, $key, $value, true );
+        }
+
+        return $post_id;
+    }
+}
+
+if ( ! function_exists( 'trekkium_generar_token_valoracion' ) ) {
+    function trekkium_generar_token_valoracion($pedido_id) {
+        $token = wp_hash( $pedido_id . microtime(), 'nonce' );
+        update_post_meta( $pedido_id, '_valoracion_token', $token );
+        update_post_meta( $pedido_id, '_valoracion_token_usado', 0 );
+        return $token;
+    }
+}
+
+if ( ! function_exists( 'trekkium_verificar_token_valoracion' ) ) {
+    function trekkium_verificar_token_valoracion($pedido_id, $token) {
+        $token_guardado = get_post_meta( $pedido_id, '_valoracion_token', true );
+        $usado = get_post_meta( $pedido_id, '_valoracion_token_usado', true );
+
+        if ( $token_guardado === $token && !$usado ) {
+            return true;
+        }
+
+        return false;
+    }
+}
+
+if ( ! function_exists( 'trekkium_marcar_token_usado' ) ) {
+    function trekkium_marcar_token_usado($pedido_id) {
+        update_post_meta($pedido_id, '_valoracion_token_usado', 1);
+    }
+}
+
+// Añadir badge en el menú de valoraciones con el número de valoraciones no revisadas
+
+add_action( 'admin_menu', 'trekkium_valoraciones_menu_badge', 999 );
+function trekkium_valoraciones_menu_badge() {
+    global $menu;
+
+    // Contar valoraciones NO revisadas
+    $query = new WP_Query(array(
+        'post_type'      => 'valoraciones',
+        'posts_per_page' => -1,
+        'meta_query'     => array(
+            array(
+                'key'     => '_valoracion_revisada',
+                'compare' => 'NOT EXISTS',
+            ),
+        ),
+        'fields' => 'ids',
+    ));
+
+    $count = $query->found_posts;
+
+    if ( $count === 0 ) {
+        return;
+    }
+
+    foreach ( $menu as $key => $menu_item ) {
+        if ( isset($menu_item[2]) && $menu_item[2] === 'edit.php?post_type=valoraciones' ) {
+            $menu[$key][0] .= sprintf(
+                ' <span class="update-plugins count-%1$d"><span class="plugin-count">%1$d</span></span>',
+                $count
+            );
+            break;
+        }
+    }
+}
+
+// Añadir metabox con datos de la valoración
+
+add_action( 'add_meta_boxes', 'trekkium_add_metabox_valoraciones' );
+function trekkium_add_metabox_valoraciones() {
+    add_meta_box(
+        'trekkium_valoracion_datos',
+        'Datos de la valoración',
+        'trekkium_render_metabox_valoracion',
+        'valoraciones',
+        'normal',
+        'default'
+    );
+}
+
+// Renderizar contenido del metabox
+function trekkium_render_metabox_valoracion( $post ) {
+
+    $get = function($key) use ($post) {
+        return get_post_meta( $post->ID, $key, true );
+    };
+
+    ?>
+
+    <style>
+        .trekkium-meta-table{
+            width:100%;
+            border-collapse:collapse;
+        }
+        .trekkium-meta-table th{
+            text-align:left;
+            width:220px;
+            padding:6px 10px;
+            background:#f7f7f7;
+            vertical-align:top;
+        }
+        .trekkium-meta-table td{
+            padding:6px 10px;
+        }
+        .trekkium-stars{
+            color:#ffc107;
+            font-size:18px;
+        }
+    </style>
+
+    <h3>Cliente</h3>
+    <table class="trekkium-meta-table">
+        <tr>
+            <th>Nombre</th>
+            <td><?php echo esc_html( $get('nombre_cliente') ); ?></td>
+        </tr>
+        <tr>
+            <th>Usuario ID</th>
+            <td><?php echo esc_html( $get('usuario_id') ); ?></td>
+        </tr>
+        <tr>
+            <th>Pedido</th>
+            <td>
+                <a href="<?php echo admin_url( 'post.php?post=' . $get('pedido_id') . '&action=edit' ); ?>">
+                    #<?php echo esc_html( $get('pedido_id') ); ?>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <h3>Actividad</h3>
+    <table class="trekkium-meta-table">
+        <tr>
+            <th>Actividad</th>
+            <td>
+                <a href="<?php echo admin_url( 'post.php?post=' . $get('actividad_id') . '&action=edit' ); ?>">
+                    <?php echo esc_html( $get('nombre_actividad') ); ?>
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <th>Fecha actividad</th>
+            <td><?php echo esc_html( $get('fecha_actividad') ); ?></td>
+        </tr>
+    </table>
+
+    <h3>Guía</h3>
+    <table class="trekkium-meta-table">
+        <tr>
+            <th>Guía</th>
+            <td><?php echo esc_html( $get('nombre_guia') ); ?></td>
+        </tr>
+    </table>
+
+    <h3>Valoraciones</h3>
+    <table class="trekkium-meta-table">
+        <tr>
+            <th>Actividad (general)</th>
+            <td class="trekkium-stars"><?php echo str_repeat('★', intval($get('valor_actividad_general'))); ?></td>
+        </tr>
+        <tr>
+            <th>Organización</th>
+            <td class="trekkium-stars"><?php echo str_repeat('★', intval($get('organizacion_actividad'))); ?></td>
+        </tr>
+        <tr>
+            <th>Seguridad</th>
+            <td class="trekkium-stars"><?php echo str_repeat('★', intval($get('sensacion_seguridad'))); ?></td>
+        </tr>
+        <tr>
+            <th>Guía (general)</th>
+            <td class="trekkium-stars"><?php echo str_repeat('★', intval($get('valoracion_guia_general'))); ?></td>
+        </tr>
+        <tr>
+            <th>Comentario guía</th>
+            <td><?php echo nl2br( esc_html( $get('comentario_guia') ) ); ?></td>
+        </tr>
+        <tr>
+            <th>Experiencia Trekkium</th>
+            <td class="trekkium-stars"><?php echo str_repeat('★', intval($get('experiencia_trekkium'))); ?></td>
+        </tr>
+    </table>
+
+    <?php
+}

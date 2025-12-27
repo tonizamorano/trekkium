@@ -108,6 +108,10 @@
         $titulo = 'Sobre nosotros';
         $color_fondo = 'var(--azul1-100)';
     }
+    elseif ( str_contains($current_url, '/valoraciones/') ) {
+        $titulo = 'Formulario de satisfacción';
+        $color_fondo = 'var(--azul1-100)';
+    }
 
     // 7️⃣ Acceso y crear cuenta
     elseif ( str_contains($current_url, '/acceso/') ) {
