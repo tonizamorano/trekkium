@@ -99,15 +99,16 @@ function trekkium_enviar_email_reserva_finalizada( $order_id ) {
 
 
 /**
- * Cuando un producto cambia su estado a `wc-finalizado`, buscar pedidos que contengan
- * ese producto y enviar el email de valoración a cada cliente relacionado.
+ * Cuando el campo meta `estado_producto` pase a `finalizado`, buscar pedidos
+ * que contengan ese producto y enviar el email de valoración a cada cliente.
  */
-add_action( 'transition_post_status', 'trekkium_producto_finalizado_enviar_emails', 10, 3 );
-function trekkium_producto_finalizado_enviar_emails( $new_status, $old_status, $post ) {
-    // Solo nos interesa products y cambio a wc-finalizado
-    if ( 'product' !== $post->post_type ) return;
-    if ( $new_status !== 'wc-finalizado' ) return;
-    if ( $old_status === 'wc-finalizado' ) return;
+add_action( 'updated_postmeta', 'trekkium_estado_producto_meta_changed', 10, 4 );
+function trekkium_estado_producto_meta_changed( $meta_id, $post_id, $meta_key, $meta_value ) {
+    if ( $meta_key !== 'estado_producto' ) return;
+    if ( $meta_value !== 'finalizado' ) return;
+
+    $post = get_post( $post_id );
+    if ( ! $post || $post->post_type !== 'product' ) return;
 
     // Buscar pedidos donde aparezca este producto. Consideramos estados comunes de reservas.
     $orders = wc_get_orders( array(
@@ -121,14 +122,12 @@ function trekkium_producto_finalizado_enviar_emails( $new_status, $old_status, $
         $items = $order->get_items();
         foreach ( $items as $item ) {
             $product_id = $item->get_product_id();
-            if ( $product_id == $post->ID ) {
-                // Enviar email para este pedido
+            if ( $product_id == $post_id ) {
                 try {
                     trekkium_enviar_email_reserva_finalizada( $order->get_id() );
                 } catch ( Exception $e ) {
                     error_log( 'Trekkium: error enviando email de valoración para pedido ' . $order->get_id() . ' - ' . $e->getMessage() );
                 }
-                // Evitar enviar varias veces por el mismo pedido
                 break;
             }
         }
