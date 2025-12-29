@@ -99,36 +99,43 @@ function trekkium_enviar_email_reserva_finalizada( $order_id ) {
 
 
 /**
- * Cuando el campo meta `estado_producto` pase a `finalizado`, buscar pedidos
- * que contengan ese producto y enviar el email de valoración a cada cliente.
+ * Cuando el campo meta `estado_producto` pase a `finalizado`,
+ * enviar email SOLO a los clientes con pedidos COMPLETED
+ * que contengan ese producto.
  */
 add_action( 'updated_postmeta', 'trekkium_estado_producto_meta_changed', 10, 4 );
 function trekkium_estado_producto_meta_changed( $meta_id, $post_id, $meta_key, $meta_value ) {
+
+    // Solo cuando cambia estado_producto a finalizado
     if ( $meta_key !== 'estado_producto' ) return;
     if ( $meta_value !== 'finalizado' ) return;
 
     $post = get_post( $post_id );
     if ( ! $post || $post->post_type !== 'product' ) return;
 
-    // Buscar pedidos donde aparezca este producto. Consideramos estados comunes de reservas.
+    // Buscar SOLO pedidos completed
     $orders = wc_get_orders( array(
         'limit'  => -1,
-        'status' => array( 'processing', 'completed', 'on-hold' ),
+        'status' => array( 'completed' ),
     ) );
 
     if ( empty( $orders ) ) return;
 
     foreach ( $orders as $order ) {
-        $items = $order->get_items();
-        foreach ( $items as $item ) {
-            $product_id = $item->get_product_id();
-            if ( $product_id == $post_id ) {
+        foreach ( $order->get_items() as $item ) {
+
+            if ( (int) $item->get_product_id() === (int) $post_id ) {
+
                 try {
                     trekkium_enviar_email_reserva_finalizada( $order->get_id() );
                 } catch ( Exception $e ) {
-                    error_log( 'Trekkium: error enviando email de valoración para pedido ' . $order->get_id() . ' - ' . $e->getMessage() );
+                    error_log(
+                        'Trekkium: error enviando email de valoración para pedido ' .
+                        $order->get_id() . ' - ' . $e->getMessage()
+                    );
                 }
-                break;
+
+                break; // evitar doble envío por pedido
             }
         }
     }

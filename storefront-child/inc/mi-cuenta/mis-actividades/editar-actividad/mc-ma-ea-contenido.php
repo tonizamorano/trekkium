@@ -13,6 +13,7 @@ function contenido_editar_actividad_shortcode() {
 
     $post_id = intval($_GET['post_id']);
     $product = wc_get_product($post_id);
+    $post_status = $product ? $product->get_status() : '';
 
     // Verificar que el producto existe y pertenece al usuario actual
     if (!$product || $product->get_type() !== 'simple') {
@@ -30,6 +31,7 @@ function contenido_editar_actividad_shortcode() {
 
     // Variable para controlar si se mostró el modal
     $mostrar_modal_exito = false;
+    $modal_message = '';
 
     // Guardar cambios al enviar formulario
     if (isset($_POST['formulario_editar_actividad_nonce']) && wp_verify_nonce($_POST['formulario_editar_actividad_nonce'], 'editar_actividad_' . $post_id)) {
@@ -39,12 +41,21 @@ function contenido_editar_actividad_shortcode() {
 
         if (!empty($titulo) && !empty($descripcion)) {
 
+            // Determinar nuevo estado según el botón pulsado
+            if (isset($_POST['guardar_borrador'])) {
+                $nuevo_estado = 'draft';
+            } elseif (isset($_POST['publicar_actividad'])) {
+                $nuevo_estado = 'pending';
+            } else {
+                $nuevo_estado = 'publish';
+            }
+
             // Actualizar el producto
             wp_update_post([
                 'ID' => $post_id,
                 'post_title' => $titulo,
                 'post_content' => $descripcion,
-                'post_status' => 'publish', // Mantener publicado
+                'post_status' => $nuevo_estado,
             ]);
 
             // IMÁGENES - procesar desde el formulario de imágenes
@@ -90,6 +101,41 @@ function contenido_editar_actividad_shortcode() {
 
                     update_post_meta($post_id, $campo, $valor);
                 }
+            }
+
+            // Guardar otros campos meta si vienen en el POST
+            $campos_meta_guardar = [
+                'dias', 'fecha', 'fecha_fin', 'plazas_totales', 'plazas_minimas', 'edad_minima', 'precio_guia'
+            ];
+            foreach ($campos_meta_guardar as $campo_meta) {
+                if (isset($_POST["actividad_{$campo_meta}"])) {
+                    $valor_meta = wp_kses_post($_POST["actividad_{$campo_meta}"]);
+                    update_post_meta($post_id, $campo_meta, $valor_meta);
+                }
+            }
+
+            // Guardar taxonomías si vienen en el POST
+            $taxonomies = [
+                'tipo' => 'actividad_tipo',
+                'modalidad' => 'actividad_modalidad',
+                'pais' => 'actividad_pais',
+                'region' => 'actividad_region',
+                'provincia' => 'actividad_provincia',
+                'dificultad' => 'actividad_dificultad'
+            ];
+            foreach ($taxonomies as $tax => $campo_nombre) {
+                if (isset($_POST[$campo_nombre]) && intval($_POST[$campo_nombre])) {
+                    wp_set_post_terms($post_id, [intval($_POST[$campo_nombre])], $tax);
+                }
+            }
+
+            // Determinar mensaje del modal según el botón pulsado
+            if (isset($_POST['guardar_borrador'])) {
+                $modal_message = 'Borrador guardado correctamente.';
+            } elseif (isset($_POST['publicar_actividad'])) {
+                $modal_message = 'Tu actividad se ha enviado para revisar antes de su publicación';
+            } else {
+                $modal_message = 'Tus cambios se han actualizado correctamente en el anuncio de tu actividad.';
             }
 
             // Marcar para mostrar el modal
@@ -188,33 +234,53 @@ function contenido_editar_actividad_shortcode() {
         <div class="mc-ma-na-grid-2col">
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Tipo*</label>
-                <div class="campo-solo-lectura">
-                    <?php
-                    if (!empty($tipo_actual) && !is_wp_error($tipo_actual)) {
-                        $tipo_term = get_term($tipo_actual[0], 'tipo');
-                        echo esc_html($tipo_term ? $tipo_term->name : 'No especificado');
-                    } else {
-                        echo 'No especificado';
-                    }
-                    ?>
-                </div>
-                <input type="hidden" name="actividad_tipo" value="<?php echo !empty($tipo_actual[0]) ? esc_attr($tipo_actual[0]) : ''; ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <?php $terms_tipo = get_terms(['taxonomy' => 'tipo', 'hide_empty' => false]); ?>
+                    <select name="actividad_tipo" class="edit-form-text">
+                        <option value="">No especificado</option>
+                        <?php foreach ($terms_tipo as $t): ?>
+                            <option value="<?php echo esc_attr($t->term_id); ?>" <?php selected(!empty($tipo_actual[0]) && $tipo_actual[0] == $t->term_id); ?>><?php echo esc_html($t->name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php
+                        if (!empty($tipo_actual) && !is_wp_error($tipo_actual)) {
+                            $tipo_term = get_term($tipo_actual[0], 'tipo');
+                            echo esc_html($tipo_term ? $tipo_term->name : 'No especificado');
+                        } else {
+                            echo 'No especificado';
+                        }
+                        ?>
+                    </div>
+                    <input type="hidden" name="actividad_tipo" value="<?php echo !empty($tipo_actual[0]) ? esc_attr($tipo_actual[0]) : ''; ?>">
+                <?php endif; ?>
             </div>
 
             <!-- Modalidad (Solo lectura) -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Modalidad*</label>
-                <div class="campo-solo-lectura">
-                    <?php
-                    if (!empty($modalidad_actual) && !is_wp_error($modalidad_actual)) {
-                        $modalidad_term = get_term($modalidad_actual[0], 'modalidad');
-                        echo esc_html($modalidad_term ? $modalidad_term->name : 'No especificado');
-                    } else {
-                        echo 'No especificado';
-                    }
-                    ?>
-                </div>
-                <input type="hidden" name="actividad_modalidad" value="<?php echo !empty($modalidad_actual[0]) ? esc_attr($modalidad_actual[0]) : ''; ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <?php $terms_modalidad = get_terms(['taxonomy' => 'modalidad', 'hide_empty' => false]); ?>
+                    <select name="actividad_modalidad" class="edit-form-text">
+                        <option value="">No especificado</option>
+                        <?php foreach ($terms_modalidad as $t): ?>
+                            <option value="<?php echo esc_attr($t->term_id); ?>" <?php selected(!empty($modalidad_actual[0]) && $modalidad_actual[0] == $t->term_id); ?>><?php echo esc_html($t->name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php
+                        if (!empty($modalidad_actual) && !is_wp_error($modalidad_actual)) {
+                            $modalidad_term = get_term($modalidad_actual[0], 'modalidad');
+                            echo esc_html($modalidad_term ? $modalidad_term->name : 'No especificado');
+                        } else {
+                            echo 'No especificado';
+                        }
+                        ?>
+                    </div>
+                    <input type="hidden" name="actividad_modalidad" value="<?php echo !empty($modalidad_actual[0]) ? esc_attr($modalidad_actual[0]) : ''; ?>">
+                <?php endif; ?>
             </div>
         </div>
 
@@ -224,65 +290,105 @@ function contenido_editar_actividad_shortcode() {
             <!-- País (Solo lectura) -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">País*</label>
-                <div class="campo-solo-lectura">
-                    <?php
-                    if (!empty($pais_actual) && !is_wp_error($pais_actual)) {
-                        $pais_term = get_term($pais_actual[0], 'pais');
-                        echo esc_html($pais_term ? $pais_term->name : 'No especificado');
-                    } else {
-                        echo 'No especificado';
-                    }
-                    ?>
-                </div>
-                <input type="hidden" name="actividad_pais" id="actividad_pais" value="<?php echo !empty($pais_actual[0]) ? esc_attr($pais_actual[0]) : ''; ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <?php $terms_pais = get_terms(['taxonomy' => 'pais', 'hide_empty' => false]); ?>
+                    <select name="actividad_pais" id="actividad_pais" class="edit-form-text">
+                        <option value="">No especificado</option>
+                        <?php foreach ($terms_pais as $t): ?>
+                            <option value="<?php echo esc_attr($t->term_id); ?>" <?php selected(!empty($pais_actual[0]) && $pais_actual[0] == $t->term_id); ?>><?php echo esc_html($t->name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php
+                        if (!empty($pais_actual) && !is_wp_error($pais_actual)) {
+                            $pais_term = get_term($pais_actual[0], 'pais');
+                            echo esc_html($pais_term ? $pais_term->name : 'No especificado');
+                        } else {
+                            echo 'No especificado';
+                        }
+                        ?>
+                    </div>
+                    <input type="hidden" name="actividad_pais" id="actividad_pais" value="<?php echo !empty($pais_actual[0]) ? esc_attr($pais_actual[0]) : ''; ?>">
+                <?php endif; ?>
             </div>
 
             <!-- Región (Solo lectura) -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Región*</label>
-                <div class="campo-solo-lectura">
-                    <?php
-                    if (!empty($region_actual) && !is_wp_error($region_actual)) {
-                        $region_term = get_term($region_actual[0], 'region');
-                        echo esc_html($region_term ? $region_term->name : 'No especificado');
-                    } else {
-                        echo 'No especificado';
-                    }
-                    ?>
-                </div>
-                <input type="hidden" name="actividad_region" id="actividad_region" value="<?php echo !empty($region_actual[0]) ? esc_attr($region_actual[0]) : ''; ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <?php $terms_region = get_terms(['taxonomy' => 'region', 'hide_empty' => false]); ?>
+                    <select name="actividad_region" id="actividad_region" class="edit-form-text">
+                        <option value="">No especificado</option>
+                        <?php foreach ($terms_region as $t): ?>
+                            <option value="<?php echo esc_attr($t->term_id); ?>" <?php selected(!empty($region_actual[0]) && $region_actual[0] == $t->term_id); ?>><?php echo esc_html($t->name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php
+                        if (!empty($region_actual) && !is_wp_error($region_actual)) {
+                            $region_term = get_term($region_actual[0], 'region');
+                            echo esc_html($region_term ? $region_term->name : 'No especificado');
+                        } else {
+                            echo 'No especificado';
+                        }
+                        ?>
+                    </div>
+                    <input type="hidden" name="actividad_region" id="actividad_region" value="<?php echo !empty($region_actual[0]) ? esc_attr($region_actual[0]) : ''; ?>">
+                <?php endif; ?>
             </div>
 
             <!-- Provincia (Solo lectura) -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Provincia*</label>
-                <div class="campo-solo-lectura">
-                    <?php
-                    if (!empty($provincia_actual) && !is_wp_error($provincia_actual)) {
-                        $provincia_term = get_term($provincia_actual[0], 'provincia');
-                        echo esc_html($provincia_term ? $provincia_term->name : 'No especificado');
-                    } else {
-                        echo 'No especificado';
-                    }
-                    ?>
-                </div>
-                <input type="hidden" name="actividad_provincia" id="actividad_provincia" value="<?php echo !empty($provincia_actual[0]) ? esc_attr($provincia_actual[0]) : ''; ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <?php $terms_prov = get_terms(['taxonomy' => 'provincia', 'hide_empty' => false]); ?>
+                    <select name="actividad_provincia" id="actividad_provincia" class="edit-form-text">
+                        <option value="">No especificado</option>
+                        <?php foreach ($terms_prov as $t): ?>
+                            <option value="<?php echo esc_attr($t->term_id); ?>" <?php selected(!empty($provincia_actual[0]) && $provincia_actual[0] == $t->term_id); ?>><?php echo esc_html($t->name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php
+                        if (!empty($provincia_actual) && !is_wp_error($provincia_actual)) {
+                            $provincia_term = get_term($provincia_actual[0], 'provincia');
+                            echo esc_html($provincia_term ? $provincia_term->name : 'No especificado');
+                        } else {
+                            echo 'No especificado';
+                        }
+                        ?>
+                    </div>
+                    <input type="hidden" name="actividad_provincia" id="actividad_provincia" value="<?php echo !empty($provincia_actual[0]) ? esc_attr($provincia_actual[0]) : ''; ?>">
+                <?php endif; ?>
             </div>
 
             <!-- Dificultad (Solo lectura) -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Dificultad física*</label>
-                <div class="campo-solo-lectura">
-                    <?php
-                    if (!empty($dificultad_actual) && !is_wp_error($dificultad_actual)) {
-                        $dificultad_term = get_term($dificultad_actual[0], 'dificultad');
-                        echo esc_html($dificultad_term ? $dificultad_term->name : 'No especificado');
-                    } else {
-                        echo 'No especificado';
-                    }
-                    ?>
-                </div>
-                <input type="hidden" name="actividad_dificultad" value="<?php echo !empty($dificultad_actual[0]) ? esc_attr($dificultad_actual[0]) : ''; ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <?php $terms_dif = get_terms(['taxonomy' => 'dificultad', 'hide_empty' => false]); ?>
+                    <select name="actividad_dificultad" class="edit-form-text">
+                        <option value="">No especificado</option>
+                        <?php foreach ($terms_dif as $t): ?>
+                            <option value="<?php echo esc_attr($t->term_id); ?>" <?php selected(!empty($dificultad_actual[0]) && $dificultad_actual[0] == $t->term_id); ?>><?php echo esc_html($t->name); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php
+                        if (!empty($dificultad_actual) && !is_wp_error($dificultad_actual)) {
+                            $dificultad_term = get_term($dificultad_actual[0], 'dificultad');
+                            echo esc_html($dificultad_term ? $dificultad_term->name : 'No especificado');
+                        } else {
+                            echo 'No especificado';
+                        }
+                        ?>
+                    </div>
+                    <input type="hidden" name="actividad_dificultad" value="<?php echo !empty($dificultad_actual[0]) ? esc_attr($dificultad_actual[0]) : ''; ?>">
+                <?php endif; ?>
             </div>
 
         </div>
@@ -297,19 +403,27 @@ function contenido_editar_actividad_shortcode() {
         <div class="mc-ma-na-grid-2col">
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Días*</label>
-                <div class="campo-solo-lectura">
-                    <?php echo esc_html($valores_meta['dias'] ? $valores_meta['dias'] : 'No especificado'); ?>
-                </div>
-                <input type="hidden" name="actividad_dias" id="actividad_dias" value="<?php echo esc_attr($valores_meta['dias']); ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <input type="text" name="actividad_dias" id="actividad_dias" class="edit-form-text" value="<?php echo esc_attr($valores_meta['dias']); ?>">
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php echo esc_html($valores_meta['dias'] ? $valores_meta['dias'] : 'No especificado'); ?>
+                    </div>
+                    <input type="hidden" name="actividad_dias" id="actividad_dias" value="<?php echo esc_attr($valores_meta['dias']); ?>">
+                <?php endif; ?>
             </div>
 
             <!-- Fecha (Solo lectura) -->
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Fecha*</label>
-                <div class="campo-solo-lectura">
-                    <?php echo esc_html($valores_meta['fecha'] ? date('d/m/Y', strtotime($valores_meta['fecha'])) : 'No especificada'); ?>
-                </div>
-                <input type="hidden" name="actividad_fecha" id="actividad_fecha" value="<?php echo esc_attr($valores_meta['fecha']); ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <input type="date" name="actividad_fecha" id="actividad_fecha" class="edit-form-text" value="<?php echo esc_attr($valores_meta['fecha'] ? date('Y-m-d', strtotime($valores_meta['fecha'])) : ''); ?>">
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php echo esc_html($valores_meta['fecha'] ? date('d/m/Y', strtotime($valores_meta['fecha'])) : 'No especificada'); ?>
+                    </div>
+                    <input type="hidden" name="actividad_fecha" id="actividad_fecha" value="<?php echo esc_attr($valores_meta['fecha']); ?>">
+                <?php endif; ?>
             </div>
         </div>
 
@@ -317,10 +431,14 @@ function contenido_editar_actividad_shortcode() {
         <div class="mc-ma-na-grid-2col">
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Fecha fin*</label>
-                <div class="campo-solo-lectura">
-                    <?php echo esc_html($valores_meta['fecha_fin'] ? date('d/m/Y', strtotime($valores_meta['fecha_fin'])) : 'No especificada'); ?>
-                </div>
-                <input type="hidden" name="actividad_fecha_fin" id="actividad_fecha_fin" value="<?php echo esc_attr($valores_meta['fecha_fin']); ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <input type="date" name="actividad_fecha_fin" id="actividad_fecha_fin" class="edit-form-text" value="<?php echo esc_attr($valores_meta['fecha_fin'] ? date('Y-m-d', strtotime($valores_meta['fecha_fin'])) : ''); ?>">
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php echo esc_html($valores_meta['fecha_fin'] ? date('d/m/Y', strtotime($valores_meta['fecha_fin'])) : 'No especificada'); ?>
+                    </div>
+                    <input type="hidden" name="actividad_fecha_fin" id="actividad_fecha_fin" value="<?php echo esc_attr($valores_meta['fecha_fin']); ?>">
+                <?php endif; ?>
             </div>
 
             <div class="mc-ma-na-grid-1col">
@@ -375,18 +493,26 @@ function contenido_editar_actividad_shortcode() {
         <div class="mc-ma-na-grid-2col">
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Ratio máximo*</label>
-                <div class="campo-solo-lectura">
-                    <?php echo esc_html($valores_meta['plazas_totales'] ? $valores_meta['plazas_totales'] : 'No especificado'); ?>
-                </div>
-                <input type="hidden" name="actividad_plazas_totales" value="<?php echo esc_attr($valores_meta['plazas_totales']); ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <input type="number" name="actividad_plazas_totales" class="edit-form-text" value="<?php echo esc_attr($valores_meta['plazas_totales']); ?>">
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php echo esc_html($valores_meta['plazas_totales'] ? $valores_meta['plazas_totales'] : 'No especificado'); ?>
+                    </div>
+                    <input type="hidden" name="actividad_plazas_totales" value="<?php echo esc_attr($valores_meta['plazas_totales']); ?>">
+                <?php endif; ?>
             </div>
 
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Ratio mínimo*</label>
-                <div class="campo-solo-lectura">
-                    <?php echo esc_html($valores_meta['plazas_minimas'] ? $valores_meta['plazas_minimas'] : 'No especificado'); ?>
-                </div>
-                <input type="hidden" name="actividad_plazas_minimas" value="<?php echo esc_attr($valores_meta['plazas_minimas']); ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <input type="number" name="actividad_plazas_minimas" class="edit-form-text" value="<?php echo esc_attr($valores_meta['plazas_minimas']); ?>">
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php echo esc_html($valores_meta['plazas_minimas'] ? $valores_meta['plazas_minimas'] : 'No especificado'); ?>
+                    </div>
+                    <input type="hidden" name="actividad_plazas_minimas" value="<?php echo esc_attr($valores_meta['plazas_minimas']); ?>">
+                <?php endif; ?>
             </div>
         </div>
 
@@ -394,18 +520,26 @@ function contenido_editar_actividad_shortcode() {
         <div class="mc-ma-na-grid-2col">
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Edad mínima*</label>
-                <div class="campo-solo-lectura">
-                    <?php echo esc_html($valores_meta['edad_minima'] ? $valores_meta['edad_minima'] : 'No especificado'); ?>
-                </div>
-                <input type="hidden" name="actividad_edad_minima" value="<?php echo esc_attr($valores_meta['edad_minima']); ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <input type="number" name="actividad_edad_minima" class="edit-form-text" value="<?php echo esc_attr($valores_meta['edad_minima']); ?>">
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php echo esc_html($valores_meta['edad_minima'] ? $valores_meta['edad_minima'] : 'No especificado'); ?>
+                    </div>
+                    <input type="hidden" name="actividad_edad_minima" value="<?php echo esc_attr($valores_meta['edad_minima']); ?>">
+                <?php endif; ?>
             </div>
 
             <div class="mc-ma-na-grid-1col">
                 <label class="edit-form-titular">Precio del guía*</label>
-                <div class="campo-solo-lectura">
-                    <?php echo esc_html($valores_meta['precio_guia'] ? number_format(floatval($valores_meta['precio_guia']), 2, ',', '') . ' €' : 'No especificado'); ?>
-                </div>
-                <input type="hidden" name="actividad_precio_guia" value="<?php echo esc_attr($valores_meta['precio_guia']); ?>">
+                <?php if ($post_status === 'draft'): ?>
+                    <input type="number" name="actividad_precio_guia" class="edit-form-text" step="0.01" value="<?php echo esc_attr($valores_meta['precio_guia']); ?>">
+                <?php else: ?>
+                    <div class="campo-solo-lectura">
+                        <?php echo esc_html($valores_meta['precio_guia'] ? number_format(floatval($valores_meta['precio_guia']), 2, ',', '') . ' €' : 'No especificado'); ?>
+                    </div>
+                    <input type="hidden" name="actividad_precio_guia" value="<?php echo esc_attr($valores_meta['precio_guia']); ?>">
+                <?php endif; ?>
             </div>
         </div>
 
@@ -416,7 +550,12 @@ function contenido_editar_actividad_shortcode() {
         ?>
 
         <div class="mc-ma-na-botones-contenedor">
-            <button class="mis-actividades-boton-guardar-cambios" type="submit">Guardar cambios</button>
+            <?php if ($post_status === 'draft'): ?>
+                <button class="mis-actividades-boton-guardar-borrador" type="submit" name="guardar_borrador">Guardar borrador</button>
+                <button class="mis-actividades-boton-publicar" type="submit" name="publicar_actividad">Publicar</button>
+            <?php else: ?>
+                <button class="mis-actividades-boton-guardar-cambios" type="submit" name="publicar_cambios">Publicar cambios</button>
+            <?php endif; ?>
             <button type="button" class="mis-actividades-boton-cancelar" onclick="window.location.href='<?php echo esc_url(home_url('/mis-actividades/')); ?>'">Cancelar</button>
         </div>
     </form>
@@ -427,7 +566,7 @@ function contenido_editar_actividad_shortcode() {
         <div class="modal-exito-contenido">
             <button class="modal-exito-cerrar" onclick="cerrarModalExito()">&times;</button>
             <div class="modal-exito-mensaje">
-                ✅ Tus cambios se han actualizado correctamente en el anuncio de tu actividad.
+                <?php echo esc_html($modal_message); ?>
             </div>
         </div>
     </div>

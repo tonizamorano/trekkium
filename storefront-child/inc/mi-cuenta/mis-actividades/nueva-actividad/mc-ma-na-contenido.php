@@ -13,21 +13,28 @@ function contenido_nueva_actividad_shortcode() {
 
     // Variable para controlar si se mostró el modal
     $mostrar_modal_exito = false;
+    $mensaje_modal = '';
 
     // Guardar nueva actividad al enviar formulario
     if ( isset($_POST['formulario_nueva_actividad_nonce']) && wp_verify_nonce($_POST['formulario_nueva_actividad_nonce'], 'crear_actividad') ) {
 
-        $titulo      = sanitize_text_field( $_POST['actividad_titulo'] );
-        $descripcion = wp_kses_post( $_POST['actividad_descripcion'] );
+        $accion = isset($_POST['accion_actividad']) ? sanitize_text_field($_POST['accion_actividad']) : 'publicar';
 
-        if ( ! empty($titulo) && ! empty($descripcion) ) {
+        $titulo      = isset($_POST['actividad_titulo']) ? sanitize_text_field( $_POST['actividad_titulo'] ) : '';
+        $descripcion = isset($_POST['actividad_descripcion']) ? wp_kses_post( $_POST['actividad_descripcion'] ) : '';
 
-            // Crear el nuevo producto como borrador pendiente
+        // Para guardar borrador permitimos campos incompletos; para publicar exigimos título y descripción
+        if ( $accion === 'borrador' || ( ! empty($titulo) && ! empty($descripcion) ) ) {
+
+            // Determinar el estado del post según la acción
+            $post_status = ($accion === 'borrador') ? 'draft' : 'pending';
+
+            // Crear el nuevo producto
             $new_product_id = wp_insert_post([
                 'post_title'   => $titulo,
                 'post_content' => $descripcion,
                 'post_type'    => 'product',
-                'post_status'  => 'pending',
+                'post_status'  => $post_status,
                 'post_author'  => get_current_user_id(),
             ]);
 
@@ -405,7 +412,8 @@ function contenido_nueva_actividad_shortcode() {
         <?php echo do_shortcode('[mc_ma_na_form_edit_text]'); ?>
 
         <div class="mc-ma-na-botones-contenedor">
-            <button class="mis-actividades-boton-guardar-cambios" type="submit">Crear actividad</button>
+            <button class="mis-actividades-boton-guardar-cambios" type="submit" name="accion_actividad" value="borrador">Guardar borrador</button>
+            <button class="mis-actividades-boton-guardar-cambios" type="submit" name="accion_actividad" value="publicar">Publicar actividad</button>
             <button type="button" class="mis-actividades-boton-cancelar" onclick="window.location.href='<?php echo esc_url(home_url('/mis-actividades/')); ?>'">Cancelar</button>
         </div>
     </form>
@@ -416,7 +424,7 @@ function contenido_nueva_actividad_shortcode() {
         <div class="modal-exito-contenido">
             <button class="modal-exito-cerrar" onclick="cerrarModalExito()">&times;</button>
             <div class="modal-exito-mensaje">
-                ✅ Actividad creada correctamente y pendiente de revisión.
+                <?php echo esc_html($mensaje_modal); ?>
             </div>
         </div>
     </div>

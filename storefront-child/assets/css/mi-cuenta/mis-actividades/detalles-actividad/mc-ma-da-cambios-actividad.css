@@ -2,8 +2,8 @@
 .mc-solicitud-info{
     margin-bottom:15px;
     padding:10px;
-    border-radius:8px;
-    border: 2px solid var(--azul1-60);
+    border-radius:10px;
+    background-color: #fff;
 }
 
 .mc-solicitud-titulo{
@@ -34,7 +34,7 @@
     color: var(--azul1-100);
 }
 
-.mc-cerrar-modal-x:hover{
+.mc-cerrar-modal-x:hover {
     color:var(--azul1-40);
 }
 
