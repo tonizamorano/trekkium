@@ -1,6 +1,7 @@
 <?php
 // Enviar email al cliente cuando el pedido pasa a estado "finalizado"
-add_action( 'woocommerce_order_status_finalizado', 'trekkium_enviar_email_reserva_finalizada', 10, 1 );
+// realmente cuándo se produce? la function ya es llamada desde el hook de trekkium_estado_producto_meta_changed
+// add_action( 'woocommerce_order_status_finalizado', 'trekkium_enviar_email_reserva_finalizada', 10, 1 );
 
 function trekkium_enviar_email_reserva_finalizada( $order_id ) {
     $order = wc_get_order( $order_id );
@@ -93,7 +94,8 @@ function trekkium_enviar_email_reserva_finalizada( $order_id ) {
     if ( ! wp_mail( $cliente_email, $email_title, $final_email_content, $headers ) ) {
         error_log( 'Trekkium: fallo al enviar email de valoración a ' . $cliente_email );
     } else {
-        error_log( 'Trekkium: email de valoración enviado a ' . $cliente_email );
+        $log_info = WP_CONTENT_DIR . '/themes/storefront-child/crons/logs/cron-finalizados-info-' . date('Y-m-d') . '.log';
+        error_log( 'Trekkium: email de valoración enviado a ' . $cliente_email, 3, $log_info);
     }
 }
 
@@ -108,16 +110,34 @@ function trekkium_estado_producto_meta_changed( $meta_id, $post_id, $meta_key, $
 
     // Solo cuando cambia estado_producto a finalizado
     if ( $meta_key !== 'estado_producto' ) return;
-    if ( $meta_value !== 'finalizado' ) return;
+    if ( strtolower($meta_value) !== 'finalizado' ) return;
 
     $post = get_post( $post_id );
     if ( ! $post || $post->post_type !== 'product' ) return;
 
-    // Buscar SOLO pedidos completed
-    $orders = wc_get_orders( array(
-        'limit'  => -1,
-        'status' => array( 'completed' ),
-    ) );
+    // query obtener pedidos COMPLETED entre -2 días y -12 horas que contengan este producto
+    $after  = ( new DateTime( '-2 days' ) )->setTimezone( wp_timezone() );
+    $before = ( new DateTime( '-12 hours' ) )->setTimezone( wp_timezone() );
+
+    $args = [
+        'status'          => 'completed',
+        'limit'           => 50,
+        'return'          => 'ids',
+        'date_completed'  => [
+            'after'  => $after->format( 'Y-m-d H:i:s' ),
+            'before' => $before->format( 'Y-m-d H:i:s' ),
+        ],
+        'meta_query' => [
+            [
+                'key'     => '_product_id',
+                'value'   => (string) $product_id,
+                'compare' => '=',
+            ],
+        ],
+    ];
+
+    $query = new WC_Order_Query( $args );
+    $order_ids = $query->get_orders();
 
     if ( empty( $orders ) ) return;
 
