@@ -34,8 +34,6 @@ function mc_ma_da_mostrar_detalles_actividad($atts) {
         'private'   => 'Privado',
         'future'    => 'Programado',
         'trash'     => 'Papelera',
-        'wc-finalizado' => 'Finalizada',
-        'wc-cancelado' => 'Cancelada',
     ];
     $estado_traducido = $estados_traducidos[$estado_post] ?? ucfirst($estado_post);
 
@@ -45,6 +43,17 @@ function mc_ma_da_mostrar_detalles_actividad($atts) {
 
     $provincia = !empty($provincia_terms) ? $provincia_terms[0]->name : '—';
     $region = !empty($region_terms) ? $region_terms[0]->name : '—';
+
+    // URL para eliminar (añadir nonce para seguridad)
+    $eliminar_url = wp_nonce_url(
+        admin_url(
+            'post.php?post=' . $product_id .
+            '&action=trash' .
+            '&redirect_to=' . urlencode(site_url('/mis-actividades/'))
+        ),
+        'trash-post_' . $product_id
+    );
+
 
     ob_start(); ?>
 
@@ -77,24 +86,39 @@ function mc_ma_da_mostrar_detalles_actividad($atts) {
                 <span class="etiqueta">Hora</span><span class="valor"><?php echo esc_html($hora_actividad); ?></span>
             </div>
 
-            <!-- Botón Ver Actividad -->
+            <!-- Botones -->
+            <?php if ($estado_post !== 'pending') : ?>
 
-            <div class="mc-ma-da-boton-wrapper">
+                <div class="mc-ma-da-boton-wrapper">
 
-                <!-- Botón Ver -->
-                <a href="<?php echo get_permalink($product_id); ?>" class="mc-ma-da-boton">
-                    <?php echo do_shortcode('[icon_ojo1]'); ?>
-                    <span>Ver</span>
-                </a>
+                    <?php if ($estado_post !== 'draft') : ?>
+                        <!-- Botón Ver -->
+                        <a href="<?php echo get_permalink($product_id); ?>" class="mc-ma-da-boton">
+                            <?php echo do_shortcode('[icon_ojo1]'); ?>
+                            <span>Ver</span>
+                        </a>
+                    <?php endif; ?>
 
-                <!-- Botón Editar actividad -->
-                <a href="<?php echo site_url('/editar-actividad/?post_id=' . $product_id); ?>" 
-                class="mc-ma-da-boton mc-ma-da-boton-editar">
-                    <?php echo do_shortcode('[icon_ojo1]'); ?>
-                    <span>Editar</span>
-                </a>
+                    <!-- Botón Editar actividad -->
+                    <a href="<?php echo site_url('/editar-actividad/?post_id=' . $product_id); ?>" 
+                    class="mc-ma-da-boton mc-ma-da-boton-editar">
+                        <?php echo do_shortcode('[icon_ojo1]'); ?>
+                        <span>Editar</span>
+                    </a>
 
-            </div>
+                    <?php if ($estado_post === 'draft') : ?>
+                        <!-- Botón Eliminar para borradores -->
+                        <a href="<?php echo esc_url($eliminar_url); ?>" 
+                           class="mc-ma-da-boton mc-ma-da-boton-eliminar"
+                           onclick="return confirm('¿Estás seguro de que quieres eliminar esta actividad? Se moverá a la papelera.');">
+                            <?php echo do_shortcode('[icon_ojo1]'); ?>
+                            <span>Eliminar</span>
+                        </a>
+                    <?php endif; ?>
+
+                </div>
+
+            <?php endif; ?>
 
 
         </div>
@@ -103,4 +127,26 @@ function mc_ma_da_mostrar_detalles_actividad($atts) {
 
     <?php
     return ob_get_clean();
+}
+
+add_action('trashed_post', 'mc_redirigir_tras_eliminar_actividad', 10, 1);
+
+function mc_redirigir_tras_eliminar_actividad($post_id) {
+
+    // Si se ha pasado un parámetro `redirect_to` (la URL objetivo), respetarlo.
+    if (!empty($_REQUEST['redirect_to'])) {
+        $redirect = esc_url_raw(wp_unslash($_REQUEST['redirect_to']));
+        if ($redirect) {
+            wp_safe_redirect($redirect);
+            exit;
+        }
+    }
+
+    // Evitar redirecciones en peticiones AJAX o CLI.
+    if (defined('DOING_AJAX') && DOING_AJAX) return;
+    if (defined('WP_CLI') && WP_CLI) return;
+
+    // Solo redirigir hacia la lista de actividades cuando no haya `redirect_to`.
+    wp_safe_redirect(site_url('/mis-actividades/'));
+    exit;
 }

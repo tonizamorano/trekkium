@@ -22,8 +22,8 @@ function mc_ma_da_cambios_actividad_render($atts) {
     ob_start(); ?>
 
     <div class="mc-ma-da-contendor">
-        <div class="mc-ma-da-titular"><h2>Cambios de fecha, ubicación o cancelación</h2></div>
-        <div class="mc-ma-da-contenido">
+        
+        <div>
             
             <?php
             // Obtener valores almacenados de cambios
@@ -97,40 +97,18 @@ function mc_ma_da_cambios_actividad_render($atts) {
 
                 </div>
 
-            <?php endif; ?>
+            <?php endif; ?>                        
 
             <button class="mc-cambios-boton"
                 onclick="document.getElementById('mc-cambios-modal-<?php echo $actividad_id; ?>').style.display='flex'">
-                Solicitar cambios
+
+                <span class="mc-cambios-icono">
+                    <?php echo do_shortcode('[icon_alerta1]'); ?>
+                </span>
+                <span class="mc-cambios-texto">
+                    Solicitar cambio de fecha, ubicación o cancelación.
+                </span>
             </button>
-
-            <style>
-            .mc-solicitud-info{
-                margin-bottom:15px;
-                padding:10px;
-                border-radius:8px;
-                border: 2px solid var(--azul1-60);
-            }
-
-            .mc-solicitud-titulo{
-                margin-bottom:10px !important;
-                font-size: 18px;
-            }
-        
-            .mc-ma-da-estado-cambio {
-                display: inline-block;
-                background-color: var(--azul1-100);
-                color: #fff;    
-                padding: 3px 10px;
-                border-radius: 5px;
-                font-weight: 500;
-                margin-top: 10px !important;
-            }
-
-            .mc-cambios-modal-titulo {
-                margin: 0 !important;
-            }
-            </style>
 
         </div>
 
@@ -268,88 +246,6 @@ function mc_ma_da_cambios_actividad_render($atts) {
 
     })();
     </script>
-
-    <style>
-    .mc-cerrar-modal-x { 
-        position: absolute; 
-        top: 10px; 
-        right: 15px; 
-        font-size: 22px; 
-        cursor:pointer; 
-        color: var(--azul1-100);
-    }
-
-    .mc-cerrar-modal-x:hover{
-        color:var(--azul1-40);
-    }
-
-    .mc-cambios-boton { 
-        background:var(--naranja1-100); 
-        color:#fff; 
-        padding: 5px 10px; 
-        border-radius:50px; 
-        border:none; 
-        cursor:pointer;
-        font-family: inherit;
-        line-height: 1;
-        font-weight: 500;
-    }
-
-    .mc-cambios-boton:hover { 
-        background: var(--naranja1-40); 
-        color:#fff; 
-    }
-
-    .mc-cambios-modal {
-        display:none; 
-        position:fixed; 
-        top:0; 
-        left:0; 
-        width:100%; 
-        height:100%; 
-        background:rgba(0,0,0,0.4); 
-        z-index:9999; 
-        justify-content:center; 
-        align-items:center; 
-        padding:20px;
-    }
-
-    .mc-cambios-modal-titulo {
-        font-size: 20px;
-        margin-bottom: 15px !important;
-    }
-
-    .mc-cambios-modal form {
-        margin: 0 !important;
-    }
-
-    .mc-cambios-modal-contenido{ 
-        position:relative; 
-        background:#fff; 
-        padding:15px; 
-        max-width:400px; 
-        width:100%; 
-        border-radius:10px; 
-        text-align:left;
-    }
-
-    .mc-campo{ 
-        margin-bottom:15px;
-    }
-
-
-    .mc-campo input, 
-    .mc-campo select, 
-    .mc-campo textarea{ 
-        width:100%; 
-        padding: 5px 10px; 
-        border:1px solid #ccc; 
-        border-radius:5px;
-        font-family: inherit;
-        margin-top: 5px;
-    }
-
-    </style>
 
     <?php
     return ob_get_clean();

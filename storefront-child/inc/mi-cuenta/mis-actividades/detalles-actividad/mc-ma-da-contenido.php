@@ -23,6 +23,9 @@ function contenido_detalles_actividad_shortcode() {
     $hora = get_post_meta($actividad_id, 'hora', true);
     $estado_actividad = get_post_meta($actividad_id, 'estado_actividad', true);
 
+    // Verificar si está publicada
+    $esta_publicada = get_post_status($actividad_id) === 'publish';
+
     // Traducir el estado de publicación
     $estado_publicacion = traducir_estado(get_post_status($actividad_id));
 
@@ -50,7 +53,11 @@ function contenido_detalles_actividad_shortcode() {
 
                 <!-- Estado de la actividad-->
                 <?php echo do_shortcode('[mc_ma_da_estado_actividad id="'.$actividad_id.'"]'); ?>
-                <?php echo do_shortcode('[mc_ma_da_cambios_actividad id="'.$actividad_id.'"]'); ?>
+                
+                <!-- Mostrar cambios solo si está publicada -->
+                <?php if ($esta_publicada): ?>
+                    <?php echo do_shortcode('[mc_ma_da_cambios_actividad id="'.$actividad_id.'"]'); ?>
+                <?php endif; ?>
 
             </div>
 

@@ -30,6 +30,15 @@ add_action( 'woocommerce_admin_process_product_object', function ( $product ) {
         );
     }
 
+    // Si existe una solicitud de cambio de tipo "Cancelación" y la solicitud está "Aprobada",
+    // forzamos el estado del producto a "cancelado".
+    $tipo_cambio = isset( $_POST['tipo_cambio'] ) ? sanitize_text_field( wp_unslash( $_POST['tipo_cambio'] ) ) : get_post_meta( $product->get_id(), 'tipo_cambio', true );
+    $estado_solicitud = isset( $_POST['estado_solicitud'] ) ? sanitize_text_field( wp_unslash( $_POST['estado_solicitud'] ) ) : get_post_meta( $product->get_id(), 'estado_solicitud', true );
+
+    if ( $tipo_cambio === 'Cancelación' && $estado_solicitud === 'Aprobada' ) {
+        $product->update_meta_data( 'estado_producto', 'cancelado' );
+    }
+
 } );
 
 /**

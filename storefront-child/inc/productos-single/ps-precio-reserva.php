@@ -89,17 +89,9 @@ function seccion_precio_reserva_shortcode() {
             <?php if ( $is_cancelado ) : ?>
                 <div class="ps-contador-boton">
                     <div class="ps-fila-plazas">
-                        <div class="ps-pila-plazas" style="display:flex; flex-direction:column;">
+                        <div class="ps-pila-plazas">
                             <div class="ps-texto-plazas">Nº de plazas</div>
-                            <div class="ps-quedan-plazas" style="
-                                font-size:14px;
-                                font-weight:bold;
-                                padding:1px 3px;
-                                border:2px solid #0b568b;
-                                display:flex;
-                                justify-content:center;
-                                border-radius:5px;
-                            ">
+                            <div class="ps-quedan-plazas">
                                 QUEDAN <?php echo $stock_disponible; ?>
                             </div>
                         </div>
@@ -124,17 +116,9 @@ function seccion_precio_reserva_shortcode() {
 
                 <div class="ps-contador-boton">
                     <div class="ps-fila-plazas">
-                        <div class="ps-pila-plazas" style="display:flex; flex-direction:column;">
+                        <div class="ps-pila-plazas">
                             <div class="ps-texto-plazas">Nº de plazas</div>
-                            <div class="ps-quedan-plazas" style="
-                                font-size:14px;
-                                font-weight:bold;
-                                padding:1px 3px;
-                                border:2px solid #0b568b;
-                                display:flex;
-                                justify-content:center;
-                                border-radius:5px;
-                            ">
+                            <div class="ps-quedan-plazas">
                                 QUEDAN <?php echo $stock_disponible; ?>
                             </div>
                         </div>
@@ -188,27 +172,12 @@ function seccion_precio_reserva_shortcode() {
                 }
                 
                 if ($mostrar_cancelacion) : ?>
-                <div class="ps-cancelacion-gratis" style="
-                    
-                    border: 2px solid #0b568b;
-                    border-radius: 5px;
-                    padding: 10px;
-                    margin-top: 15px;
-                    
-                ">
-                    <div style="
-                        color: #0b568b;
-                        font-size: 16px;
-                        
-                    ">
+                <div class="ps-cancelacion-gratis">
+                    <div>
                         Puedes cancelar tu reserva gratis hasta el <?php echo $fecha_limite->format('d/m/y'); ?> a las <?php echo $fecha_limite->format('H:i'); ?> h.
                     </div>
                 </div>
                 <?php endif; ?>
-
-
-
-
 
                 <!-- Modal oculto -->
                 <div id="ps-modal-mensaje" style="display:none;">
@@ -217,48 +186,6 @@ function seccion_precio_reserva_shortcode() {
                         <div id="ps-modal-texto"></div>
                     </div>
                 </div>
-
-                <style>
-                #ps-modal-mensaje {
-                    position: fixed;
-                    z-index: 9999;
-                    left: 0;
-                    top: 0;
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(0,0,0,0.4);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-                .ps-modal-contenido {
-                    background-color: #fff;
-                    padding: 20px 30px;
-                    border-radius: 10px;
-                    text-align: center;
-                    position: relative;
-                    max-width: 400px;
-                    width: 90%;
-                }
-                .ps-modal-cerrar {
-                    position: absolute;
-                    top: 10px;
-                    right: 15px;
-                    font-size: 20px;
-                    font-weight: bold;
-                    cursor: pointer;
-                }
-                #ps-modal-texto {
-                    color: #0b568b;
-                    font-size: 18px;
-                }
-                @media (max-width: 768px) {
-                    #ps-modal-texto {
-                        font-size: 20px;
-                    }
-                }
-                </style>
-
 
             <?php endif; ?>
 

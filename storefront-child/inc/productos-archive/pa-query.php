@@ -11,11 +11,18 @@ function trekkium_query_productos() {
 
     $args = array(
         'post_type'      => 'product',
-        'post_status'    => array('publish', 'wc-cancelado'),
+        'post_status'    => 'publish', // Solo "Published"
         'posts_per_page' => -1,
         'meta_key'       => 'fecha',
         'orderby'        => 'meta_value',
         'order'          => 'ASC',
+        'meta_query'     => array(
+            array(
+                'key'     => 'estado_producto',
+                'value'   => 'Activo',
+                'compare' => '='
+            )
+        )
     );
 
     // Añadir filtros de taxonomías si existen
@@ -183,8 +190,6 @@ function trekkium_query_productos() {
 
                             <div class="pa-query-contenido">                                
 
-
-
                                 <!-- Título -->
                                 <div class="pa-titulo"><?php the_title(); ?></div>
 
@@ -216,9 +221,6 @@ function trekkium_query_productos() {
                                         ?>
                                     </div>
                                 <?php endif; ?>
-
-
-
 
                                 <!-- Información extra -->
                                 <div class="info-extra">
