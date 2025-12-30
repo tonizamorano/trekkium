@@ -177,12 +177,18 @@ add_action('save_post_product', function($post_id){
     update_post_meta($post_id,'estado_solicitud',sanitize_text_field($_POST['estado_solicitud'] ?? 'Pendiente'));
     update_post_meta($post_id,'fecha_solicitud',current_time('mysql'));
 
-    // Enviar email si el tipo de cambio es Fecha
+    // Enviar emails según tipo de cambio
     $tipo_guardado = sanitize_text_field($_POST['tipo_cambio'] ?? '');
     $nueva_fecha = sanitize_text_field($_POST['nueva_fecha'] ?? '');
+    $estado_guardado = sanitize_text_field($_POST['estado_solicitud'] ?? '');
+    $provincia_guardado = sanitize_text_field($_POST['provincia_cambio'] ?? '');
+    $region_guardado = sanitize_text_field($_POST['region_cambio'] ?? '');
+    $entorno_guardado = sanitize_text_field($_POST['entorno_natural_cambio'] ?? '');
+
+    $product_id = $post_id;
+
     if ( ! empty( $tipo_guardado ) && ( strcasecmp($tipo_guardado, 'Fecha') === 0 || strcasecmp($tipo_guardado, 'fecha') === 0 ) ) {
         // Recolectar destinatarios: autor del producto
-        $product_id = $post_id;
         $recipients = array();
 
         $author_id = get_post_field('post_author', $product_id);
@@ -229,6 +235,57 @@ add_action('save_post_product', function($post_id){
                     trekkium_send_email_cambio_fecha( $r['email'], $r['name'], $product_id, $nueva_fecha );
                 } catch ( Exception $e ) {
                     error_log( 'Trekkium: Error al enviar email cambio fecha a ' . $r['email'] . ' - ' . $e->getMessage() );
+                }
+            }
+        }
+    }
+
+    // Enviar email si el tipo de cambio es Ubicación y la solicitud fue Aprobada
+    if ( ! empty( $tipo_guardado ) && ( strcasecmp($tipo_guardado, 'Ubicación') === 0 || strcasecmp($tipo_guardado, 'ubicación') === 0 || strcasecmp($tipo_guardado, 'Ubicacion') === 0 || strcasecmp($tipo_guardado, 'ubicacion') === 0 ) && strcasecmp($estado_guardado, 'Aprobada') === 0 ) {
+        $recipients = array();
+
+        $author_id = get_post_field('post_author', $product_id);
+        if ( $author_id ) {
+            $author = get_userdata( $author_id );
+            if ( $author && ! empty( $author->user_email ) ) {
+                $recipients[ $author->user_email ] = array(
+                    'email' => $author->user_email,
+                    'name'  => $author->display_name,
+                );
+            }
+        }
+
+        if ( function_exists('wc_get_orders') ) {
+            $orders = wc_get_orders( array( 'limit' => -1, 'status' => array('processing','pending','completed') ) );
+            if ( ! empty( $orders ) ) {
+                foreach ( $orders as $order ) {
+                    $items = $order->get_items();
+                    if ( empty( $items ) ) continue;
+                    foreach ( $items as $item ) {
+                        if ( $item->get_product_id() == $product_id ) {
+                            $email = $order->get_billing_email();
+                            $name = $order->get_billing_first_name() ?: $order->get_billing_first_name();
+                            if ( $email ) {
+                                $recipients[ $email ] = array( 'email' => $email, 'name' => $name );
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        $template_path = get_stylesheet_directory() . '/inc/mailing/emails/email-cambio-ubicacion.php';
+        if ( file_exists( $template_path ) ) {
+            include_once $template_path;
+        }
+
+        if ( function_exists('trekkium_send_email_cambio_ubicacion') && ! empty( $recipients ) ) {
+            foreach ( $recipients as $r ) {
+                try {
+                    trekkium_send_email_cambio_ubicacion( $r['email'], $r['name'], $product_id, $entorno_guardado, $provincia_guardado, $region_guardado );
+                } catch ( Exception $e ) {
+                    error_log( 'Trekkium: Error al enviar email cambio ubicacion a ' . $r['email'] . ' - ' . $e->getMessage() );
                 }
             }
         }
