@@ -51,7 +51,7 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
     wp_add_inline_style( 'woocommerce_admin_styles', $css );
 
     // Inline JS: además de ocultar, forzamos que estén desmarcadas/marcadas correctamente cada vez que se abre el panel.
-    $js = "
+    $js = <<<'JS'
     jQuery(document).ready(function($){
         // Forzar inyección correcta para producto simple
         $('#_virtual').prop('checked', true).trigger('change');
@@ -61,8 +61,8 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
         $(document).on('woocommerce_variations_loaded wc_variation_form', function(){
             $('.woocommerce_variation').each(function(){
                 var $v = $(this);
-                $v.find(\"input[type='checkbox'][name*='_virtual']\").prop('checked', true).trigger('change');
-                $v.find(\"input[type='checkbox'][name*='_downloadable']\").prop('checked', false).trigger('change');
+                $v.find("input[type='checkbox'][name*='_virtual']").prop('checked', true).trigger('change');
+                $v.find("input[type='checkbox'][name*='_downloadable']").prop('checked', false).trigger('change');
             });
         });
 
@@ -71,12 +71,12 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
             setTimeout(function(){
                 $( '.woocommerce_variation' ).each(function(){
                     var $v = $(this);
-                    $v.find(\"input[type='checkbox'][name*='_virtual']\").prop('checked', true).trigger('change');
-                    $v.find(\"input[type='checkbox'][name*='_downloadable']\").prop('checked', false).trigger('change');
+                    $v.find("input[type='checkbox'][name*='_virtual']").prop('checked', true).trigger('change');
+                    $v.find("input[type='checkbox'][name*='_downloadable']").prop('checked', false).trigger('change');
                 });
             }, 300);
         });
     });
-    ";
+    JS;
     wp_add_inline_script( 'jquery', $js );
 });
