@@ -36,6 +36,17 @@ add_action( 'woocommerce_admin_process_product_object', function ( $product ) {
         $new_estado = get_post_meta( $product_id, 'estado_producto', true );
     }
 
+    // Lanzar email de cancelación de actividad a reservas y autor
+    if ( $new_estado === 'cancelado' && $old_estado !== 'cancelado' ) {
+        if ( file_exists( get_stylesheet_directory() . '/inc/mailing/emails/email-actividad-cancelada.php' ) ) {
+            include_once get_stylesheet_directory() . '/inc/mailing/emails/email-actividad-cancelada.php';
+        } elseif ( file_exists( get_template_directory() . '/inc/mailing/emails/email-actividad-cancelada.php' ) ) {
+            include_once get_template_directory() . '/inc/mailing/emails/email-actividad-cancelada.php';
+        } elseif ( file_exists( dirname(__FILE__, 4) . '/mailing/emails/email-actividad-cancelada.php' ) ) {
+            include_once dirname(__FILE__, 4) . '/mailing/emails/email-actividad-cancelada.php';
+        }
+    }
+
     // Si existe una solicitud de cambio de tipo "Cancelación" y la solicitud está "Aprobada",
     // forzamos el estado del producto a "cancelado".
     $tipo_cambio = isset( $_POST['tipo_cambio'] ) ? sanitize_text_field( wp_unslash( $_POST['tipo_cambio'] ) ) : get_post_meta( $product_id, 'tipo_cambio', true );
