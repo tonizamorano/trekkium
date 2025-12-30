@@ -57,9 +57,9 @@ add_action( 'woocommerce_admin_process_product_object', function ( $product ) {
         $product->update_meta_data( 'estado_producto', 'cancelado' );
     }
 
-    // Si hemos cambiado a "cancelado" (y antes no estaba cancelado),
-    // cancelar todos los pedidos que contengan este producto y poner el producto en borrador.
-    if ( $new_estado === 'cancelado' && $old_estado !== 'cancelado' ) {
+    // Si hemos cambiado a "cancelado" o "finalizado" (y antes no estaba en ese estado),
+    // cancelar todos los pedidos que contengan este producto y poner el producto en papelera.
+    if ( ( ($new_estado === 'cancelado' && $old_estado !== 'cancelado') || ($new_estado === 'finalizado' && $old_estado !== 'finalizado') ) ) {
         // Obtener pedidos (puede ser costoso si hay muchos; intentamos usar la API de WC)
         $orders = array();
         if ( function_exists( 'wc_get_orders' ) ) {
@@ -77,7 +77,7 @@ add_action( 'woocommerce_admin_process_product_object', function ( $product ) {
             }
         }
 
-        if ( ! empty( $orders ) ) {
+        if ( ! empty( $orders ) && $new_estado === 'cancelado' ) {
             foreach ( $orders as $order ) {
                 // Aceptamos tanto objetos WC_Order como IDs
                 if ( is_numeric( $order ) ) {
@@ -104,16 +104,16 @@ add_action( 'woocommerce_admin_process_product_object', function ( $product ) {
             }
         }
 
-        // Forzar estado del producto a 'draft'
+        // Forzar estado del producto a 'trash'
         try {
             if ( method_exists( $product, 'set_status' ) ) {
-                $product->set_status( 'draft' );
+                $product->set_status( 'trash' );
                 $product->save();
             } else {
-                wp_update_post( array( 'ID' => $product_id, 'post_status' => 'draft' ) );
+                wp_update_post( array( 'ID' => $product_id, 'post_status' => 'trash' ) );
             }
         } catch ( Exception $e ) {
-            error_log( 'Error poniendo el producto ' . $product_id . ' en borrador: ' . $e->getMessage() );
+            error_log( 'Error poniendo el producto ' . $product_id . ' en papelera: ' . $e->getMessage() );
         }
     }
 
