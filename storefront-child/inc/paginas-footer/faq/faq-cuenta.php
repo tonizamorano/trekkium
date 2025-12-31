@@ -116,17 +116,6 @@ function faq_cuenta_shortcode() {
             <div class="faq-seccion">
                 <div class="faq-pregunta">
                     <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Puedo usar mi cuenta para realizar varias reservas?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Sí, absolutamente. Con tu cuenta de Trekkium puedes <strong>realizar tantas reservas como desees</strong>, sin ninguna limitación.</p>
-                    <p>Además, es posible incluir a otros participantes en la misma reserva, comprando varias plazas para una misma actividad.</p>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
                     <span class="faq-texto">¿Qué información comparte Trekkium con los guías?</span>
                 </div>
                 <div class="faq-respuesta">
@@ -144,22 +133,6 @@ function faq_cuenta_shortcode() {
                 </div>
             </div>
 
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Cómo recupero mi contraseña si la olvido?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Si olvidas tu contraseña, sigue estos pasos:</p>
-                    <ol class="faq-list">
-                        <li>Accede a 👉 <strong>https://trekkium.com/acceso/</strong></li>
-                        <li>Haz clic en la opción <strong>"Contraseña perdida"</strong>.</li>
-                        <li>Introduce tu correo electrónico y pulsa <strong>"Restablecer contraseña"</strong>.</li>
-                        <li>Recibirás un correo electrónico con un enlace para crear una nueva contraseña.</li>
-                    </ol>
-                    <p>Una vez completado el proceso, podrás iniciar sesión con tu nueva contraseña y continuar gestionando tus reservas y perfil.</p>
-                </div>
-            </div>
 
             <div class="faq-seccion">
                 <div class="faq-pregunta">
@@ -167,11 +140,10 @@ function faq_cuenta_shortcode() {
                     <span class="faq-texto">¿Puedo eliminar mi cuenta de Trekkium?</span>
                 </div>
                 <div class="faq-respuesta">
-                    <p>Sí, puedes eliminar tu cuenta de Trekkium sin necesidad de comunicarlo previamente, directamente desde tu panel de usuario, accediendo a la sección <strong>"Eliminar cuenta"</strong>.</p>
+                    <p>Sí, puedes eliminar tu cuenta de Trekkium sin necesidad de comunicarlo previamente, directamente desde tu panel de usuario, accediendo a la sección <strong>"Eliminar cuenta", siempre y cuando no tengas reservas realizadas en estado "Pendiente".</strong>.</p>
                     <p>Ten en cuenta que, al eliminar tu cuenta:</p>
                     <ul class="faq-list">
                         <li>Se borrarán todos tus datos personales y de contacto.</li>
-                        <li>Se eliminarán todas tus reservas.</li>
                         <li>Se perderá tu contraseña.</li>
                         <li>Se eliminarán cupones y valoraciones realizadas a los guías.</li>
                     </ul>
@@ -193,17 +165,6 @@ function faq_cuenta_shortcode() {
                         <li><strong>Uso limitado:</strong> únicamente se utilizan para la gestión de tus reservas y para comunicaciones relacionadas con nuestras actividades.</li>
                     </ul>
                     <p>La seguridad y privacidad de tus datos es una prioridad absoluta para Trekkium.</p>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Puedo registrar perfiles para otras personas desde mi cuenta?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>No, no es posible crear cuentas para otras personas desde tu perfil. Cada usuario de Trekkium debe tener una <strong>cuenta personal, única e intransferible</strong>.</p>
-                    <p>Sin embargo, sí puedes incluir a acompañantes al reservar varias plazas para la misma actividad, gestionando todas las reservas desde tu cuenta.</p>
                 </div>
             </div>
 

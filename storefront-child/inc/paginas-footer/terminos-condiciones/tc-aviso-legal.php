@@ -18,10 +18,10 @@ function tc_aviso_legal_shortcode() {
                     <strong>Nombre comercial:</strong> Trekkium<br>
                     <strong>NIF:</strong> 46789781-F<br>
                     <strong>Domicilio fiscal:</strong> Av. Montserrat, 47 – 08820 El Prat de Llobregat (Barcelona)<br>
-                    <strong>Correo electrónico:</strong> tonizt@gmail.com<br>
+                    <strong>Correo electrónico:</strong> hola@trekkium.com<br>
                     <strong>Teléfono:</strong> +34 711 200 697<br>
                     <strong>Dominio:</strong> www.trekkium.com</p>
-                    <p>Trekkium es una plataforma de promoción y gestión de reservas de actividades de montaña, que incluye en el precio de la reserva el seguro de accidentes para la actividad contratada, gestionado conforme a la normativa vigente en materia de actividades de montaña guiadas.</p>
+                    <p>Trekkium es un portal de actividades de montaña guiadas por profesionales, que incluye en el precio de la reserva el seguro de accidentes para la actividad contratada, gestionado conforme a la normativa vigente en materia de actividades de montaña guiadas.</p>
                 </div>
             </div>
 
@@ -31,22 +31,29 @@ function tc_aviso_legal_shortcode() {
                     <span class="tc-texto">2. Objeto del sitio web</span>
                 </div>
                 <div class="tc-respuesta">
-                    <p>El presente sitio web tiene como finalidad ofrecer información y gestionar la reserva de actividades de montaña (senderismo, trekking, alpinismo, raquetas de nieve, etc.) organizadas por guías profesionales titulados.</p>
-                    <p>Trekkium actúa como empresa vendedora de reservas, gestionando el proceso de contratación y el cobro de la parte correspondiente a la reserva.<br>
-                    El seguro de accidentes obligatorio para los participantes está incluido en el precio de la reserva y es gestionado directamente por Trekkium.<br>
-                    El servicio final (la actividad) es prestado por el guía o entidad organizadora indicada en cada ficha de actividad.</p>
+                    <p>El presente sitio web tiene como finalidad programar, publicar y gestionar la reserva de actividades de montaña organizadas por guías profesionales titulados.</p>
+                    <p>Trekkium actúa como plataforma de anuncios de actividades de montaña, gestionando el proceso de contratación, el cobro de la parte correspondiente a la reserva y el seguro de accidentes obligatorio para los participantes.</p>
+                    <p>El servicio final (la actividad) es prestado por el/la guía organizador/a indicada en cada ficha de actividad.</p>
                 </div>
             </div>
 
             <div class="tc-seccion">
                 <div class="tc-pregunta">
                     <span class="tc-icon">></span>
-                    <span class="tc-texto">3. Condiciones de uso</span>
+                    <span class="tc-texto">3. Condiciones de acceso y uso</span>
                 </div>
                 <div class="tc-respuesta">
-                    <p>El acceso y uso del sitio web atribuye la condición de usuario, e implica la aceptación plena de las presentes condiciones de uso.<br>
-                    El usuario se compromete a utilizar el sitio y sus servicios conforme a la ley, la moral y el orden público.</p>
-                    <p>El usuario se abstendrá de utilizar el sitio web con fines ilícitos, contrarios a los derechos e intereses de Trekkium, de los guías colaboradores o de terceros, o de cualquier forma que pueda dañar, inutilizar o sobrecargar el portal o impedir su normal funcionamiento.</p>
+                    <p>El acceso y uso del sitio web atribuye la condición de usuario, e implica la aceptación plena de las presentes condiciones de uso.</p>
+                    <p>El usuario se compromete a utilizar el sitio y sus servicios conforme a la ley, la moral y el orden público, absteniéndose de utilizar el sitio web con fines ilícitos, contrarios a los derechos e intereses de Trekkium, de los guías colaboradores o de terceros, o de cualquier forma que pueda dañar, inutilizar o sobrecargar el portal o impedir su normal funcionamiento.</p>
+                    <p>El acceso a Trekkium es libre y gratuito, aunque algunas funcionalidades (como la reserva o publicación de actividades) requieren registro previo.</p>
+                    <p>El usuario se compromete a utilizar la web de manera responsable, respetuosa y conforme a la ley. En particular, se prohíbe:</p>
+                    <ul class="tc-list">
+                        <li>Introducir o difundir contenidos ilegales, violentos, difamatorios, pornográficos o contrarios a los derechos humanos.</li>
+                        <li>Utilizar la web con fines fraudulentos o que puedan dañar la imagen o intereses de Trekkium o de terceros.</li>
+                        <li>Acceder o intentar acceder a áreas restringidas sin autorización.</li>
+                        <li>Realizar ingeniería inversa o manipular el código o el funcionamiento técnico de la web.</li>
+                    </ul>
+                    <p>El incumplimiento de estas normas puede implicar el bloqueo o eliminación de la cuenta del usuario.</p>
                 </div>
             </div>
 
@@ -58,6 +65,7 @@ function tc_aviso_legal_shortcode() {
                 <div class="tc-respuesta">
                     <p>Todos los contenidos del sitio web, incluyendo textos, fotografías, gráficos, logotipos, iconos, imágenes, diseño gráfico, código fuente y software, son propiedad de Antonio Zamorano Torres (Trekkium) o de terceros que han autorizado su uso.</p>
                     <p>Queda prohibida su reproducción, distribución, comunicación pública o transformación, total o parcial, sin autorización expresa y por escrito del titular.</p>
+                    <p>Los guías y colaboradores que suban contenidos (fotos, textos, descripciones) declaran ser titulares de los derechos o tener autorización para su uso, y conceden a Trekkium una licencia no exclusiva para su publicación y promoción en la plataforma.</p>
                 </div>
             </div>
 
@@ -97,7 +105,7 @@ function tc_aviso_legal_shortcode() {
                 </div>
                 <div class="tc-respuesta">
                     <p>Se permite enlazar a la página principal de Trekkium desde otras webs, siempre que el enlace no implique una relación de asociación, recomendación o respaldo falso, ni dañe la imagen de la marca.<br>
-                    No se permite el uso de frames, deep links ni técnicas similares que puedan inducir a error sobre la autoría del contenido.</p>
+                    No se permite el uso de <em>frames</em>, <em>deep links</em> ni técnicas similares que puedan inducir a error sobre la autoría del contenido.</p>
                 </div>
             </div>
 
@@ -118,18 +126,7 @@ function tc_aviso_legal_shortcode() {
                     <span class="tc-texto">9. Legislación aplicable y jurisdicción</span>
                 </div>
                 <div class="tc-respuesta">
-                    <p>La relación entre Trekkium y los usuarios se rige por la legislación española vigente.<br>
-                    Cualquier controversia que pueda surgir se someterá a los Juzgados y Tribunales de Barcelona, salvo que la ley disponga otro fuero imperativo.</p>
-                </div>
-            </div>
-
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">10. Contacto</span>
-                </div>
-                <div class="tc-respuesta">
-                    <p>Para cualquier consulta o comunicación relacionada con este aviso legal, el usuario puede contactar con Trekkium a través del correo electrónico: <strong>hola@trekkium.com</strong></p>
+                    <p>La relación entre Trekkium y los usuarios se rige por la legislación española vigente. Cualquier controversia que pueda surgir se someterá a los Juzgados y Tribunales de Barcelona, salvo que la ley disponga otro fuero imperativo.</p>
                 </div>
             </div>
 

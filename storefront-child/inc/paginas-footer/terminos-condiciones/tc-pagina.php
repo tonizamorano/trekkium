@@ -13,7 +13,6 @@ function pagina_terminos_condiciones_shortcode() {
                 <div class="tc-menu-item" data-shortcode="[tc_aviso_legal]" data-slug="aviso-legal">Aviso legal</div>
                 <div class="tc-menu-item" data-shortcode="[tc_politica_privacidad]" data-slug="politica-privacidad">Política de privacidad</div>
                 <div class="tc-menu-item" data-shortcode="[tc_politica_cookies]" data-slug="politica-cookies">Política de cookies</div>
-                <div class="tc-menu-item" data-shortcode="[tc_condiciones_uso]" data-slug="condiciones-uso">Condiciones de uso</div>
                 <div class="tc-menu-item" data-shortcode="[tc_condiciones_contratacion]" data-slug="condiciones-contratacion">Condiciones de contratación</div> 
                 <div class="tc-menu-item" data-shortcode="[tc_descarga_responsabilidad]" data-slug="descarga-responsabilidad">Descarga de responsabilidad</div>                           
             </nav>

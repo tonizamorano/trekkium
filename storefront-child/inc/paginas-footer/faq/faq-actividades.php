@@ -2,9 +2,7 @@
 function faq_actividades_shortcode() {
     ob_start();
     ?>
-    <div class="faq-contenedor">
-
-        
+    <div class="faq-contenedor">        
 
         <!-- Contenido FAQ -->
         <div class="faq-contenido">
@@ -77,64 +75,7 @@ function faq_actividades_shortcode() {
             <div class="faq-seccion">
                 <div class="faq-pregunta">
                     <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Qué información se muestra en el anuncio de cada actividad?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Cada anuncio de actividad en Trekkium incluye información detallada para que los participantes puedan conocer todos los aspectos relevantes antes de realizar la reserva.</p>
-                    <p>En las actividades de un día se muestran los siguientes datos:</p>
-                    <ul class="faq-list">
-                        <li>Título de la actividad</li>
-                        <li>Región y provincia donde se desarrolla</li>
-                        <li>Modalidad deportiva</li>
-                        <li>Galería de imágenes</li>
-                        <li>Descripción general de la actividad</li>
-                        <li>Guía organizador, con enlace a su perfil profesional</li>
-                        <li>Fecha, hora y lugar de encuentro</li>
-                        <li>Ficha técnica con distancia, duración, desnivel positivo y negativo, y nivel de dificultad</li>
-                        <li>Número mínimo y máximo de participantes</li>
-                        <li>Disponibilidad de plazas (libres y reservadas)</li>
-                        <li>Información adicional, como observaciones o detalles técnicos</li>
-                        <li>Planificación horaria de la jornada</li>
-                        <li>Lista de material y equipamiento necesarios</li>
-                        <li>Servicios incluidos en el precio</li>
-                        <li>Precio total de la actividad, con el importe correspondiente a la reserva y el importe a abonar al guía</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Cómo se informa sobre el nivel de dificultad de las actividades?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>En el anuncio de cada actividad, dentro de la sección <strong>"Ficha técnica"</strong>, se indica el nivel de dificultad, que se relaciona directamente con la experiencia previa necesaria en la modalidad deportiva correspondiente.</p>
-                    <p>Los niveles de dificultad utilizados en Trekkium son los siguientes:</p>
-                    <ul class="faq-list">
-                        <li><strong>Muy fácil:</strong> no se requiere experiencia previa</li>
-                        <li><strong>Fácil:</strong> se requiere muy poca o ninguna experiencia</li>
-                        <li><strong>Moderado:</strong> se requiere un nivel medio de experiencia</li>
-                        <li><strong>Exigente:</strong> se requiere un nivel alto de experiencia</li>
-                        <li><strong>Muy exigente:</strong> se requiere un nivel muy alto de experiencia</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Es seguro que la actividad que he reservado se realizará?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>La realización de una actividad no está garantizada hasta que se haya alcanzado el <strong>número mínimo de participantes</strong> requerido.</p>
-                    <p>En cada anuncio se indica el número máximo y mínimo de plazas, así como el estado actual de la actividad, incluyendo las plazas disponibles, las reservas confirmadas y el nivel de ocupación del grupo.</p>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Por qué las actividades tienen un número máximo y mínimo de participantes?</span>
+                    <span class="faq-texto">¿Qué indica el número máximo y mínimo de participantes?</span>
                 </div>
                 <div class="faq-respuesta">
                     <p>Cada actividad publicada en Trekkium establece un número mínimo y máximo de participantes por razones de seguridad y viabilidad.</p>
@@ -181,30 +122,14 @@ function faq_actividades_shortcode() {
             <div class="faq-seccion">
                 <div class="faq-pregunta">
                     <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Quién puede estar dentro del grupo de Whatsapp de la actividad?</span>
+                    <span class="faq-texto">¿Para qué sirve el grupo de Whatsapp de la actividad?</span>
                 </div>
                 <div class="faq-respuesta">
-                    <p>El grupo de WhatsApp de cada actividad es creado y administrado por el guía responsable, quien se encarga de resolver dudas, facilitar información práctica y comunicar actualizaciones relacionadas con la actividad.</p>
-                    <p>El equipo de Trekkium también está presente en los grupos, pero de forma no participativa. Su función es supervisar y testimoniar cualquier incidencia o comunicación relevante, con el fin de poder actuar adecuadamente si fuera necesario, sin intervenir en las conversaciones entre guía y participantes.</p>
-                    <p>El resto de miembros del grupo está formado exclusivamente por las personas que han realizado una reserva y cuyo estado se encuentra en <strong>Pendiente</strong> o <strong>Completado</strong>.</p>
-                </div>
-            </div>
+                    <p>El grupo de WhatsApp de cada actividad es creado y administrado por el guía responsable, y su función principal es la de <strong>resolver dudas</strong>, facilitar información práctica y <strong>comunicar actualizaciones</strong> o cambios relacionados con la actividad.</p>
+                    
+                    <p>El resto del grupo está formado exclusivamente por las personas que han realizado una reserva y cuyo estado se encuentra en <strong>Pendiente</strong> o <strong>Completado</strong>.</p>
 
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Se requiere experiencia previa para participar en alguna actividad?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>El nivel de experiencia previa necesario depende directamente del grado de dificultad de la actividad.</p>
-                    <p>Los requisitos orientativos para cada nivel son los siguientes:</p>
-                    <ul class="faq-list">
-                        <li><strong>Muy fácil:</strong> no se requiere experiencia previa</li>
-                        <li><strong>Fácil:</strong> se requiere un grado bajo o nulo de experiencia</li>
-                        <li><strong>Moderado:</strong> se requiere un nivel medio de experiencia</li>
-                        <li><strong>Exigente:</strong> se requiere un nivel alto de experiencia</li>
-                        <li><strong>Muy exigente:</strong> se requiere un nivel muy alto de experiencia</li>
-                    </ul>
+                    <p>A través del grupo de Whatsapp, los participantes pueden organizar lugares de encuentro para <strong>compartir vehículos</strong>, o <strong>compartir fotos</strong> de la actividad una vez ésta haya finalizado.</p>
                 </div>
             </div>
 
@@ -241,7 +166,7 @@ function faq_actividades_shortcode() {
             <div class="faq-seccion">
                 <div class="faq-pregunta">
                     <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Cómo llegar a la ubicación de la actividad si no tengo vehículo?</span>
+                    <span class="faq-texto">¿Cómo llego al punto de encuentro de la actividad si no tengo vehículo?</span>
                 </div>
                 <div class="faq-respuesta">
                     <p>Siempre que sea posible, se recomienda compartir vehículo entre los participantes. Esta práctica ayuda a:</p>
@@ -254,49 +179,7 @@ function faq_actividades_shortcode() {
                 </div>
             </div>
 
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Qué ropa es recomendable según la actividad y el clima?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>En el anuncio de cada actividad encontrarás la lista completa de material y equipamiento necesarios, dentro del apartado <strong>"Material necesario"</strong>.</p>
-                    <p>Una vez realizada la reserva, puedes consultar directamente con el guía cualquier duda sobre la ropa más adecuada o sobre otros elementos del equipamiento a través del grupo de WhatsApp de la actividad.</p>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Qué debo hacer si llego tarde al punto de encuentro?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Si prevés que vas a llegar tarde, informa al guía y al grupo lo antes posible a través del grupo de WhatsApp de la actividad. El guía intentará gestionar la situación del mejor modo posible, siempre que no comprometa la seguridad ni la planificación prevista.</p>
-                    <p>Ten en cuenta que las actividades deben realizarse dentro de los márgenes de tiempo establecidos, y la puntualidad es esencial para garantizar la seguridad y el correcto desarrollo de la jornada.</p>
-                    <p>Por este motivo, el tiempo máximo de espera en caso de retraso es de <strong>15 minutos</strong>.</p>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Puede cambiar la fecha de una actividad?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Como norma general, una vez publicada una actividad, su fecha no puede modificarse sin previo aviso ni notificación a las personas que hayan realizado una reserva.</p>
-                    <p>Sin embargo, Trekkium o el guía responsable podrán proponer un cambio de fecha únicamente en los siguientes casos:</p>
-                    <ul class="faq-list">
-                        <li>Previsión meteorológica adversa el día de la actividad</li>
-                        <li>Incapacidad del guía para asistir en la fecha prevista</li>
-                        <li>Causa de fuerza mayor que impida el desarrollo normal y seguro de la actividad</li>
-                    </ul>
-                    <p>El cambio de fecha deberá ser propuesto por el guía responsable en el grupo de WhatsApp de la actividad, y aprobado por el resto de participantes con un mínimo de <strong>24 horas de antelación</strong> al inicio.</p>
-                    <p>Los participantes podrán rechazar la propuesta y cancelar su reserva sin coste alguno.</p>
-                    <p>Para que la nueva fecha sea válida, al menos un número de participantes igual al grupo mínimo deberá haber expresado claramente su conformidad en el grupo y no haber cancelado su reserva.</p>
-                    <p>Dentro de las últimas 24 horas antes del inicio, no se podrá modificar la fecha de la actividad bajo ningún concepto.</p>
-                </div>
-            </div>
-
+        
             <div class="faq-seccion">
                 <div class="faq-pregunta">
                     <span class="faq-icon">></span>

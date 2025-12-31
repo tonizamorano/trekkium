@@ -34,10 +34,12 @@ function tc_descarga_responsabilidad_shortcode() {
                     <p>Trekkium ofrece excursiones y actividades de montaña que se realizan en el entorno natural, diseñadas y guiadas por profesionales cualificados.</p>
                     <p>Estas actividades pueden incluir, entre otros:</p>
                     <ul class="tc-list">
-                        <li>Senderismo por terrenos variados.</li>
-                        <li>Caminos de montaña con desnivel positivo/negativo.</li>
+                        <li>Terrenos de baja, media y alta montaña, tanto estivales como invernales.</li>
+                        <li>Tramos con desnivel positivo/negativo.</li>
                         <li>Zonas rocosas, húmedas, resbaladizas o expuestas.</li>
-                        <li>Tramos estrechos, pendientes fuertes o pasos de dificultad técnica moderada.</li>
+                        <li>Exposición a la intemperie.</li>
+                        <li>Tramos con fuerte pendiente o verticalidad.</li>
+                        <li>Fauna y flora salvaje.</li>
                     </ul>
                     <p><strong>Riesgos generales inherentes</strong></p>
                     <p>El participante declara conocer y aceptar que las actividades pueden incluir riesgos como:</p>
@@ -46,7 +48,7 @@ function tc_descarga_responsabilidad_shortcode() {
                         <li>Golpes con piedras, ramas u otros elementos naturales.</li>
                         <li>Cambios meteorológicos repentinos, hipotermia o golpe de calor.</li>
                         <li>Fatiga física, deshidratación o malestar.</li>
-                        <li>Riesgos derivados de la fauna o insectos.</li>
+                        <li>Riesgos derivados de la fauna, vegetación o insectos.</li>
                         <li>Pérdida, deterioro o robo de objetos personales.</li>
                     </ul>
                 </div>
@@ -130,7 +132,7 @@ function tc_descarga_responsabilidad_shortcode() {
 
                     <p><strong>Reserva obligatoria y cobertura del seguro</strong></p>
                     <p>Solo podrán participar en las actividades aquellas personas que hayan realizado y abonado previamente una reserva a través de la web de Trekkium.</p>
-                    <p>La participación sin haber formalizado dicha reserva implica que la persona no estará cubierta por las pólizas de seguro contratadas, eximiendo a Trekkium y al guía de cualquier responsabilidad derivada.</p>
+                    <p>La participación sin haber formalizado dicha reserva implica que la persona no estará cubierta por las pólizas de seguro contratadas, eximiendo a Trekkium de cualquier responsabilidad derivada.</p>
 
                     <p><strong>Normativa sobre mascotas</strong></p>
                     <p>El participante reconoce y acepta que la asistencia con mascotas a las actividades está sujeta a las siguientes condiciones:</p>
@@ -186,11 +188,12 @@ function tc_descarga_responsabilidad_shortcode() {
                         <li>Viento fuerte.</li>
                         <li>Nieve o hielo inesperado.</li>
                         <li>Aumento del caudal de ríos o barrancos.</li>
-                        <li>Cualquier situación de riesgo no prevista que comprometa la seguridad de las personas participantes.</li>
                         <li>Riesgo de avalanchas de nieve o desprendimientos por acumulación de lluvia o nieve.</li>
                         <li>Itinerario intransitable en condiciones de seguridad.</li>
+                        <li>Cualquier otra situación de riesgo no descrita que comprometa la seguridad de las personas participantes.</li>
                     </ul>
-                    <p>Estas decisiones se toman exclusivamente por criterios de seguridad y no implican responsabilidad para Trekkium.</p>
+                    <p>Estas decisiones se toman exclusivamente por criterios de seguridad y no implican responsabilidad para Trekkium ni los guías organizadores.</p>
+                    <p>Los guías organizadores consultan y basan sus decisiones en partes y previsiones meteorológicos a través de fuentes externas que pueden contener errores en sus pronósticos.</p>
                 </div>
             </div>
 
@@ -222,12 +225,10 @@ function tc_descarga_responsabilidad_shortcode() {
             <div class="tc-seccion">
                 <div class="tc-pregunta">
                     <span class="tc-icon">></span>
-                    <span class="tc-texto">8. Protección de datos</span>
+                    <span class="tc-texto">8. Aceptación</span>
                 </div>
                 <div class="tc-respuesta">
-                    <p>De conformidad con el Reglamento (UE) 2016/679 (RGPD), se informa que:</p>
-                    <p>Los datos facilitados se utilizarán para la gestión de la reserva, comunicaciones relacionadas con la actividad y, si el usuario lo acepta, para el envío de información sobre futuras actividades.</p>
-                    <p>El participante puede ejercer sus derechos de acceso, rectificación, cancelación u oposición enviando un correo electrónico a la dirección indicada en la web.</p>
+                    <p>La participación en la actividad implica la aceptación completa de este documento, marcado en la casilla <strong>"He leído y acepto los Términos y Condiciones Legales"</strong> al crear la cuenta de usuario.</p>
                 </div>
             </div>
 
@@ -241,19 +242,7 @@ function tc_descarga_responsabilidad_shortcode() {
                 </div>
             </div>
 
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">10. Aceptación</span>
-                </div>
-                <div class="tc-respuesta">
-                    <p>La participación en la actividad implica la aceptación completa de este documento, ya sea:</p>
-                    <ul class="tc-list">
-                        <li>Marcando la casilla de aceptación en el formulario de reserva online,</li>
-                        <li>O firmando presencialmente si se solicitara en actividades específicas.</li>
-                    </ul>
-                </div>
-            </div>
+            
 
         </div>
     </div>

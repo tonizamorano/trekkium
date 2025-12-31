@@ -16,7 +16,7 @@
 .sn-menu-item {
     display: inline-block;
     padding: 5px 10px;
-    background-color: var(--azul1-40);
+    background-color: var(--azul1-100);
     color: #ffffff;
     font-weight: bold;
     font-size: 15px;
@@ -104,8 +104,8 @@
 .tc-respuesta {
     display: none;
     padding: 0px 10px 10px 35px;
-    font-size: 18px;
-    color: var(--azul1-60);
+    font-size: 16px;
+    color: var(--azul1-100);
 }
 
 .faq-respuesta.activo,
@@ -137,9 +137,9 @@
     margin: 10px 0 0 20px;
     padding: 0;
     list-style-type: disc;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.2;
-    color: var(--azul1-60);
+    color: var(--azul1-100);
 }
 
 .faq-list li,

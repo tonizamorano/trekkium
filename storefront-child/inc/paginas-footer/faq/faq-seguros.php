@@ -43,31 +43,6 @@ function faq_seguros_shortcode() {
             <div class="faq-seccion">
                 <div class="faq-pregunta">
                     <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Qué hacer en caso de accidente durante la actividad?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Ante todo, <strong>mantén la calma</strong>. Los guías saben en cada momento cuál es la decisión correcta y cómo actuar.</p>
-                    <p><strong>Sigue sus instrucciones en todo momento</strong> para garantizar tu seguridad y la de los demás participantes.</p>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Los guías están asegurados profesionalmente?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Todos los guías registrados en Trekkium cuentan con:</p>
-                    <ul class="faq-list">
-                        <li><strong>Seguro profesional de responsabilidad civil:</strong> adecuado a sus modalidades y competencias, cubre los posibles daños a terceros, incluidos los participantes, derivados de su actividad profesional.</li>
-                        <li><strong>Seguro de accidentes para guías de montaña:</strong> cubre los posibles daños que el guía pueda sufrir durante el desarrollo de su actividad profesional.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
                     <span class="faq-texto">¿Debo llevar algún seguro adicional?</span>
                 </div>
                 <div class="faq-respuesta">
@@ -84,6 +59,7 @@ function faq_seguros_shortcode() {
                     <p>Si tienes algún problema de salud o has sufrido un accidente que te impidans participar en la actividad, <strong>puedes cancelar tu reserva sin compromiso</strong>.</p>
                     <p>Para ello, accede al apartado <strong>"Mis reservas"</strong> en tu cuenta y pulsa el botón <strong>"Cancelar reserva"</strong>, hasta 24 horas antes de la actividad.</p>
                     <p>Pasado este plazo, se realizará el pago de la reserva y ya no será posible cancelarla.</p>
+                    <p>En cualquier caso debes comunicárselo al guía responsable de la actividad.</p>
                 </div>
             </div>
 
@@ -95,17 +71,6 @@ function faq_seguros_shortcode() {
                 <div class="faq-respuesta">
                     <p>No, <strong>en ningún caso</strong>. Solo los usuarios registrados que hayan realizado la reserva de forma correcta y completado el pago pueden participar en las actividades de Trekkium.</p>
                     <p>Contar con la reserva en estado <strong>"Completado"</strong> y haber abonado al guía el importe pendiente el día de la actividad <strong>garantiza la cobertura de los seguros correspondientes</strong> para cada actividad.</p>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Tengo que enviar alguna documentación para activar mi seguro?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>No es necesario enviarnos documentación adicional. Sí debes proporcionar tus <strong>datos personales y de facturación, así como tu DNI/NIE/Pasaporte y fecha de nacimiento</strong> (y los de tus acompañantes, si los hubiera) para que los seguros cubran tu participación.</p>
-                    <p>Al registrar tu cuenta, <strong>confirmas que los datos introducidos son correctos</strong>. En caso contrario, Trekkium no se hace responsable de posibles problemas derivados de información incorrecta.</p>
                 </div>
             </div>
 

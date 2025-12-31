@@ -18,7 +18,7 @@ function tc_politica_privacidad_shortcode() {
                     <strong>Nombre comercial:</strong> Trekkium<br>
                     <strong>NIF:</strong> 46789781-F<br>
                     <strong>Domicilio:</strong> Av. Montserrat, 47 – 08820 El Prat de Llobregat (Barcelona)<br>
-                    <strong>Correo electrónico:</strong> tonizt@gmail.com<br>
+                    <strong>Correo electrónico:</strong> hola@trekkium.com<br>
                     <strong>Teléfono:</strong> +34 711 200 697<br>
                     <strong>Dominio:</strong> www.trekkium.com</p>
                 </div>
@@ -74,13 +74,14 @@ function tc_politica_privacidad_shortcode() {
                 <div class="tc-respuesta">
                     <p>La base legal para el tratamiento de los datos personales es:</p>
                     <ul class="tc-list">
-                        <li>Ejecución de un contrato: para gestionar la reserva o la relación con el guía colaborador.</li>
-                        <li>Consentimiento del interesado: para el envío de comunicaciones comerciales o boletines informativos.</li>
-                        <li>Interés legítimo: para mantener la seguridad del sitio web y ofrecer una mejor experiencia de usuario.</li>
-                        <li>Cumplimiento de una obligación legal: en relación con la gestión fiscal y contable de las reservas.</li>
+                        <li>Gestión de reservas y servicios solicitados: para tramitar las reservas realizadas a través del sitio web y gestionar la relación con los guías colaboradores.</li>
+                        <li>Consentimiento del usuario: para el envío de comunicaciones informativas, comerciales o boletines, siempre que se haya otorgado consentimiento expreso.</li>
+                        <li>Interés legítimo del responsable: para garantizar la seguridad del sitio web y mejorar la experiencia de navegación y los servicios ofrecidos.</li>
+                        <li>Cumplimiento de obligaciones legales: en relación con la gestión fiscal, contable y administrativa derivada de las reservas.</li>
                     </ul>
                 </div>
             </div>
+
 
             <div class="tc-seccion">
                 <div class="tc-pregunta">
@@ -92,7 +93,7 @@ function tc_politica_privacidad_shortcode() {
                     <ul class="tc-list">
                         <li>Datos de reservas: mientras dure la relación contractual y durante los plazos legales de responsabilidad (generalmente, 5 años).</li>
                         <li>Datos de guías colaboradores: mientras dure la colaboración y durante los plazos exigidos por ley.</li>
-                        <li>Datos para comunicaciones comerciales: hasta que el usuario revoque su consentimiento.</li>
+                        <li>Datos para comunicaciones comerciales: hasta que el usuario revoque su consentimiento o elimine su cuenta de usuario.</li>
                         <li>Datos recogidos mediante cookies: según el periodo establecido en la política de cookies.</li>
                     </ul>
                 </div>
@@ -108,8 +109,8 @@ function tc_politica_privacidad_shortcode() {
                     <ul class="tc-list">
                         <li>Guías responsables de la actividad contratada, para gestionar asistencia y seguridad del cliente.</li>
                         <li>Compañías aseguradoras, para la tramitación del seguro de accidentes incluido en la reserva.</li>
-                        <li>Entidades financieras (Stripe, PayPal, etc.), para la gestión de cobros y pagos.</li>
-                        <li>Proveedores tecnológicos necesarios para el funcionamiento de la web (SiteGround, Google Analytics, FluentCRM, MailPoet, etc.).</li>
+                        <li>Entidades financieras (Stripe, etc.), para la gestión de cobros y pagos.</li>
+                        <li>Proveedores tecnológicos necesarios para el funcionamiento de la web (SiteGround, Google Analytics, WooCommerce, etc.).</li>
                     </ul>
                     <p>Todos los proveedores de servicios externos cumplen con la normativa europea de protección de datos (RGPD). Trekkium no cede datos personales a terceros fuera del Espacio Económico Europeo sin las garantías adecuadas.</p>
                 </div>

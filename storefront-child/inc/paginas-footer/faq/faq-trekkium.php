@@ -82,18 +82,6 @@ function faq_trekkium_shortcode() {
             <div class="faq-seccion">
                 <div class="faq-pregunta">
                     <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Puedo contactar con Trekkium para sugerencias o problemas?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Sí, Trekkium dispone de <strong>canales de contacto</strong> en la web para consultas, incidencias o sugerencias relacionadas con las actividades.</p>
-                    <p>El equipo de soporte responde con atención y busca ofrecer la <strong>solución más adecuada</strong> en cada caso.</p>
-                    <p>Además, tras cada actividad, se envía un <strong>formulario de satisfacción</strong> para valorar la experiencia y el guía, dejando comentarios o sugerencias para seguir mejorando.</p>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
                     <span class="faq-texto">¿Cuáles son las ventajas de Trekkium frente a otras páginas de anuncios?</span>
                 </div>
                 <div class="faq-respuesta">

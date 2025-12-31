@@ -71,7 +71,7 @@ function faq_reservas_shortcode() {
                     <p>Puedes cancelar tu reserva <strong>hasta 24 horas antes</strong> de la fecha y hora de la actividad desde el panel de usuario.</p>
                     <p>Una vez pasado ese plazo, la reserva no se puede cancelar y se cobrará el importe correspondiente a la reserva.</p>
                     <p>Si no puedes asistir el día de la actividad, no se cobrará ni se reclamará el importe pendiente que corresponda al/la guía.</p>
-                    <p>Siempre que sea posible, informa al/de la guía a través del grupo de WhatsApp de la actividad.</p>
+                    <p>Siempre que sea posible, informa al guía a través del grupo de WhatsApp de la actividad.</p>
                 </div>
             </div>
 
@@ -81,7 +81,7 @@ function faq_reservas_shortcode() {
                     <span class="faq-texto">¿Es seguro pagar a través de Trekkium?</span>
                 </div>
                 <div class="faq-respuesta">
-                    <p>Sí. Trekkium utiliza <strong>Stripe como pasarela de pago</strong>, que incorpora las medidas de seguridad más estrictas para transacciones de comercio electrónico.</p>
+                    <p>Sí, totalmente seguro. Trekkium utiliza <strong>Stripe como pasarela de pago</strong>, que incorpora las medidas de seguridad más estrictas para transacciones de comercio electrónico.</p>
                     <p>Trekkium <strong>no almacena</strong> en sus bases de datos ninguna información de tu tarjeta de crédito o débito.</p>
                     <p>Todos los datos relativos a los pagos son gestionados por Stripe, que cumple con los estándares más exigentes de seguridad y protección de datos, incluyendo la normativa <strong>PCI DSS</strong> y el <strong>Reglamento General de Protección de Datos (RGPD)</strong>.</p>
                 </div>
@@ -96,7 +96,6 @@ function faq_reservas_shortcode() {
                     <p>El estado de tu reserva indica en todo momento la situación de la misma:</p>
                     <ul class="faq-list">
                         <li><strong>Pendiente:</strong> tu reserva ha sido validada pero está pendiente de pago. El pago se realizará automáticamente durante las últimas 24 horas antes del inicio de la actividad.</li>
-                        <li><strong>Fallido:</strong> la pasarela Stripe intentó procesar el pago, pero fue rechazado. Si un segundo intento también falla, el estado cambiará a Cancelado y tu reserva quedará invalidada.</li>
                         <li><strong>Completado:</strong> el pago se ha procesado correctamente y la reserva se ha completado satisfactoriamente.</li>
                         <li><strong>Cancelado:</strong> la reserva ha sido cancelada y no tiene validez.</li>
                     </ul>
@@ -127,7 +126,7 @@ function faq_reservas_shortcode() {
                     <span class="faq-texto">¿Cuándo se realiza el pago de la reserva en mi tarjeta?</span>
                 </div>
                 <div class="faq-respuesta">
-                    <p>Independientemente del momento en que realices tu reserva, el pago se cargará en tu tarjeta <strong>durante las últimas 24 horas antes del inicio de la actividad</strong>.</p>
+                    <p>El pago se cargará en tu tarjeta <strong>durante las últimas 24 horas antes del inicio de la actividad</strong>.</p>
                     <p>Si cancelas tu reserva antes de las 24 horas previas al inicio de la actividad, el pago quedará cancelado y no se cargará ningún importe en tu tarjeta.</p>
                     <p>En ningún caso se realizará el cobro en tu tarjeta mientras el plazo de cancelación gratuita esté vigente.</p>
                 </div>
@@ -136,26 +135,13 @@ function faq_reservas_shortcode() {
             <div class="faq-seccion">
                 <div class="faq-pregunta">
                     <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Qué ocurre si mi tarjeta bancaria deja de estar activa antes del cobro de la reserva?</span>
+                    <span class="faq-texto">¿Qué ocurre si mi tarjeta bancaria falla en el momento del cobro de la reserva?</span>
                 </div>
                 <div class="faq-respuesta">
                     <p>Si tu tarjeta no está activa o funcional en el momento en que se realiza el pago (durante las últimas 24 horas antes del inicio de la actividad) —ya sea por extraviarla, robo, cancelación o cambio de tarjeta o entidad bancaria— o no dispone de saldo suficiente para cubrir el importe de la reserva, la pasarela Stripe no podrá procesar el pago.</p>
                     <p>En este caso, tu <strong>reserva quedará cancelada automáticamente</strong>.</p>
                 </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Qué ocurre si mi tarjeta rechaza el pago?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Si el pago falla, la pasarela Stripe realizará un <strong>segundo intento</strong> transcurridos unos minutos.</p>
-                    <p>Si el segundo intento también falla, Stripe no volverá a intentar el cobro y tu <strong>reserva quedará cancelada</strong>, por lo que no podrás participar en la actividad.</p>
-                    <p>Recibirás un correo electrónico informándote de que la reserva ha sido cancelada por fallo en el pago.</p>
-                    <p>Podrás realizar una nueva reserva en cualquier momento usando otra tarjeta.</p>
-                </div>
-            </div>
+            </div>           
 
             <div class="faq-seccion">
                 <div class="faq-pregunta">
@@ -207,8 +193,9 @@ function faq_reservas_shortcode() {
                     <span class="faq-texto">¿Puedo reservar dos veces la misma actividad?</span>
                 </div>
                 <div class="faq-respuesta">
-                    <p><strong>No, Trekkium no permite que un mismo usuario tenga dos reservas para la misma actividad.</strong> Esto evita duplicados en la lista de participantes, ya que una persona no puede participar dos veces en la misma actividad.</p>
-                    <p>Si lo deseas, puedes cancelar tu reserva hasta 24 horas antes del inicio de la actividad y, posteriormente, realizar una nueva reserva.</p>
+                    <p>No, no puedes reservar dos veces la misma actividad. Cada plaza disponible en las actividades solo puede ser ocupada por una única persona.</p>
+                    <p>Sí es posible incluir a otros participantes en la misma reserva, adquiriendo varias plazas para una misma actividad.</p>
+                    <p>Sí que puedes reservar a la vez tantas actividades como desees.</p>
                 </div>
             </div>
 
@@ -220,7 +207,7 @@ function faq_reservas_shortcode() {
                 <div class="faq-respuesta">
                     <p>Sí, puedes cancelar tu reserva de forma gratuita <strong>hasta 24 horas antes del inicio de la actividad</strong>.</p>
                     <p>Solo tienes que acceder al apartado <strong>"Mis reservas"</strong> en tu panel de usuario y pulsar <strong>"Cancelar reserva"</strong>.</p>
-                    <p>Una vez transcurrido ese plazo, el botón desaparecerá y ya no podrás cancelar la reserva.</p>
+                    <p>Una vez transcurrido ese plazo no se puede cancelar la reserva.</p>
                     <p>Trekkium cobrará el importe de la reserva en tu tarjeta únicamente después de que haya finalizado el plazo de cancelación gratuita.</p>
                 </div>
             </div>

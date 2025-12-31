@@ -71,16 +71,6 @@ function tc_politica_cookies_shortcode() {
                 </div>
             </div>
 
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">6. Contacto</span>
-                </div>
-                <div class="tc-respuesta">
-                    <p>Si tienes cualquier duda o deseas ejercer tus derechos en materia de protección de datos, puedes escribirnos a: <strong>hola@trekkium.com</strong></p>
-                </div>
-            </div>
-
         </div>
     </div>
     <?php

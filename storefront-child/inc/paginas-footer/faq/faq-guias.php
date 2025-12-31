@@ -64,6 +64,17 @@ function faq_guias_shortcode() {
             <div class="faq-seccion">
                 <div class="faq-pregunta">
                     <span class="faq-icon">></span>
+                    <span class="faq-texto">¿Puede un/a guía publicar una actividad de una modalidad en la que no tiene competencias?</span>
+                </div>
+                <div class="faq-respuesta">
+                    <p>No. En Trekkium, los guías <strong>solo pueden publicar actividades dentro de las modalidades deportivas para las que están oficialmente acreditados</strong>.</p>
+                    <p>Por ejemplo, un guía de Media Montaña (TD2) no puede publicar actividades de Escalada u otras modalidades que no correspondan a su titulación.</p>
+                </div>
+            </div>
+
+            <div class="faq-seccion">
+                <div class="faq-pregunta">
+                    <span class="faq-icon">></span>
                     <span class="faq-texto">¿Cuáles son las ventajas de contratar un guía?</span>
                 </div>
                 <div class="faq-respuesta">
@@ -76,51 +87,6 @@ function faq_guias_shortcode() {
                         <li><strong>Capacitación en primeros auxilios</strong> y gestión eficaz en caso de evacuación o rescate.</li>
                         <li><strong>Cobertura mediante seguros</strong> de Responsabilidad Civil y Accidentes de Montaña.</li>
                     </ul>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Trekkium puede dar de baja de la plataforma a un guía?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Sí, Trekkium se reserva el derecho de cancelar la cuenta de los guías cuando:</p>
-                    <ul class="faq-list">
-                        <li>El guía lo solicite, siempre y cuando no tenga ninguna actividad publicada y pendiente de realización.</li>
-                        <li>Incumplimiento de la normativa legal.</li>
-                        <li>Incumplimiento de los acuerdos del Contrato de colaboración.</li>
-                        <li>Actitud o comportamiento inadecuados durante las actividades.</li>
-                        <li>Otros casos no descritos que sean motivo de cancelación de la cuenta.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Los/as guías pueden cancelar las actividades?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Los guías no pueden cancelar directamente una actividad publicada. Sin embargo, pueden solicitar a Trekkium la cancelación hasta 24 horas antes del inicio en los siguientes casos:</p>
-                    <ul class="faq-list">
-                        <li><strong>Condiciones meteorológicas adversas</strong>, cuando no sea posible acordar una alternativa con el grupo de participantes.</li>
-                        <li><strong>Indisposición personal</strong> por accidente o enfermedad.</li>
-                        <li><strong>Causas de fuerza mayor</strong> debidamente justificadas.</li>
-                    </ul>
-                    <p>En estas situaciones, Trekkium se encargará de cancelar la actividad, notificando a las personas inscritas por correo electrónico y sin efectuar ningún cobro por la reserva.</p>
-                    <p>Si la cancelación se produce dentro de las 24 horas previas al inicio de la actividad, las reservas ya cobradas serán reembolsadas en un plazo máximo de 5 días, o se ofrecerá la opción de recibir un cupón por el mismo importe.</p>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Qué ocurre si el guía no se presenta el día de la actividad?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Si el guía no se presenta el día previsto para la actividad, esta quedará automáticamente cancelada.</p>
-                    <p>En este caso, Trekkium reembolsará íntegramente el importe de la reserva en un plazo máximo de 5 días o, si la persona usuaria lo prefiere, se le ofrecerá un cupón por el mismo valor para utilizar en futuras actividades.</p>
                 </div>
             </div>
 
@@ -164,28 +130,7 @@ function faq_guias_shortcode() {
                     <p>Se recomienda revisar siempre la ficha de la actividad, donde encontrarás los detalles sobre el material que debes traer y el que proporciona el guía.</p>
                 </div>
             </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Cómo puedo saber qué actividades tiene publicadas un/a guía en particular?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>Puedes acceder al perfil del guía desde la sección "Guías" de Trekkium.</p>
-                    <p>En su página encontrarás <strong>todas las actividades que ha publicado</strong>, junto con información sobre sus titulaciones, modalidades deportivas, idiomas y las valoraciones de otros usuarios que han participado en sus salidas.</p>
-                </div>
-            </div>
-
-            <div class="faq-seccion">
-                <div class="faq-pregunta">
-                    <span class="faq-icon">></span>
-                    <span class="faq-texto">¿Puede un/a guía publicar una actividad de una modalidad en la que no tiene competencias?</span>
-                </div>
-                <div class="faq-respuesta">
-                    <p>No. En Trekkium, los guías <strong>solo pueden publicar actividades dentro de las modalidades deportivas para las que están oficialmente acreditados</strong>.</p>
-                    <p>Por ejemplo, un guía de Media Montaña (TD2) no puede publicar actividades de Escalada u otras modalidades que no correspondan a su titulación.</p>
-                </div>
-            </div>
+            
 
             <div class="faq-seccion">
                 <div class="faq-pregunta">
@@ -193,7 +138,7 @@ function faq_guias_shortcode() {
                     <span class="faq-texto">¿Puedo dejar una valoración sobre el guía después de la actividad?</span>
                 </div>
                 <div class="faq-respuesta">
-                    <p>Sí, y tu opinión es muy importante para nosotros.</p>
+                    <p>Sí. Después de cada actividad que realices te enviaremos por correo electrónico un formulario de satisfacción donde podrás valorar al guía, la actividad y la plataforma.</p>
                     <p>Las valoraciones de los usuarios ayudan a otros participantes a conocer la experiencia con cada guía, contribuyen a mejorar la calidad de las actividades y ofrecen a los propios guías una oportunidad para seguir creciendo profesionalmente.</p>
                 </div>
             </div>
@@ -205,7 +150,7 @@ function faq_guias_shortcode() {
                 </div>
                 <div class="faq-respuesta">
                     <p>Sí, es muy importante informar al guía en caso de que tomes medicación o tengas alguna condición médica que pueda ser relevante durante la actividad.</p>
-                    <p>No es necesario compartir esta información en el grupo general de WhatsApp; puedes hacerlo de forma <strong>privada y confidencial directamente con el guía</strong>, para garantizar tu seguridad y la del grupo.</p>
+                    <p>No es necesario compartir esta información en el grupo general de WhatsApp; puedes hacerlo de forma <strong>privada y confidencial directamente con el guía</strong>.</p>
                 </div>
             </div>
 
@@ -224,8 +169,10 @@ function faq_guias_shortcode() {
                         <li><strong>Comportamiento inapropiado</strong> hacia el guía o hacia otras personas participantes.</li>
                         <li><strong>Desobedecer las indicaciones del guía</strong> durante la actividad.</li>
                     </ul>
+                    <p>En cualquiera de estos casos, la persona participante no tendrá derecha a reclamación por los importes pagados.</p>
                     <p>En ningún caso el guía podrá abandonar a un participante excluido en un lugar o situación que ponga en riesgo su seguridad personal.</p>
                 </div>
+
             </div>
 
         </div>

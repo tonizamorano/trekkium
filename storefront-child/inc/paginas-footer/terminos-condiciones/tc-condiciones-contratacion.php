@@ -18,7 +18,7 @@ function tc_condiciones_contratacion_shortcode() {
                     <strong>Nombre comercial:</strong> Trekkium<br>
                     <strong>NIF:</strong> 46789781-F<br>
                     <strong>Domicilio fiscal:</strong> Av. Montserrat, 47 – 08820 El Prat de Llobregat (Barcelona)<br>
-                    <strong>Correo electrónico:</strong> tonizt@gmail.com<br>
+                    <strong>Correo electrónico:</strong> hola@trekkium.com<br>
                     <strong>Teléfono:</strong> +34 711 200 697<br>
                 </div>
             </div>
@@ -41,70 +41,63 @@ function tc_condiciones_contratacion_shortcode() {
             <div class="tc-seccion">
                 <div class="tc-pregunta">
                     <span class="tc-icon">></span>
-                    <span class="tc-texto">3. Actividades y guías colaboradores</span>
+                    <span class="tc-texto">3. Proceso de reserva</span>
                 </div>
                 <div class="tc-respuesta">
-                    <p>Trekkium ofrece actividades de montaña guiadas por profesionales titulados. Cada actividad publicada incluye información sobre su modalidad, dificultad, fecha, precio, guía responsable y condiciones específicas.</p>
-                    <p>Los guías colaboradores actúan bajo acuerdo con Trekkium, pero es Trekkium quien gestiona las reservas, cobros del anticipo y seguros de accidentes incluidos en la actividad.</p>
+                    <p>Para realizar la reserva de una actividad en Trekkium es necesario acceder con una cuenta de usuario registrado.</p>
+
+                    <p>Dentro de la información detallada de cada actividad existe un botón "Reservar" para ese fin, que conduce a la página de Finalizar Compra, donde se indica el método de pago, los detalles de la reserva y los datos de los acompañantes si los hubiera.</p>
+
+                    <p>Una vez realizada la Reserva, el usuario recibe un correo electrónico de confirmación. También puede consultar el estado de su reserva desde el apartado "Mis reservas" de "Mi cuenta", y dispone de un plazo de hasta 24 horas antes del inicio de la actividad para cancelarla.</p>
+
+                    <p>Durante ese plazo, el estado de la reserva permanecerá "Pendiente de pago", y no se realizará ningún cobro en tu tarjeta. Una vez finalizado ese plazo, la reserva ya no se podrá cancelar y la pasarela Stripe procederá al cobro del importe de la reserva en la tarjeta bancaria indicada.</p>
+
+                    <p>Tras haberse realizado con éxito el cobro del importe de la reserva, ésta pasará a estado "Completado" y recibirás un correo electrónico de confirmación de Pago completado, por lo que podrás participar en la actividad.</p>
+
+                    <p>En caso de que el cobro sea fallido (tarjeta errónea o sin saldo), la reserva pasará a estado "Cancelado" y quedará anulada, por lo que tendrás que volver a iniciar el proceso de reserva.</p>                   
+
+                    <p>El importe pendiente del total del precio de la actividad se abonará directamente al guía al contado el mismo día de la actividad, por los medios acordados (efectivo, Bizum o transferencia inmediata).</p>
                 </div>
             </div>
 
             <div class="tc-seccion">
                 <div class="tc-pregunta">
                     <span class="tc-icon">></span>
-                    <span class="tc-texto">4. Proceso de reserva</span>
-                </div>
-                <div class="tc-respuesta">
-                    <p>El cliente selecciona una actividad disponible en la web y pulsa el botón “Reservar”.</p>
-                    <p>Se muestra el importe total y la cantidad correspondiente a la reserva online.</p>
-                    <p>El pago de la reserva se realiza a través de Stripe, PayPal o tarjeta bancaria mediante conexión segura.</p>
-                    <p>Una vez confirmado el pago, el cliente recibe un correo de confirmación con los datos de la actividad, guía y punto de encuentro.</p>
-                    <p>El importe restante se abonará directamente al guía antes o el mismo día de la actividad, por los medios acordados (efectivo, Bizum o transferencia).</p>
-                </div>
-            </div>
-
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">5. Precio e impuestos</span>
+                    <span class="tc-texto">4. Precio e impuestos</span>
                 </div>
                 <div class="tc-respuesta">
                     <p>Todos los precios mostrados en la web incluyen impuestos aplicables (IVA) y el seguro de accidentes de montaña para la actividad contratada.</p>
-                    <p>Cualquier gasto adicional (alojamiento, transporte no incluido, comidas, etc.) se especificará claramente en la descripción de la actividad.</p>
+                    <p>Cualquier gasto adicional (alojamiento, material, transporte no incluido, comidas, etc.) se especificará claramente en la descripción de la actividad.</p>
                 </div>
             </div>
 
             <div class="tc-seccion">
                 <div class="tc-pregunta">
                     <span class="tc-icon">></span>
-                    <span class="tc-texto">6. Política de cancelación y modificaciones</span>
+                    <span class="tc-texto">5. Política de cancelación y modificaciones</span>
                 </div>
                 <div class="tc-respuesta">
                     <p><strong>a) Cancelación por parte del cliente</strong></p>
                     <ul class="tc-list">
-                        <li>En actividades de un solo día, la cancelación es gratuita hasta 48 horas antes de la fecha de realización.</li>
-                        <li>Si la cancelación se realiza con menos de 48 horas, la reserva (33,33 %) no será reembolsable, salvo causa justificada de fuerza mayor.</li>
-                        <li>Para cancelar una reserva, el cliente debe escribir a tonizt@gmail.com indicando su nombre, actividad y fecha.</li>
+                        <li>El cliente puede cancelar su reserva hasta 24 horas antes del inicio de la actividad de forma gratuita, desde el botón "Cancelar reserva" del panel de su cuenta de usuario.</li>
+                        <li>Una vez finalizao ese plazo la reserva ya no se podrá cancelar.</li>
                     </ul>
                     <p><strong>b) Cancelación o modificación por parte del guía o Trekkium</strong></p>
-                    <p>Trekkium se reserva el derecho de cancelar o modificar una actividad en caso de:</p>
+                    <p>Trekkium se reserva el derecho de cancelar o modificar una actividad, en un plazo máximo de 24 horas antes del inicio de la actividad, en caso de:</p>
                     <ul class="tc-list">
                         <li>Condiciones meteorológicas adversas.</li>
                         <li>Falta del número mínimo de participantes.</li>
-                        <li>Causas de fuerza mayor o imprevistos de seguridad.</li>
+                        <li>Otras causas de fuerza mayor o imprevistos de seguridad.</li>
                     </ul>
-                    <p>En tal caso, el cliente podrá:</p>
-                    <ul class="tc-list">
-                        <li>Cambiar la reserva a otra fecha o actividad, o</li>
-                        <li>Solicitar el reembolso íntegro del importe abonado.</li>
-                    </ul>
+                    <p>En tal caso, al no existir aún cobro por el importe de la reserva, ésta quedará Cancelada sin necesidad de reembolso.</p>
+                    
                 </div>
             </div>
 
             <div class="tc-seccion">
                 <div class="tc-pregunta">
                     <span class="tc-icon">></span>
-                    <span class="tc-texto">7. Seguro de accidentes</span>
+                    <span class="tc-texto">6. Seguro de accidentes</span>
                 </div>
                 <div class="tc-respuesta">
                     <p>Todas las actividades contratadas a través de Trekkium incluyen en el precio un seguro de accidentes de montaña que cubre al participante durante la realización de la actividad.</p>
@@ -115,7 +108,7 @@ function tc_condiciones_contratacion_shortcode() {
             <div class="tc-seccion">
                 <div class="tc-pregunta">
                     <span class="tc-icon">></span>
-                    <span class="tc-texto">8. Condiciones de participación</span>
+                    <span class="tc-texto">7. Condiciones de participación</span>
                 </div>
                 <div class="tc-respuesta">
                     <p>Para participar en las actividades, el cliente debe:</p>
@@ -132,29 +125,7 @@ function tc_condiciones_contratacion_shortcode() {
             <div class="tc-seccion">
                 <div class="tc-pregunta">
                     <span class="tc-icon">></span>
-                    <span class="tc-texto">9. Responsabilidad</span>
-                </div>
-                <div class="tc-respuesta">
-                    <p>Trekkium no se hace responsable de los perjuicios derivados del mal uso del sitio web, errores en los datos introducidos por el cliente o incumplimiento de las indicaciones de seguridad por parte de los participantes.</p>
-                    <p>El cliente asume los riesgos inherentes a la práctica de actividades en el medio natural y declara aceptar las condiciones específicas de cada actividad.</p>
-                </div>
-            </div>
-
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">10. Derecho de desistimiento</span>
-                </div>
-                <div class="tc-respuesta">
-                    <p>De conformidad con el artículo 103.l del Real Decreto Legislativo 1/2007, el derecho de desistimiento no será aplicable a los servicios relacionados con actividades de ocio o recreativas con fecha o periodo de ejecución específicos.</p>
-                    <p>No obstante, Trekkium ofrece la cancelación gratuita hasta 48 horas antes, tal y como se indica en el punto 6.</p>
-                </div>
-            </div>
-
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">11. Modificaciones y actualizaciones</span>
+                    <span class="tc-texto">8. Modificaciones y actualizaciones</span>
                 </div>
                 <div class="tc-respuesta">
                     <p>Trekkium puede modificar estas condiciones de contratación y reserva en cualquier momento. Las nuevas condiciones serán aplicables desde el momento de su publicación en la web.</p>
@@ -164,20 +135,10 @@ function tc_condiciones_contratacion_shortcode() {
             <div class="tc-seccion">
                 <div class="tc-pregunta">
                     <span class="tc-icon">></span>
-                    <span class="tc-texto">12. Legislación aplicable y jurisdicción</span>
+                    <span class="tc-texto">9. Legislación aplicable y jurisdicción</span>
                 </div>
                 <div class="tc-respuesta">
                     <p>Estas condiciones se rigen por la legislación española. Para cualquier controversia, las partes se someten a los Juzgados y Tribunales de Barcelona, salvo que la normativa disponga lo contrario.</p>
-                </div>
-            </div>
-
-            <div class="tc-seccion">
-                <div class="tc-pregunta">
-                    <span class="tc-icon">></span>
-                    <span class="tc-texto">13. Contacto</span>
-                </div>
-                <div class="tc-respuesta">
-                    <p>Para cualquier consulta, modificación o cancelación relacionada con tu reserva: <strong>hola@trekkium.com</strong></p>
                 </div>
             </div>
 
