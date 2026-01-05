@@ -148,11 +148,17 @@ function contenido_nueva_actividad_shortcode() {
 
                 // Marcar para mostrar el modal
                 $mostrar_modal_exito = true;
+                // Mensaje según estado (borrador o enviado a revisión/publicado)
+                if (isset($post_status) && $post_status === 'draft') {
+                    $mensaje_modal = 'Actividad guardada como borrador.';
+                } else {
+                    $mensaje_modal = '¡Actividad enviada para revisión! En breve la revisaremos.';
+                }
 
             }
 
         } else {
-            echo '<p style="color:red;font-weight:bold;">⚠️ El título y la descripción son obligatorios.</p>';
+            echo '<p style="color:red;font-weight:bold;"> El título y la descripción son obligatorios.</p>';
         }
     }
 

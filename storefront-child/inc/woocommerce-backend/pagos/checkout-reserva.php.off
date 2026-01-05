@@ -95,6 +95,7 @@ add_action('wp_footer', function () {
     console_log(get_activity_timestamp($product_id), 'Timestamp actividad');
 });
 
+
 // Función para obtener timestamp de actividad desde un product_id
 function get_activity_timestamp($product_id) {
     $fecha_raw = get_post_meta($product_id, 'fecha', true); // formato: yyyymmdd

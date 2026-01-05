@@ -30,29 +30,43 @@ function render_grupo_whatsapp_meta_box($post) {
 
 // Guardar el campo meta
 add_action('save_post', function($post_id) {
-    // Verificar nonce
+    // Solo para productos
+    $post_type = get_post_type($post_id);
+    if ($post_type !== 'product') {
+        return;
+    }
+
+    // Evitar autoguardados y revisiones
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    if (wp_is_post_revision($post_id)) {
+        return;
+    }
+
+    // Permisos
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Caso REST/Gutenberg: las peticiones REST no incluyen el nonce del meta box.
+    // Si estamos en una REST request, aceptamos el valor si viene en REQUEST.
+    if (defined('REST_REQUEST') && REST_REQUEST) {
+        if (isset($_REQUEST['grupo_whatsapp'])) {
+            update_post_meta($post_id, 'grupo_whatsapp', esc_url_raw($_REQUEST['grupo_whatsapp']));
+        }
+        return;
+    }
+
+    // Verificar nonce en guardado clásico (admin)
     if (!isset($_POST['grupo_whatsapp_nonce_field']) || 
         !wp_verify_nonce($_POST['grupo_whatsapp_nonce_field'], 'grupo_whatsapp_nonce')) {
         return;
     }
-    
-    // Verificar permisos
-    if (!current_user_can('edit_post', $post_id)) {
-        return;
-    }
-    
-    // Verificar autoguardado
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
-    }
-    
-    // Guardar el valor del campo
+
+    // Guardar el valor del campo si se envió desde el formulario clásico
     if (isset($_POST['grupo_whatsapp'])) {
-        update_post_meta(
-            $post_id, 
-            'grupo_whatsapp', 
-            esc_url_raw($_POST['grupo_whatsapp']) // Sanitizar URL
-        );
+        update_post_meta($post_id, 'grupo_whatsapp', esc_url_raw($_POST['grupo_whatsapp']));
     }
 });
 
