@@ -57,13 +57,8 @@ function pagina_single_productos_shortcode() {
             <?php echo do_shortcode('[ps_estado_actividad]'); ?> 
             <?php echo do_shortcode('[seccion_precio_reserva]'); ?> 
              
-            <!-- <?php echo do_shortcode('[ps_entradas_relacionadas]'); ?> -->          
         </div>
     
-    </div>
-
-    <div>
-        <?php echo do_shortcode('[seccion_entradas_relacionadas]'); ?> 
     </div>
    
     <?php
