@@ -1,0 +1,12 @@
+# Ignore everything by default
+/*
+
+# But allow the storefront-child directory (and its contents)
+!/storefront-child/
+!/storefront-child/**
+
+# Keep this .gitignore tracked
+!.gitignore
+
+# Ignore VS Code workspace files
+.vscode/
