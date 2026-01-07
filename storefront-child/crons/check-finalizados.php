@@ -83,8 +83,9 @@ $args = array(
     'meta_query'     => array(
         array(
             'key'     => 'estado_producto',
-            'value'   => 'Activo',
-            'compare' => '=',
+            // Compatibilidad: algunos productos pueden tener 'Activo' o 'activo'
+            'value'   => array( 'activo', 'Activo' ),
+            'compare' => 'IN',
         ),
     ),
     'tax_query' => array(
@@ -132,26 +133,70 @@ foreach ( $q->posts as $product_id ) {
     // fecha + 12h < ahora => finalizar
     if ( ( $ts + 12 * 3600 ) < $now ) {
 
-        update_post_meta( $product_id, 'estado_producto', 'Finalizado' );
+        try {
+            // Intentamos usar la API de WooCommerce cuando sea posible
+            $wc_product = function_exists( 'wc_get_product' ) ? wc_get_product( $product_id ) : null;
 
-        $result = wp_update_post(
-            array(
-                'ID'          => $product_id,
-                'post_status' => 'draft',
-            ),
-            true
-        );
+            if ( $wc_product ) {
+                // Normalizar a minúsculas para compatibilidad con el admin
+                $wc_product->update_meta_data( 'estado_producto', 'finalizado' );
+                if ( method_exists( $wc_product, 'set_status' ) ) {
+                    $wc_product->set_status( 'trash' );
+                }
+                $wc_product->save();
+                cron_log( "Producto {$product_id} marcado como 'finalizado' (WC_Product)." );
+                // Actualizar estado_actividad para mantener coherencia
+                try {
+                    if ( function_exists( 'actualizar_estado_actividad' ) ) {
+                        actualizar_estado_actividad( $product_id );
+                        cron_log( "Producto {$product_id}: actualizar_estado_actividad() ejecutada." );
+                    } else {
+                        cron_log( "Producto {$product_id}: función actualizar_estado_actividad() no disponible.", 'ERROR' );
+                    }
+                } catch ( Throwable $e ) {
+                    cron_log( "Error ejecutando actualizar_estado_actividad para {$product_id}: " . $e->getMessage(), 'ERROR' );
+                }
+            } else {
+                // Fallback a funciones WP si no está disponible WC_Product
+                update_post_meta( $product_id, 'estado_producto', 'finalizado' );
+                $result = wp_update_post(
+                    array(
+                        'ID'          => $product_id,
+                        'post_status' => 'trash',
+                    ),
+                    true
+                );
 
-        if ( is_wp_error( $result ) ) {
-            cron_log(
-                "Error al actualizar producto {$product_id}: " . $result->get_error_message(),
-                'ERROR'
-            );
+                if ( is_wp_error( $result ) ) {
+                    throw new Exception( 'Error al actualizar producto: ' . $result->get_error_message() );
+                }
+
+                cron_log( "Producto {$product_id} marcado como 'finalizado' (wp_update_post)." );
+
+                // Actualizar estado_actividad para mantener coherencia
+                try {
+                    if ( function_exists( 'actualizar_estado_actividad' ) ) {
+                        actualizar_estado_actividad( $product_id );
+                        cron_log( "Producto {$product_id}: actualizar_estado_actividad() ejecutada." );
+                    } else {
+                        cron_log( "Producto {$product_id}: función actualizar_estado_actividad() no disponible.", 'ERROR' );
+                    }
+                } catch ( Throwable $e ) {
+                    cron_log( "Error ejecutando actualizar_estado_actividad para {$product_id}: " . $e->getMessage(), 'ERROR' );
+                }
+            }
+
+            $total_finalizados++;
+
+        } catch ( Throwable $e ) {
+            cron_log( "Excepción procesando producto {$product_id}: " . $e->getMessage(), 'ERROR' );
+            // Registrar traza si está disponible
+            if ( method_exists( $e, 'getTraceAsString' ) ) {
+                cron_log( $e->getTraceAsString(), 'ERROR' );
+            }
             $had_errors = true;
             continue;
         }
-
-        $total_finalizados++;
     }
 }
 
