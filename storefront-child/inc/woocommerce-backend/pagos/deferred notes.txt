@@ -1,0 +1,155 @@
+Estrategia técnica para pagos diferidos con Stripe en WooCommerce
+1️⃣ Objetivo
+
+Permitir que un cliente reserve una actividad en WooCommerce con pago diferido, de manera que:
+
+El usuario complete el checkout normalmente.
+
+Stripe no cobre al momento si la actividad empieza en varios días.
+
+Se pueda cobrar automáticamente pocas horas antes del inicio de la actividad.
+
+Evitar expiraciones de autorización que Stripe impone en su modo “authorize & capture” (7 días máximo).
+
+2️⃣ Problemática actual
+
+La extensión oficial de WooCommerce Stripe intenta cobrar al finalizar el checkout usando PaymentIntent.
+
+Los intentos de marcar pedidos como “pending” o “deferred” en hooks no impiden que Stripe capture automáticamente la tarjeta.
+
+La opción oficial “Autorizar y capturar más tarde” tiene límite de 7 días para la captura.
+
+Por tanto, los intentos de “hackear” este flujo usando hooks de WooCommerce o estados personalizados no funcionan para actividades con fechas lejanas.
+
+3️⃣ Solución viable
+
+Usar Stripe SetupIntent + PaymentIntent off-session, según la documentación oficial de Stripe:
+
+Flujo general
+
+Checkout normal:
+
+Cliente rellena datos y método de pago.
+
+No se crea un PaymentIntent de cobro inmediato.
+
+Se crea un SetupIntent para autenticar y guardar el método de pago (sin cobrar nada).
+
+Se guarda el payment_method_id en el pedido de WooCommerce.
+
+Opcional: asociar el método a un Stripe Customer para evitar problemas de autenticación off-session.
+
+Almacenamiento de datos:
+
+Guardar en meta del pedido:
+
+payment_method_id
+
+stripe_customer_id (si se crea un customer)
+
+_deferred_payment = yes
+
+_activity_start = timestamp de la actividad
+
+Cobro automático (off-session):
+
+Un cron PHP o job programado:
+
+Detecta pedidos con _deferred_payment = yes y _activity_start cercano (ej. 24h antes).
+
+Crea un PaymentIntent off-session usando el payment_method_id del pedido.
+
+Llama a .confirm() para capturar el pago.
+
+Actualiza el estado del pedido a processing o completed.
+
+4️⃣ Ventajas de este enfoque
+
+Evita las restricciones de autorización de Stripe (7 días).
+
+Compatible con autenticación 3DS y pagos seguros.
+
+Permite cobros automáticos sin intervención del cliente.
+
+Integración transparente con WooCommerce: el cliente ve checkout y confirmación normal.
+
+5️⃣ Consideraciones técnicas importantes
+Concepto	Detalle
+SetupIntent	Autentica tarjeta sin cobrar. Permite cobros off-session posteriores.
+PaymentIntent off-session	Permite cobrar usando un método de pago guardado, sin que el cliente esté presente.
+Stripe Customer	Recomendado para almacenar métodos de pago y evitar rechazos por autenticación.
+Hooks WooCommerce	No basta usar woocommerce_checkout_create_order ni woocommerce_payment_complete_order_status para detener la captura; el PaymentIntent ya se ha creado.
+Almacenamiento meta	_deferred_payment, _activity_start, payment_method_id, stripe_customer_id
+Cron / job	Debe ejecutarse periódicamente y crear PaymentIntent off-session solo para pedidos cuyo inicio esté cercano.
+6️⃣ Implementación resumida
+
+Frontend (JS / Stripe Elements):
+
+Crear SetupIntent para el método de pago.
+
+Confirmar SetupIntent.
+
+Guardar payment_method_id.
+
+Backend (PHP):
+
+Endpoint para generar SetupIntent (wc_ajax o REST).
+
+Guardar ID en meta del pedido.
+
+Evitar crear PaymentIntent durante checkout para pedidos deferidos.
+
+Cron PHP / Job:
+
+Detecta pedidos diferidos próximos.
+
+Crea PaymentIntent off-session.
+
+Confirma y captura el pago.
+
+Actualiza el estado del pedido.
+
+WooCommerce UI / email:
+
+Checkout y thankyou page normales.
+
+Mensajes de confirmación y “reserva realizada” independientes del cobro.
+
+Email de pago enviado al capturar off-session.
+
+7️⃣ Referencias oficiales
+
+SetupIntent Stripe
+
+PaymentIntent off-session
+
+WooCommerce Stripe Docs
+
+
+
+[Mermaid]
+flowchart TD
+    A[Cliente llega al Checkout] --> B[Introduce datos de la tarjeta]
+    B --> C[Stripe Elements valida formato de tarjeta (número, expiración, CVC)]
+    C -->|Correcto| D[Crear SetupIntent con Stripe]
+    C -->|Error| E[Mostrar error en checkout → cliente corrige]
+    
+    D --> F[Confirmar SetupIntent]
+    F -->|Confirmación correcta| G[Guardar payment_method_id en order meta]
+    F -->|Error| E
+    
+    G --> H[Order creado en WooCommerce]
+    H --> I[Evaluar fecha de actividad vs current_time]
+    
+    I -->|Actividad > 24h| J[Marcar pedido como deferred, estado 'pending', pago no realizado]
+    I -->|Actividad <= 24h| K[Pago inmediato: crear PaymentIntent, capturar de inmediato]
+    
+    J --> L[Cron programado / WP-Cron ejecuta días/hora previos a actividad]
+    L --> M[Crear PaymentIntent usando payment_method_id guardado]
+    M -->|Pago correcto| N[Actualizar order → completed, notas, correo al cliente]
+    M -->|Pago rechazado| O[Actualizar order → failed, notificar cliente y admin]
+    
+    K --> N
+    
+    N --> Z[Fin del proceso]
+    O --> Z
