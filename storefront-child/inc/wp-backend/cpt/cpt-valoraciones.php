@@ -100,42 +100,6 @@ if ( ! function_exists( 'trekkium_marcar_token_usado' ) ) {
     }
 }
 
-// Añadir badge en el menú de valoraciones con el número de valoraciones no revisadas
-
-add_action( 'admin_menu', 'trekkium_valoraciones_menu_badge', 999 );
-function trekkium_valoraciones_menu_badge() {
-    global $menu;
-
-    // Contar valoraciones NO revisadas
-    $query = new WP_Query(array(
-        'post_type'      => 'valoraciones',
-        'posts_per_page' => -1,
-        'meta_query'     => array(
-            array(
-                'key'     => '_valoracion_revisada',
-                'compare' => 'NOT EXISTS',
-            ),
-        ),
-        'fields' => 'ids',
-    ));
-
-    $count = $query->found_posts;
-
-    if ( $count === 0 ) {
-        return;
-    }
-
-    foreach ( $menu as $key => $menu_item ) {
-        if ( isset($menu_item[2]) && $menu_item[2] === 'edit.php?post_type=valoraciones' ) {
-            $menu[$key][0] .= sprintf(
-                ' <span class="update-plugins count-%1$d"><span class="plugin-count">%1$d</span></span>',
-                $count
-            );
-            break;
-        }
-    }
-}
-
 // Añadir metabox con datos de la valoración
 
 add_action( 'add_meta_boxes', 'trekkium_add_metabox_valoraciones' );
@@ -253,4 +217,43 @@ function trekkium_render_metabox_valoracion( $post ) {
     </table>
 
     <?php
+}
+
+// Añadir columna en el listado admin que muestre el autor del producto (actividad) valorado
+add_filter( 'manage_valoraciones_posts_columns', 'trekkium_valoraciones_columns' );
+function trekkium_valoraciones_columns( $columns ) {
+    $new = array();
+    foreach ( $columns as $key => $title ) {
+        $new[ $key ] = $title;
+        if ( 'title' === $key ) {
+            $new['producto_autor'] = 'Guía';
+        }
+    }
+    return $new;
+}
+
+add_action( 'manage_valoraciones_posts_custom_column', 'trekkium_valoraciones_custom_column', 10, 2 );
+function trekkium_valoraciones_custom_column( $column, $post_id ) {
+    if ( 'producto_autor' !== $column ) {
+        return;
+    }
+
+    $actividad_id = get_post_meta( $post_id, 'actividad_id', true );
+
+    if ( empty( $actividad_id ) ) {
+        echo '—';
+        return;
+    }
+
+    $author_id = get_post_field( 'post_author', $actividad_id );
+
+    if ( empty( $author_id ) ) {
+        echo '—';
+        return;
+    }
+
+    $author_name = get_the_author_meta( 'display_name', $author_id );
+    $edit_link = admin_url( 'post.php?post=' . intval( $actividad_id ) . '&action=edit' );
+
+    echo '<a href="' . esc_url( $edit_link ) . '">' . esc_html( $author_name ) . '</a>';
 }
