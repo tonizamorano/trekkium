@@ -232,7 +232,7 @@
     border-radius: 5px;
     padding: 10px;
     margin-top: 15px;
-    color: #0b568b; 
+    color: var(--azul1-100);
     font-size: 16px;
 }
 
@@ -242,7 +242,11 @@
     
     .ps-tabla-precio th,
     .ps-tabla-precio td {
-        font-size: 20px;
+        font-size: 22px;
+    }
+
+    .ps-input-cantidad {
+        font-size: 18px;
     }
     
     .ps-boton-reserva {
@@ -250,15 +254,19 @@
     }
 
     .ps-mensaje-lista-espera {
-        font-size: 18px;
-    }
-
-    .ps-texto-plazas {
         font-size: 20px;
     }
 
+    .ps-texto-plazas {
+        font-size: 22px;
+    }
+
     .ps-quedan-plazas {
-        font-size:16px;
+        font-size: 18px;
+    }
+
+    .ps-cancelacion-gratis {
+        font-size: 20px;
     }
     
 }
