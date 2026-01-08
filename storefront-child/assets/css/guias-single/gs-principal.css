@@ -1,4 +1,3 @@
-/* CORRECCIÓN COMPLETA PARA EL AVATAR */
 .gs-seccion-ppal-contenedor {
     position: relative;
     padding: 0px;
@@ -10,14 +9,14 @@
     position: relative;
     width: 100%;
     overflow: visible;
-    z-index: 20; /* Aumentado de 10 a 20 */
+    z-index: 20; 
 }
 
 .gs-banner-wrapper {
     position: relative;
-    aspect-ratio: 16 / 7;
+    aspect-ratio: 16 / 9;
     width: 100%;
-    overflow: visible; /* Cambiado de hidden a visible */
+    overflow: visible;
 }
 
 .gs-banner-img {
@@ -31,9 +30,9 @@
 
 .gs-avatar-wrapper {
     position: absolute;
-    bottom: -50px; /* Aumentado para que sobresalga más */
+    bottom: -30px;
     right: 15px;
-    z-index: 100; /* Aumentado significativamente de 30 a 100 */
+    z-index: 100; 
 }
 
 .gs-avatar-img {
@@ -43,16 +42,16 @@
     border: 3px solid #fff;
     box-shadow: 0 4px 10px rgba(0,0,0,0.25);
     object-fit: cover;
-    z-index: 100; /* Añadido para reforzar */
-    position: relative; /* Añadido para asegurar el contexto de apilamiento */
+    z-index: 100; 
+    position: relative; 
 }
 
 .gs-seccion-ppal-guia {			
     text-align: left;
     margin: 15px 0 5px 0;
     padding: 0 15px;
-    position: relative; /* Añadido */
-    z-index: 1; /* Añadido */
+    position: relative; 
+    z-index: 1; 
 }
 
 .gs-guia-nombre {
@@ -96,8 +95,9 @@
 }
 
 .gs-titulaciones .gs-titulacion-item {
-        font-size: 18px;
-    }
+    font-size: 18px;
+    font-weight: 500;
+}
 
 .gs-modalidades {
     display: flex;
@@ -122,9 +122,8 @@
     padding: 15px;
     font-size: 18px;
     position: relative;
-    z-index: 1; /* Mantenemos bajo para que el avatar pase por encima */
-    margin-top: 0; /* Eliminamos el margin-top */
-    text-align: justify;
+    z-index: 1;
+    margin-top: 0;
 }   
 
 @media (max-width: 768px) {
@@ -135,11 +134,11 @@
     }
 
     .gs-banner-wrapper {
-        aspect-ratio: 16 / 7;
+        aspect-ratio: 16 / 8;
     }
     
     .gs-avatar-wrapper {
-        bottom: -30px;
+        bottom: -15px;
         z-index: 100; /* Mantenemos alto en mobile */
     }
     

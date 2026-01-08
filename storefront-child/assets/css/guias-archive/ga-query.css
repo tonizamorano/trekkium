@@ -37,7 +37,7 @@
 .ga-banner-ratio {
     position: relative;
     width: 100%;
-    padding-top: calc(100% * 7 / 16); /* ratio 16:6 */
+    padding-top: calc(100% * 8 / 16); /* ratio 16:6 */
 }
 
 .ga-banner-ratio img.ga-banner {
@@ -99,10 +99,9 @@
     margin-top: 0;
 }
 
-/* === VALORACIÓN === */
-.guia-rating {
-    margin-bottom: 5px;
-    display: flex;
+.ga-titulaciones {
+    font-size: 16px;   
+    margin-top: 5px;
 }
 
 /* === ENLACES === */
@@ -154,6 +153,10 @@
 
     .ga-ubicacion {
         font-size: 22px;
+    }
+
+    .ga-titulaciones {
+        font-size: 20px;   
     }
 
     .guia-query-modalidades .guia-query-modalidad-item {
