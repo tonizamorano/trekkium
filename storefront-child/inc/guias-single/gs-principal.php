@@ -150,7 +150,7 @@ function gs_seccion_principal($atts) {
 
         <!-- Descripción de la bio -->
         <div class="gs-sobremi-contenido">
-            <?php echo wpautop(wp_kses_post($sobremi)); ?>
+            <?php echo wp_kses_post($sobremi); ?>
         </div>
 
     </div>

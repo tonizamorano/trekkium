@@ -2,8 +2,8 @@
     margin: -50px auto 0 auto;
     max-width:900px;
     position: relative;
-    
-    padding: 60px 0px 15px 0px;
+    background: var(--azul1-80);
+    padding: 60px 15px 15px 15px;
     z-index: 1;
 }
 
@@ -13,9 +13,33 @@
     justify-content: center;
     gap: 20px;
     position: relative;
-    margin: 10px 0 20px 0;
+    margin-bottom: 10px;
 }
 
+.in-header .in-arrow {
+    position: static; /* YA NO es absolute */
+    background-color: rgba(255, 255, 255, 0.25);
+    border: none;
+    color: white;
+    font-size: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+    padding: 5px;
+}
+
+.in-header .in-arrow:hover {
+    background: var(--azul2-100);
+}
+
+.in-header .in-arrow svg {
+    width: 30px;
+    height: 30px;
+    fill: white;
+}
 
 .in-header .in-sectiontitle {
     flex-grow: 1;
@@ -143,15 +167,16 @@
 }
 
 .in-estado-actividad {
-    font-size: 14px;
-    color: var(--rojo-100);
+    font-size: 16px;
+    color: var(--naranja1-100);
     font-weight: 500;
-    padding: 5px 10px;
+    padding: 3px 10px;
     border-radius: 3px;
     background-color: var(--amarillo-100);
+    font-style: normal;
     line-height: 1;
-    font-style: italic;
 }
+
 
 .in-precio {
     display: flex;
@@ -167,13 +192,6 @@
     font-style: italic;
 }
 
-.in-precio .importe {
-    font-size: 20px;
-}
-
-.in-precio .euros {
-    font-size: 16px;
-}
 
 .in-carousel {
     display: flex;
@@ -186,42 +204,6 @@
 .in-carousel::-webkit-scrollbar { 
     display: none; 
 } /* Chrome */
-
-/* Wrapper para posicionar flechas sobre el carrusel */
-.in-carousel-wrapper {
-    position: relative;
-}
-
-.in-carousel-wrapper .in-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: var(--azul1-100);
-    border: none;
-    color: white;
-    font-size: 22px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.25);
-    padding: 8px;
-    z-index: 5;
-}
-
-.in-carousel-wrapper .in-arrow:hover {
-    background: var(--azul1-60);
-}
-
-.in-carousel-wrapper .in-arrow svg {
-    width: 30px;
-    height: 30px;
-    fill: white;
-}
-
-.in-carousel-wrapper .in-arrow-left { left: 10px; }
-.in-carousel-wrapper .in-arrow-right { right: 10px; }
 
 .in-item {
     flex: 0 0 calc(33.333% - 10px); /* 3 por fila */
@@ -268,7 +250,7 @@
         flex: 0 0 100%;
         
     }
-    .in-header .in-arrow, .in-carousel-wrapper .in-arrow { display: none; }
+    .in-header .in-arrow { display: none; }
 
     .in-avatar-autor {
         width: 100px;
@@ -284,15 +266,5 @@
     .in-fecha,
     .in-dificultad { font-size: 20px; }
 
-    .in-estado-actividad {
-        font-size: 18px;
-    }
-    
-    .in-precio .importe {
-        font-size: 24px;
-    }
-
-    .in-precio .euros {
-        font-size: 20px;
-    }
+    .in-precio .importe { font-size: 22px; }
 }

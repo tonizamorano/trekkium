@@ -7,7 +7,7 @@
 }
 
 .ps-contenido-info {
-    padding: 0 15px 15px 15px;
+    padding: 0 15px 10px 15px;
     display: flex;
     flex-direction: column;
 }
@@ -22,9 +22,9 @@
     color: #fff;
     font-weight: 500;
     padding: 2px 10px;
-    border-radius: 5px;
-    font-size: 16px;
-    
+    border-radius: 50px;
+    font-size: 14px;
+    text-transform: uppercase;
 }
 
 .ps-contenido-titulo h2 { 
@@ -45,22 +45,28 @@
     color: var(--azul1-100);
     font-size: 18px;
     margin-top: 10px;
+    text-align: justify;
+
 }
 
 /* Ajustes para móvil */
 @media (max-width: 768px) {
 
+    .ps-contenido-modalidad-item {
+        font-size: 16px;
+        text-transform: uppercase;
+    }
     
     .ps-contenido-titulo h2 {
         font-size: 28px;
     }
 
-    .ps-contenido-modalidad-item {
-        font-size: 18px;
+    .ps-contenido-modalidad {
+        font-size: 16px;
     }
 
     .ps-contenido-ubicacion {        
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .ps-contenido-descripcion {

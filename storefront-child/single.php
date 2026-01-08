@@ -24,7 +24,7 @@ get_header(); ?>
 
         <!-- Sección Autor -->
         <?php echo do_shortcode('[bs_autor]'); ?>
-                   
+        <?php echo do_shortcode('[seccion_entradas_relacionadas_blog]'); ?>                
 
     </div>
 
