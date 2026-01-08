@@ -2,6 +2,9 @@
 // Enviar email de reserva confirmada al cliente tras pago completado (Stripe compatible)
 add_action( 'woocommerce_order_status_pending_to_processing', 'trekkium_enviar_email_reserva_confirmada', 10, 1 );
 add_action( 'woocommerce_order_status_on-hold_to_processing', 'trekkium_enviar_email_reserva_confirmada', 10, 1 );
+// También escuchar otros hooks de pago para cubrir distintos gateways/webhooks
+add_action( 'woocommerce_payment_complete', 'trekkium_enviar_email_reserva_confirmada', 10, 1 );
+add_action( 'woocommerce_order_status_processing', 'trekkium_enviar_email_reserva_confirmada', 10, 1 );
 
 function trekkium_enviar_email_reserva_confirmada( $order_id ) {
     $order = wc_get_order( $order_id );
