@@ -1,7 +1,6 @@
 .in-buscador-actividades {    
     padding: 0;
-    text-align: center;
-   
+    text-align: center;   
 }
 
  
@@ -19,8 +18,7 @@
     z-index: 2;
 }
 
-.buscador-formulario-titulo {
-    
+.buscador-formulario-titulo {    
     margin-bottom: 10px;
 }
 
@@ -72,15 +70,21 @@
 }
 
 .buscador-formulario button {
-    padding: 5px 10px;
+    padding: 10px 15px;
     border: none;
     font-size: 16px;
     font-weight: 500;
     font-family: inherit;
+    line-height: 1;
     background-color: var(--naranja1-100);
     color: white;
     cursor: pointer;
     border-radius: 50px;
+}
+
+.buscador-formulario button:hover {
+    background-color: var(--naranja1-40);
+    color: white;
 }
 
 
