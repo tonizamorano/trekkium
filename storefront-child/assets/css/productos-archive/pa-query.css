@@ -145,7 +145,6 @@
 
 
 .pa-precio {
-
     gap: 4px; 
     margin: 0;
     display: flex;
@@ -169,8 +168,6 @@
 .pa-precio .euros {
     font-size: 16px;
 }
-
-
 
 
 
@@ -232,17 +229,16 @@
         flex-shrink: 0;
     }
 
-
-    .pa-plazas-disponibles { 
+    .pa-estado-actividad {
         font-size: 18px;
     }
     
     .pa-precio .importe {
-        font-size: 22px;
+        font-size: 24px;
     }
 
     .pa-precio .euros {
-        font-size: 18px;
+        font-size: 20px;
     }
 
 }
