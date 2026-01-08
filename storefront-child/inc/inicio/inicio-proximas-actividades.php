@@ -22,20 +22,18 @@ function trekkium_in_proximas_actividades() {
 
         <div class="in-header">
 
-            <button class="in-arrow in-arrow-left">
-                <?php echo do_shortcode('[icon_flecha_izq]'); ?>
-            </button>
-
             <h2 class="in-sectiontitle">Próximas Actividades</h2>
-
-            <button class="in-arrow in-arrow-right">
-                <?php echo do_shortcode('[icon_flecha_der]'); ?>
-            </button>
 
         </div>
 
         <?php if ($query->have_posts()) : ?>
-            <div class="in-carousel">
+            <div class="in-carousel-wrapper">
+
+                <button class="in-arrow in-arrow-left">
+                    <?php echo do_shortcode('[icon_flecha_izq]'); ?>
+                </button>
+
+                <div class="in-carousel">
 
                 <?php while ($query->have_posts()) : $query->the_post(); ?>
                     <?php
@@ -183,6 +181,12 @@ function trekkium_in_proximas_actividades() {
                     </div>
 
                 <?php endwhile; ?>
+
+                </div>
+
+                <button class="in-arrow in-arrow-right">
+                    <?php echo do_shortcode('[icon_flecha_der]'); ?>
+                </button>
 
             </div>
 

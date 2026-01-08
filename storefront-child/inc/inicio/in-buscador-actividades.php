@@ -19,19 +19,15 @@ function trekkium_in_buscador_actividades() {
         'hide_empty' => true,
     ));
 
-    // Obtener las relaciones entre taxonomías
-    $relaciones = obtener_relaciones_taxonomias();
+    // Obtener las relaciones entre taxonomías y los términos disponibles
+    $relaciones_data = obtener_relaciones_taxonomias();
+    $relaciones = $relaciones_data['relaciones'];
+    $available = $relaciones_data['available'];
     ?>
 
     <section class="in-buscador-actividades">
 
         <div class="in-buscador-contenedor">
-
-            <!-- <div class="buscador-formulario-titulo"> -->
-
-                <!-- <h2>Encuentra tu próxima aventura</h2> -->
-
-            <!-- </div> -->
 
             <div class="buscador-formulario">
 
@@ -44,6 +40,7 @@ function trekkium_in_buscador_actividades() {
                     <select id="region-select">
                         <option value="">Región</option>
                         <?php foreach ($regiones as $region) : ?>
+                            <?php if (!in_array($region->slug, $available['regiones'])) continue; ?>
                             <option value="<?php echo esc_attr($region->slug); ?>"><?php echo esc_html($region->name); ?></option>
                         <?php endforeach; ?>
                     </select>
@@ -60,6 +57,7 @@ function trekkium_in_buscador_actividades() {
                     <select id="modalidad-select">
                         <option value="">Modalidad</option>
                         <?php foreach ($modalidades as $modalidad) : ?>
+                            <?php if (!in_array($modalidad->slug, $available['modalidades'])) continue; ?>
                             <option value="<?php echo esc_attr($modalidad->slug); ?>" 
                                     data-regiones='<?php echo json_encode($relaciones['modalidades'][$modalidad->slug]['regiones'] ?? []); ?>'>
                                 <?php echo esc_html($modalidad->name); ?>
@@ -78,6 +76,7 @@ function trekkium_in_buscador_actividades() {
                     <select id="dificultad-select">
                         <option value="">Dificultad</option>
                         <?php foreach ($dificultades as $dificultad) : ?>
+                            <?php if (!in_array($dificultad->slug, $available['dificultades'])) continue; ?>
                             <option value="<?php echo esc_attr($dificultad->slug); ?>" 
                                     data-regiones='<?php echo json_encode($relaciones['dificultades'][$dificultad->slug]['regiones'] ?? []); ?>'
                                     data-modalidades='<?php echo json_encode($relaciones['dificultades'][$dificultad->slug]['modalidades'] ?? []); ?>'>
@@ -193,9 +192,15 @@ function obtener_relaciones_taxonomias() {
         'dificultades' => array()
     );
 
-    // Obtener todos los PRODUCTOS de WooCommerce
+    $available = array(
+        'regiones' => array(),
+        'modalidades' => array(),
+        'dificultades' => array()
+    );
+
+    // Obtener todos los PRODUCTOS de WooCommerce que estén publish y con meta estado_producto = activo
     $productos = get_posts(array(
-        'post_type' => 'product', // ✅ Usamos 'product' en lugar de 'actividad'
+        'post_type' => 'product',
         'numberposts' => -1,
         'post_status' => 'publish',
         'tax_query' => array(
@@ -206,6 +211,13 @@ function obtener_relaciones_taxonomias() {
                 'operator' => 'NOT IN',
             ),
         ),
+        'meta_query' => array(
+            array(
+                'key' => 'estado_producto',
+                'value' => 'activo',
+                'compare' => '='
+            )
+        ),
     ));
 
     foreach ($productos as $producto) {
@@ -213,6 +225,17 @@ function obtener_relaciones_taxonomias() {
         $regiones_producto = wp_get_post_terms($producto->ID, 'region', array('fields' => 'slugs'));
         $modalidades_producto = wp_get_post_terms($producto->ID, 'modalidad', array('fields' => 'slugs'));
         $dificultades_producto = wp_get_post_terms($producto->ID, 'dificultad', array('fields' => 'slugs'));
+
+        // Registrar términos disponibles
+        foreach ($regiones_producto as $r) {
+            if (!in_array($r, $available['regiones'])) $available['regiones'][] = $r;
+        }
+        foreach ($modalidades_producto as $m) {
+            if (!in_array($m, $available['modalidades'])) $available['modalidades'][] = $m;
+        }
+        foreach ($dificultades_producto as $d) {
+            if (!in_array($d, $available['dificultades'])) $available['dificultades'][] = $d;
+        }
 
         // Relacionar modalidades con regiones
         foreach ($modalidades_producto as $modalidad_slug) {
@@ -251,5 +274,5 @@ function obtener_relaciones_taxonomias() {
         }
     }
 
-    return $relaciones;
+    return array('relaciones' => $relaciones, 'available' => $available);
 }
