@@ -16,19 +16,25 @@
         <div class="footer-logo">
             <img src="https://trekkium.com/wp-content/uploads/2025/09/trekkium_logowhite.png" alt="Trekkium logo" />
         </div>
-
+        
         <!-- Línea de copyright -->
         <div class="footer-copy">
             &copy; <?php echo date('Y'); ?> Trekkium. Todos los derechos reservados.
         </div>
 
-        <!-- Menú del footer -->
+         <!-- Menú del footer -->
         <div class="footer-menu">
             <a href="/sobre-nosotros/">Sobre nosotros</a>
             <a href="/preguntas-frecuentes/">Preguntas frecuentes</a>
             <a href="/terminos-y-condiciones/">Términos y condiciones legales</a>
             <a href="/unete-a-trekkium/">Únete a Trekkium</a>
         </div>
+
+        
+
+        
+
+       
 
         <?php
         // <!-- Patrocinadores -->

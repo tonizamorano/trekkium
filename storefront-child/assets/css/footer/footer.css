@@ -61,4 +61,17 @@ body.home .footer-contenedor-principal {
     .footer-contenedor-principal {
         margin-top: 0px; 
     }
+
+    .footer-contenido {
+        padding: 0 15px;      
+    }
+
+    .footer-menu {
+        gap: 10px;
+    }
+
+    .footer-menu a {
+        font-size: 18px;
+    }
+
 }
