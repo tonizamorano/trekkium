@@ -132,10 +132,11 @@ function trekkium_query_productos() {
                     $ubicacion_primaria   = $mostrar_como_espana ? $provincia_name : $region_name;
                     $ubicacion_secundaria = $mostrar_como_espana ? $region_name : $pais_name;
 
-                    // 🔹 Fecha
-                    $fecha = get_post_meta(get_the_ID(), 'fecha', true);
-                    if ($fecha) {
-                        $fecha_obj = DateTime::createFromFormat('Y-m-d', $fecha);
+                    // 🔹 Fecha (mantener raw para comparaciones y formateada para mostrar)
+                    $fecha_raw = get_post_meta(get_the_ID(), 'fecha', true);
+                    $fecha = '';
+                    if ($fecha_raw) {
+                        $fecha_obj = DateTime::createFromFormat('Y-m-d', $fecha_raw);
                         if ($fecha_obj) $fecha = $fecha_obj->format('d/m/Y');
                     }
 
@@ -156,6 +157,31 @@ function trekkium_query_productos() {
                     $avatar   = get_avatar_url($autor_id, ['size' => 80]);
 
                     $permalink = get_permalink(get_the_ID());
+
+                    // Excluir productos cuya fecha+hora esté más de 2 horas en el pasado
+                    $hora_raw = get_post_meta(get_the_ID(), 'hora', true);
+                    if ($fecha_raw) {
+                        // Normalizar hora si está vacía
+                        $hora_raw = !empty($hora_raw) ? $hora_raw : '00:00';
+
+                        // Construir DateTime en zona de Madrid
+                        $tz = new DateTimeZone('Europe/Madrid');
+                        $datetime_str = $fecha_raw . ' ' . $hora_raw;
+                        $dt = DateTime::createFromFormat('Y-m-d H:i', $datetime_str, $tz);
+                        if (!$dt) {
+                            $dt = DateTime::createFromFormat('Y-m-d H:i:s', $datetime_str, $tz);
+                        }
+
+                        if ($dt) {
+                            $now = new DateTime('now', $tz);
+                            $threshold = clone $now;
+                            $threshold->modify('-2 hours');
+                            if ($dt < $threshold) {
+                                // Saltar este post (no se muestra)
+                                continue;
+                            }
+                        }
+                    }
                     ?>
                     
                     <div class="pa-query-item" 

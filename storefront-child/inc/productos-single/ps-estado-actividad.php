@@ -52,37 +52,37 @@ add_shortcode('ps_estado_actividad', function ($atts) {
     ob_start();
     ?>
 
-    <div class="mc-mr-vr-contenedor">
+    <div class="ps-ea-contenedor">
 
-        <div class="mc-mr-vr-titular">
+        <div class="ps-ea-titular">
             <h2>Estado de la actividad</h2>
         </div>
 
-        <div class="mc-mr-vr-contenido">
+        <div class="ps-ea-contenido">
 
-            <div class="mc-mr-vr-fila-datos">
+            <div class="ps-ea-fila-datos">
                 <span class="etiqueta">Grupo máximo</span>
                 <span class="valor"><?php echo esc_html($plazas_totales ?: '—'); ?></span>
             </div>
 
-            <div class="mc-mr-vr-fila-datos">
+            <div class="ps-ea-fila-datos">
                 <span class="etiqueta">Grupo mínimo</span>
                 <span class="valor"><?php echo esc_html($plazas_minimas ?: '—'); ?></span>
             </div>
 
-            <div class="mc-mr-vr-fila-datos">
+            <div class="ps-ea-fila-datos">
                 <span class="etiqueta">Plazas reservadas</span>
                 <span class="valor"><?php echo esc_html($plazas_reservadas !== '' ? $plazas_reservadas : '—'); ?></span>
             </div>
 
             <!-- Estado -->
-            <div class="mc-mr-vr-estado-actividad">
+            <div class="ps-ea-estado-actividad">
                 <?php echo esc_html($estado_actividad ?: 'Sin definir'); ?>
             </div>
 
             <!-- Mensaje -->
             <?php if (!empty($mensaje_actividad)) : ?>
-                <div class="mc-mr-vr-fila-datos-texto">
+                <div class="ps-ea-fila-datos-texto">
                     <?php echo esc_html($mensaje_actividad); ?>
                 </div>
             <?php endif; ?>
