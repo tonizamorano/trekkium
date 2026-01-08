@@ -1,30 +1,64 @@
 <?php
-// Enviar email al cliente cuando el pedido pasa a estado "finalizado"
-// realmente cuándo se produce? la function ya es llamada desde el hook de trekkium_estado_producto_meta_changed
-// add_action( 'woocommerce_order_status_finalizado', 'trekkium_enviar_email_reserva_finalizada', 10, 1 );
+/**
+ * Procesa un producto cuyo estado ha pasado a "finalizado":
+ * - Busca pedidos COMPLETED de ese producto
+ * - Envía email de valoración
+ * - Marca el pedido para evitar duplicados
+ */
+function procesar_estado_producto_finalizado( int $product_id ) {
 
-function trekkium_write_log( $component, $message, $level = 'INFO' ) {
-    $base = get_stylesheet_directory();
-    // Directorio unificado para logs (solo web path): storefront-child/logs
-    $log_dir = $base . '/logs';
+    $orders = trekkium_get_orders_finalizado( $product_id );
 
-    if ( ! is_dir( $log_dir ) ) {
-        if ( function_exists( 'wp_mkdir_p' ) ) {
-            @wp_mkdir_p( $log_dir );
-        } else {
-            @mkdir( $log_dir, 0755, true );
+    if ( empty( $orders ) ) {
+        trekkium_write_log(
+            'email-finalizados',
+            "procesar_estado_producto_finalizado: producto={$product_id} - sin pedidos encontrados"
+        );
+        return;
+    }
+
+    $emails_sent = 0;
+
+    foreach ( $orders as $order ) {
+
+        // Evitar duplicados
+        if ( $order->get_meta( 'email_valoracion_enviado' ) ) {
+            trekkium_write_log(
+                'email-finalizados',
+                "Pedido {$order->get_id()} ya tiene email_valoracion_enviado, se omite."
+            );
+            continue;
+        }
+
+        foreach ( $order->get_items() as $item ) {
+            if ( (int) $item->get_product_id() === $product_id ) {
+
+                try {
+                    trekkium_enviar_email_reserva_finalizada( $order->get_id() );
+
+                    // Marcar pedido
+                    $order->update_meta_data( 'email_valoracion_enviado', true );
+                    $order->save();
+
+                    $emails_sent++;
+
+                } catch ( Throwable $e ) {
+                    trekkium_write_log(
+                        'email-finalizados',
+                        "Error enviando email pedido {$order->get_id()}: " . $e->getMessage(),
+                        'ERROR'
+                    );
+                }
+
+                break; // un email por pedido
+            }
         }
     }
 
-    $line = sprintf( "[%s] [%s] %s\n", date( 'Y-m-d H:i:s' ), $level, $message );
-
-    if ( is_dir( $log_dir ) && is_writable( $log_dir ) ) {
-        $file = $log_dir . '/' . $component . '-' . strtolower( $level ) . '-' . date( 'Y-m-d' ) . '.log';
-        error_log( $line, 3, $file );
-    } else {
-        // Fallback a error_log del sistema
-        error_log( $line );
-    }
+    trekkium_write_log(
+        'email-finalizados',
+        "procesar_estado_producto_finalizado: producto={$product_id} - emails enviados={$emails_sent}"
+    );
 }
 
 function trekkium_enviar_email_reserva_finalizada( $order_id ) {
@@ -146,80 +180,139 @@ function trekkium_enviar_email_reserva_finalizada( $order_id ) {
     }
 }
 
+function trekkium_write_log( $component, $message, $level = 'INFO' ) {
+    $base = get_stylesheet_directory();
+    // Directorio unificado para logs (solo web path): storefront-child/logs
+    $log_dir = $base . '/logs';
 
-/**
- * Cuando el campo meta `estado_producto` pase a `finalizado`,
- * enviar email SOLO a los clientes con pedidos COMPLETED
- * que contengan ese producto.
- */
+    if ( ! is_dir( $log_dir ) ) {
+        if ( function_exists( 'wp_mkdir_p' ) ) {
+            @wp_mkdir_p( $log_dir );
+        } else {
+            @mkdir( $log_dir, 0755, true );
+        }
+    }
+
+    $line = sprintf( "[%s] [%s] %s\n", date( 'Y-m-d H:i:s' ), $level, $message );
+
+    if ( is_dir( $log_dir ) && is_writable( $log_dir ) ) {
+        $file = $log_dir . '/' . $component . '-' . strtolower( $level ) . '-' . date( 'Y-m-d' ) . '.log';
+        error_log( $line, 3, $file );
+    } else {
+        // Fallback a error_log del sistema
+        error_log( $line );
+    }
+}
+
 add_action( 'updated_postmeta', 'trekkium_estado_producto_meta_changed', 10, 4 );
 function trekkium_estado_producto_meta_changed( $meta_id, $post_id, $meta_key, $meta_value ) {
 
-    // Solo cuando cambia estado_producto a finalizado
     if ( $meta_key !== 'estado_producto' ) return;
-    if ( strtolower($meta_value) !== 'finalizado' ) return;
+    if ( strtolower( $meta_value ) !== 'finalizado' ) return;
 
     $post = get_post( $post_id );
     if ( ! $post || $post->post_type !== 'product' ) return;
 
-    // Obtener pedidos COMPLETED recientes y filtrar por fecha y por si contienen este producto.
-    // Evitamos pasar los parámetros de fecha directamente a WC_Order_Query porque
-    // algunas versiones de WooCommerce pueden procesarlos y llamar a strtotime() con valores no esperados.
-    $after  = ( new DateTime( '-2 days' ) )->setTimezone( wp_timezone() );
-    $before = ( new DateTime( '-12 hours' ) )->setTimezone( wp_timezone() );
-
-    $after_ts  = $after->getTimestamp();
-    $before_ts = $before->getTimestamp();
-
-    // Traer pedidos completed recientes (objetos) y luego filtrar en PHP por fecha y producto
-    $orders = wc_get_orders( array(
-        'status' => 'completed',
-        'limit'  => 50,
-        'return' => 'objects',
-    ) );
-
-    // Logging: registrar número de pedidos recuperados
-    trekkium_write_log( 'email-finalizados', "trekkium_estado_producto_meta_changed: producto={$post_id} - pedidos recuperados: " . count( $orders ) );
-
-    if ( empty( $orders ) ) return;
-
-    $emails_sent = 0;
-    foreach ( $orders as $order ) {
-        // Fecha de finalización del pedido (puede ser WC_DateTime / DateTime o null)
-        $date_completed = $order->get_date_completed();
-        if ( ! $date_completed ) {
-            continue;
-        }
-
-        if ( is_object( $date_completed ) && method_exists( $date_completed, 'getTimestamp' ) ) {
-            $completed_ts = $date_completed->getTimestamp();
-        } else {
-            $completed_ts = strtotime( (string) $date_completed );
-        }
-
-        if ( $completed_ts === false ) {
-            continue;
-        }
-
-        // Solo pedidos cuya fecha de completion esté entre after y before
-        if ( $completed_ts < $after_ts || $completed_ts > $before_ts ) {
-            continue;
-        }
-
-        // Comprobar items del pedido para ver si contienen este producto
-        foreach ( $order->get_items() as $item ) {
-            if ( (int) $item->get_product_id() === (int) $post_id ) {
-                try {
-                    trekkium_enviar_email_reserva_finalizada( $order->get_id() );
-                    $emails_sent++;
-                } catch ( Throwable $e ) {
-                    trekkium_write_log( 'email-finalizados', 'Trekkium: error enviando email de valoración para pedido ' . $order->get_id() . ' - ' . $e->getMessage(), 'ERROR' );
-                }
-
-                break; // evitar doble envío por pedido
-            }
-        }
+    // Comprobar valor anterior
+    $prev_value = get_metadata_by_mid( 'post', $meta_id );
+    if (
+        $prev_value &&
+        isset( $prev_value->meta_value ) &&
+        strtolower( (string) $prev_value->meta_value ) === 'finalizado'
+    ) {
+        // No hay cambio real
+        return;
     }
 
-    trekkium_write_log( 'email-finalizados', "trekkium_estado_producto_meta_changed: emails enviados={$emails_sent} para producto={$post_id}" );
+    trekkium_write_log(
+        'email-finalizados',
+        "Hook updated_postmeta: producto={$post_id} pasó a finalizado"
+    );
+
+    procesar_estado_producto_finalizado( (int) $post_id );
+}
+
+
+/**
+ * Recupera pedidos COMPLETED para un producto dentro de la ventana
+ * relativa al inicio de la actividad (-2 días a +10 horas).
+ * Siempre paginado.
+ */
+function trekkium_get_orders_finalizado( int $product_id ) {
+
+    $component = 'email-finalizados';
+
+    $product = wc_get_product( $product_id );
+    if ( ! $product ) {
+        trekkium_write_log( $component, "Producto {$product_id} no encontrado.", 'ERROR' );
+        return array();
+    }
+
+    $fecha = $product->get_meta( 'fecha' );
+    $hora  = $product->get_meta( 'hora' ) ?: '00:00';
+
+    if ( ! $fecha ) {
+        trekkium_write_log( $component, "Producto {$product_id} sin meta fecha.", 'ERROR' );
+        return array();
+    }
+
+    $tz = wp_timezone();
+    try {
+        $start = new DateTime( "{$fecha} {$hora}", $tz );
+    } catch ( Throwable $e ) {
+        trekkium_write_log( $component, "Fecha/hora inválida producto {$product_id}.", 'ERROR' );
+        return array();
+    }
+
+    $after  = ( clone $start )->modify( '-2 days' );
+    $before = ( clone $start )->modify( '+10 hours' );
+
+    $after_str  = $after->format( 'Y-m-d H:i:s' );
+    $before_str = $before->format( 'Y-m-d H:i:s' );
+
+    $per_page = 50;
+    $page     = 1;
+    $found    = array();
+
+    while ( true ) {
+
+        $orders = wc_get_orders( array(
+            'status'         => 'completed',
+            'limit'          => $per_page,
+            'page'           => $page,
+            'date_completed' => array(
+                'after'  => $after_str,
+                'before' => $before_str,
+            ),
+            'return' => 'objects',
+        ) );
+
+        if ( empty( $orders ) ) {
+            break;
+        }
+
+        foreach ( $orders as $order ) {
+            $items = $order->get_items();
+            if ( empty( $items ) ) continue;
+
+            $item = array_shift( $items );
+            if ( (int) $item->get_product_id() === $product_id ) {
+                $found[ $order->get_id() ] = $order;
+            }
+        }
+
+        // Si la página devuelve menos que el límite, no hay más
+        if ( count( $orders ) < $per_page ) {
+            break;
+        }
+
+        $page++;
+    }
+
+    trekkium_write_log(
+        $component,
+        "trekkium_get_orders_finalizado: producto={$product_id} pedidos=" . count( $found )
+    );
+
+    return array_values( $found );
 }

@@ -130,8 +130,8 @@ foreach ( $q->posts as $product_id ) {
 
     $ts = $dt->getTimestamp();
 
-    // fecha + 12h < ahora => finalizar
-    if ( ( $ts + 12 * 3600 ) < $now ) {
+    // fecha + 10h < ahora => finalizar
+    if ( ( $ts + 10 * 3600 ) < $now ) {
 
         try {
             // Intentamos usar la API de WooCommerce cuando sea posible
@@ -156,6 +156,7 @@ foreach ( $q->posts as $product_id ) {
                 } catch ( Throwable $e ) {
                     cron_log( "Error ejecutando actualizar_estado_actividad para {$product_id}: " . $e->getMessage(), 'ERROR' );
                 }
+
             } else {
                 // Fallback a funciones WP si no está disponible WC_Product
                 update_post_meta( $product_id, 'estado_producto', 'finalizado' );
