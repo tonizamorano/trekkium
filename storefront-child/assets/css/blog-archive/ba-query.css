@@ -27,9 +27,9 @@
 
 .ba-avatar-contenedor {
     position: absolute;
-    right: 10px;       /* alineado a la derecha */
-    bottom: -10px;     /* sobresale 20px por debajo del borde inferior */
-    z-index: 2;        /* asegura que quede por encima de la imagen */
+    right: 10px;       
+    top: 10px;     
+    z-index: 2;       
 }
 
 .ba-imagen {
@@ -42,8 +42,8 @@
 
 .ba-avatar-autor {
     border-radius: 50%;
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     border: 3px solid #fff; 
     object-fit: cover;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* opcional: da un poco de relieve */
@@ -86,25 +86,10 @@
     font-size: 14px;
     line-height: 1;
     padding: 5px 10px;
-    border-radius: 50px;
+    border-radius: 5px;
+    font-weight: 500;
 }
 
-/* Si usas enlaces en lugar de spans (recomendado para categorías clicables): */
-.ba-query-categorias a {
-    display: inline-block;
-    background: var(--naranja1-100);
-    color: #fff !important;
-    font-size: 14px;
-    line-height: 1;
-    padding: 5px 10px;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: background 0.2s ease;
-}
-
-.ba-query-categorias a:hover {
-    background: #cf6f1e; /* tono más oscuro al pasar el ratón */
-}
 
 .ba-info-extra {
     display: flex;
@@ -153,6 +138,10 @@
 
     .ba-titulo {
         font-size: 26px;
+    }
+
+    .ba-query-categorias span {
+        font-size: 16px;
     }
 
 }

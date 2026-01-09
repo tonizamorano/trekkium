@@ -31,7 +31,7 @@
 }
 .menu-principal a:first-child:hover,
 .menu-principal a:first-child.active {
-    background-color: var(--azul2-100);
+    background-color: var(--naranja1-100);
 }
 
 /* --- 2️⃣ Guías --- */
@@ -40,7 +40,7 @@
 }
 .menu-principal a:nth-child(2):hover,
 .menu-principal a:nth-child(2).active {
-    background-color: var(--naranja2-100);
+    background-color: var(--naranja1-100);
 }
 
 /* --- 3️⃣ Blog --- */
@@ -49,7 +49,7 @@
 }
 .menu-principal a:nth-child(3):hover,
 .menu-principal a:nth-child(3).active {
-    background-color: var(--verde-100);
+    background-color: var(--naranja1-100);
 }
 
 /* --- 4️⃣ Cuenta / Acceso --- */
@@ -58,7 +58,13 @@
 }
 .icono-avatar:hover,
 .icono-avatar.active {
-    background-color: var(--rojo-100);
+    background-color: var(--naranja1-100);
+}
+
+/* Fallback: asegurar que cualquier enlace del menú en hover/activo sea naranja1 */
+.menu-principal a:hover,
+.menu-principal a.active {
+    background-color: var(--naranja1-100);
 }
 
 /* Usuario logueado: avatar con opacidad */

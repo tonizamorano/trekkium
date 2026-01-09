@@ -23,7 +23,7 @@ function trekkium_in_ultimas_entradas() {
                 <?php echo do_shortcode('[icon_flecha_izq]'); ?>
             </button>
 
-            <h2 class="in-blog-sectiontitle">Últimas entradas del Blog</h2>
+            <h2 class="in-blog-sectiontitle">Últimos artículos del Blog</h2>
 
             <button class="in-blog-arrow in-blog-arrow-right">
                 <?php echo do_shortcode('[icon_flecha_der]'); ?>

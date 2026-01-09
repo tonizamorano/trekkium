@@ -67,29 +67,6 @@
 	font-weight: bold;
 }
 
-.gs-guia-valoracion-media {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: left; /* por si hay texto */
-    gap: 5px; /* opcional, si hay iconos + texto */
-}
-
-
-.gs-idiomas {
-    display:flex; 
-    gap:10px; 
-    align-items:center; 
-    margin: 5px 0;
-}
-
-.gs-idiomas img {
-    width:40px; 
-    height:40px; 
-    border-radius:50%; 
-    object-fit:cover;"
-}
-
 .gs-titulaciones {
     margin: 10px 0 !important;
 }
@@ -104,14 +81,13 @@
     flex-wrap: wrap;
     gap: 5px;
     margin: 10px 15px 0 15px;
-
 }
 
 .gs-modalidad-item {
     background-color: var(--naranja1-100);
     color: #fff;
     padding: 5px 10px;
-    border-radius: 50px;
+    border-radius: 5px;
     font-size: 14px;
     line-height: 1;
     font-weight: 500;

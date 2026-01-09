@@ -5,7 +5,6 @@
     max-width: 870px;
     width: 100%;
     margin: 0 auto; /* centra en la página */
-
 }
 
 .pagina-grid-6633 {
@@ -14,8 +13,7 @@
     column-gap: 15px;
     max-width: 870px;
     width: 100%;
-    margin: 0 auto;/* centra en la página */
-   
+    margin: 0 auto;/* centra en la página */   
 }
 
 .pagina-grid-333333 {
@@ -24,8 +22,7 @@
     column-gap: 15px;
     max-width: 870px;
     width: 100%;
-    margin: 0 auto; /* centra en la página */
-    
+    margin: 0 auto; /* centra en la página */    
     margin-top: 15px;
 }
 
@@ -54,11 +51,6 @@
     padding: 0;
     margin: 0;    
 }
-
-
-
-
-
 
 @media (min-width: 768px) {
 
@@ -117,7 +109,7 @@
     .pagina-grid-6633,
     .pagina-grid-3333,
     .pagina-grid-333333 {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         row-gap: 0;
         column-gap: 0;
         margin-top: 0;        
@@ -141,3 +133,16 @@
 
 }
       
+
+/* Refuerzo: asegurar 66% / 33% y box-sizing para evitar desplazamientos
+   Si otra hoja sobrescribe esta regla, conservarla aquí como última prioridad. */
+.pagina-grid-6633 {
+    /* mantiene la proporción 2fr / 1fr */
+    grid-template-columns: 2fr 1fr;
+}
+
+.pagina-grid-6633 > * {
+    /* evita que padding/margins internos influyan en el tamaño de las columnas */
+    box-sizing: border-box;
+    min-width: 0; /* permite que los elementos se reduzcan dentro del grid */
+}

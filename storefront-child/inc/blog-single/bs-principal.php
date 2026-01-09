@@ -33,8 +33,12 @@ function bs_principal_shortcode($atts) {
         </div>
         <?php endif; ?>
 
-        <div class="bs-contenido">
+        <div class="bs-contenido">            
 
+            <!-- Título de la entrada -->
+            <div class="bs-titulo-entrada">
+                <h1><?php echo esc_html($titulo); ?></h1>
+            </div>
 
             <!-- Categorías -->
             <?php if (!empty($categorias)) : ?>
@@ -46,11 +50,6 @@ function bs_principal_shortcode($atts) {
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
-
-            <!-- Título de la entrada -->
-            <div class="bs-titulo-entrada">
-                <h1><?php echo esc_html($titulo); ?></h1>
-            </div>
 
             <!-- Contenido de la entrada -->
             <div class="bs-contenido-entrada">

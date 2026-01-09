@@ -70,12 +70,6 @@ function seccion_organizador_shortcode() {
                         </span>
                     <?php endif; ?>
 
-                    <!--
-                    <div class="autor-valoracion-media" style="display:flex; justify-content:flex-start;">
-                        <?php echo $valoracion_shortcode; ?>
-                    </div>
-                    -->
-
                 </div>
 
             </div>

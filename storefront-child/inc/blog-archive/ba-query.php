@@ -37,9 +37,9 @@ function trekkium_query_blog() {
                     $views      = (int) get_post_meta(get_the_ID(), 'post_views_count', true);
                     ?>
                     
-                        <div class="ba-query-item" data-categorias="<?php echo esc_attr($categoria_slugs); ?>" data-autor="<?php echo esc_attr($author_nicename); ?>">
-                        <!-- Imagen con avatar ENLAZADA -->
-                        <a href="<?php echo esc_url($permalink); ?>" class="ba-image-link">
+                        <a href="<?php echo esc_url($permalink); ?>" class="ba-query-item" data-categorias="<?php echo esc_attr($categoria_slugs); ?>" data-autor="<?php echo esc_attr($author_nicename); ?>">
+                        <!-- Imagen con avatar (ahora NO enlazada internamente) -->
+                        <div class="ba-image-link">
                             <div class="ba-contenedor-imagen">
                                 <?php if (has_post_thumbnail()) : ?>
                                     <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'ba-imagen']); ?>
@@ -53,13 +53,13 @@ function trekkium_query_blog() {
                                     </div>
                                 <?php endif; ?>
                             </div>
-                        </a>
+                        </div>
 
                         <div class="ba-query-contenido">
-                            <!-- Título ENLAZADO -->
-                            <a href="<?php echo esc_url($permalink); ?>" class="ba-query-contenido-link">
+                            <!-- Título (ahora sin enlace interno, todo el item apunta al permalink) -->
+                            <div class="ba-query-contenido-link">
                                 <h3 class="ba-titulo"><?php the_title(); ?></h3>
-                            </a>
+                            </div>
 
                             <!-- Categorías -->
                             <?php if (!empty($categorias)) : ?>
@@ -67,9 +67,9 @@ function trekkium_query_blog() {
                                     <?php 
                                     foreach ($categorias as $categoria) :
                                         if (!empty($categoria->name)) : ?>
-                                            <a href="<?php echo esc_url(get_category_link($categoria->term_id)); ?>" class="ba-categoria-link">
+                                            <span class="ba-categoria">
                                                 <?php echo esc_html($categoria->name); ?>
-                                            </a>
+                                            </span>
                                         <?php 
                                         endif;
                                     endforeach;
@@ -96,8 +96,8 @@ function trekkium_query_blog() {
                             </div>
 
                         </div>
-                        
-                    </div>
+
+                        </a>
 
                 <?php endwhile; ?>
 

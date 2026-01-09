@@ -272,7 +272,7 @@ function trekkium_save_custom_account_fields($user_id) {
     }
 
     if (isset($_POST['sobre_mi'])) {
-        update_user_meta($user_id, 'sobre_mi', wp_kses_post($_POST['sobre_mi']));
+        update_user_meta($user_id, 'sobre_mi', wpautop(wp_kses_post($_POST['sobre_mi'])));
     }
 
     // Guardado de idiomas, modalidades y etiquetas se maneja en el otro snippet

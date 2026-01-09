@@ -57,6 +57,6 @@ function guardar_sobre_mi($user_id) {
     if (!$user || !array_intersect($user->roles, array('guia'))) return;
 
     if (isset($_POST['sobre_mi'])) {
-        update_user_meta($user_id, 'sobre_mi', wp_kses_post($_POST['sobre_mi']));
+        update_user_meta($user_id, 'sobre_mi', wpautop(wp_kses_post($_POST['sobre_mi'])));
     }
 }

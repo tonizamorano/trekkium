@@ -2,8 +2,7 @@
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    
+    gap: 10px;    
     box-sizing: border-box;
 }
 
@@ -54,11 +53,11 @@
 }
 
 .bs-categorias-item {
-    background-color: #E67E22; 
+    background-color: var(--naranja1-100);
     color: #fff; 
     font-size: 14px; 
     font-weight: 500; 
-    border-radius: 50px; 
+    border-radius: 5px; 
     padding: 5px 10px;
     line-height: 1;
 }

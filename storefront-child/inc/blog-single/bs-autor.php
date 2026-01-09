@@ -12,13 +12,13 @@ function bs_autor_shortcode() {
     ob_start();
     ?>
 
-    <div class="ps-contenedor">
+    <div class="bs-autor-contenedor">
 
-        <div class="ps-titular">
+        <div class="bs-autor-titular">
             <h5>Autor</h5>
         </div>
 
-        <div class="ps-contenido" style="align-content: top;">
+        <div class="bs-autor-contenido" style="align-content: top;">
             <?php
             $author_id = get_post_field('post_author', get_the_ID());
 
@@ -44,25 +44,24 @@ function bs_autor_shortcode() {
             $author_url = get_author_posts_url($author_id);
             ?>
 
-            <div class="organizador-info">
+            <div class="bs-autor-info">
+                
                 <?php if ($avatar_url): ?>
-                    <a href="<?php echo esc_url($author_url); ?>" class="organizador-avatar-enlace">
-                        <img src="<?php echo esc_url($avatar_url); ?>" alt="Avatar de <?php echo esc_attr($nombre); ?>" class="avatar-del-usuario">
+                    <a href="<?php echo esc_url($author_url); ?>" class="bs-autor-avatar-enlace">
+                        <img src="<?php echo esc_url($avatar_url); ?>" alt="Avatar de <?php echo esc_attr($nombre); ?>" class="bs-avatar-del-autor">
                     </a>
                 <?php endif; ?>
 
-                <div class="organizador-detalles">
-                    <p class="organizador-nombre"><?php echo esc_html($nombre); ?></p>
+                <div class="bs-autor-detalles">
+                    <p class="bs-autor-nombre"><?php echo esc_html($nombre); ?></p>
                     <?php if ($provincia || $comunidad): ?>
-                        <p class="organizador-comunidad">
+                        <p class="bs-autor-comunidad">
                             <?php echo esc_html($provincia); ?>
                             <?php if ($provincia && $comunidad) echo ' '; ?>
                             <?php if ($comunidad) echo '(' . esc_html($comunidad) . ')'; ?>
                         </p>
                     <?php endif; ?>
-                    <div class="autor-valoracion-media" style="display:flex; justify-content:flex-start;">
-                        <?php echo do_shortcode('[valoracion-media-guia id="' . $author_id . '"]'); ?>
-                    </div>  
+                   
                 </div>    
 
             </div>             

@@ -22,8 +22,6 @@
     font-weight: 500;
 }
 
-
-
 .ps-contenido {
     background-color: #fff;
     padding: 15px;
@@ -45,16 +43,13 @@
     justify-content: center;
 }
 
-.pastillas-item {
-   
+.pastillas-item {   
     display: flex;
     gap: 5px;
     align-items: center;
     color: var(--azul1-100);
-
     font-size: 18px;
-    font-weight: 600; 
- 
+    font-weight: 600;  
 }
 
 .pastillas-item-dificultad {
